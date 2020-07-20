@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.LinkeT.LinkeT.User.User;
+import com.LinkeT.LinkeT.User.Dao.UserDao;
 import com.LinkeT.LinkeT.User.Dao.UserDaoImple;
 
 //@Component
 //@Repository
 @Service
 public class UserServiceImple implements UserService{
+	
 	@Autowired
 	UserDaoImple dao;
 	
@@ -31,5 +33,7 @@ public class UserServiceImple implements UserService{
 		User user = dao.getUser(usrId);
 		return user;
 	}
+
+	
 
 }

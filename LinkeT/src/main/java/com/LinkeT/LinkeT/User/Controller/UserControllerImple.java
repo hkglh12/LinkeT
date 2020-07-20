@@ -19,6 +19,7 @@ public class UserControllerImple implements UserController{
 	@Autowired
 	UserServiceImple service;
 	
+	
 	public UserControllerImple() {}
 	
 	@RequestMapping(value="/usrJoin", method=RequestMethod.POST)
@@ -89,7 +90,14 @@ public class UserControllerImple implements UserController{
 	}
 
 	
-	
+	public UserServiceImple getService() {
+		return service;
+	}
+
+	public void setService(UserServiceImple service) {
+		this.service = service;
+	}
+
 
 
 }
