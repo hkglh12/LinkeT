@@ -16,14 +16,20 @@ public class UserServiceImple implements UserService{
 	@Override
 	public boolean userRegister(String usrId, String usrPw, String usrPhone, String usrEmail, String usrName) {
 		// TODO Auto-generated method stub
-		dao.usrInsert(usrId, usrPw, usrPhone, usrEmail,usrName);
-		return false;
+		boolean result = dao.usrInsert(usrId, usrPw, usrPhone, usrEmail,usrName) >=1 ? true:false;
+		
+		return result;
 	}
 
 	@Override
-	public User userLoginVerifier(String usrId, String usrPw) {
+	public User loginUser(String usrId, String usrPw) {
 		// TODO Auto-generated method stub
-		return null;
+		User user = dao.loginUser(usrId,  usrPw);
+		return user;
 	}
-	
+	public User getUser(String usrId) {
+		User user = dao.getUser(usrId);
+		return user;
+	}
+
 }

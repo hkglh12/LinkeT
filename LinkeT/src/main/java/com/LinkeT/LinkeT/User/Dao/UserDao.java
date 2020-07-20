@@ -4,5 +4,6 @@ import com.LinkeT.LinkeT.User.User;
 
 public interface UserDao {
 	int usrInsert(String usrId, String usrPw, String usrPhone, String usrEmail, String invitationCode);
-	User usrLogin(String usrId, String usrPw);
+	User loginUser(String usrId, String usrPw);
+	User getUser(String usrId);
 }

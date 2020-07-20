@@ -7,11 +7,11 @@ import java.sql.*;
 
 @Component
 public class UserDaoImple implements UserDao{
-
+	
  	private final String driver = "com.mysql.cj.jdbc.Driver";
- 	private final String url = "jdbc:mysql://localhost:3306/mydb";
+ 	private final String url = "jdbc:mysql://localhost:3306/LinkeT?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
  	private final String userId = "root";
- 	private final String userPw = "1234";
+ 	private final String userPw = "root";
  	
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
@@ -25,7 +25,7 @@ public class UserDaoImple implements UserDao{
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "insert into users (userid, userpw, username, userphone, useremail) values (?,?,?,?,?)";
+			String sql = "insert into users (usrid, usrpw, usrname, usrphone, usremail) values (?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,usrId);
 			pstmt.setString(2,usrPw);
@@ -38,7 +38,7 @@ public class UserDaoImple implements UserDao{
 			e.printStackTrace();
 		}catch(SQLException e) {
 			e.printStackTrace();
-		}finally {	// 자원해제
+		}finally {	// �옄�썝�빐�젣
 			try {
 				if (pstmt!=null) pstmt.close();
 				if (conn!=null) conn.close();
@@ -46,13 +46,73 @@ public class UserDaoImple implements UserDao{
 				e.printStackTrace();
 			}
 		}
+		
 		return result;
 	}
 
 	@Override
-	public User usrLogin(String usrId, String usrPw) {
-		// TODO Auto-generated method stub
-		return null;
+	public User loginUser(String usrId, String usrPw) {
+		User user = null;
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, userId, userPw);
+			String sql = "select * from users where usrid = ? and usrPw = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1,usrId);
+			pstmt.setString(2,usrPw);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				user = new User();
+				user.setUsrId(rs.getString("usrid"));
+				user.setUsrPw(rs.getString("usrPw"));
+			}
+		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {	
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
+	}
+
+	@Override
+	public User getUser(String usrId) {
+		User user = null;
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, userId, userPw);
+			String sql = "select * from users where usrid = ?";
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1,usrId);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				user = new User();
+				user.setUsrId(rs.getString("usrid"));
+				user.setUsrPw(rs.getString("usrPw"));
+			}
+		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {	
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return user;
 	}
 
 }
