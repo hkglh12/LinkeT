@@ -1,0 +1,189 @@
+1. sys 사용자계정:
+오라클 superuser계정,
+데이터베이스 모든 접근권한 소유
+
+2. system 사용자계정:
+ 오라클 dB를 유지/보수/관리 할때 사용하는 사용자계정
+
+3. 새 계정 :
+ create user [계정명] identified by [비밀번호];
+ create user test identified by 1234;
+
+4. commit / rollback;
+ 기존 commit까지 되돌릴수있으며(rollback);
+ rollback의 한계점을 지정하는것이 commit
+
+5. 사용자가 생성한 계정으로 db접속 :
+	-conn test/1234
+
+6. table확인
+select * from tab;
+==================sql종료
+ddl dml dcl
+
+* ddl > data definition language
+> 데이터베이스에서 데이터와 데이터간의 관계를 정의하여
+   데이터베이스 구조를 설정하는 SQL문
+
+>> table, view등 데이터베이스 객체를 생성/수정.삭제기능함
+
+ddl : create /alter/ drop/ rename
+======================================
+테이블 이름 작성 규칙:
+ - 영문자, 숫자, 특수문자(_,$,#)사용가능
+ - 영문자로시작, 30자이내
+ - 대소문자 구분 없음
+ - 서로 다른테이블에서 동일 데이터를 저장할경우, 같은이름으로 지정
+ - 요구명세서, 개념모델, 논리모델, 물리모델의 설계도에 의해 테이블을 작성
+
+*무결성 제약조건
+ not null : null 불가
+ unique : 중복불가
+ check : 조건에 만족하는 데이터만 허용
+ pk || primary key : 테이블의 중심
+ fk || foreign key : 외래키 (타 테이블 참조)
+
+
+ex:
+create table [table_name](
+[col name] [data_type] [constraint]
+   primary key(colname)
+   unique(colname)
+   check(condition),
+   foreign key (colname) references [referencingtable](colname);
+>> oracle은 exclusive databases 개념이 없음.
+> ID에 table이 매핑되는 방식
+
+"DataType"
+1: char(크기) : 고정길이, 최대2000 최소 1(byte)
+    > 길이보다 짧으면 공백으로
+   > 길면 오류
+   > char는 저장공간 낭비가 심하나 "고정길이"의 input이 기대되면 당연히써야함
+
+2. varchar2(크기0 : 가변길이 문자타입,
+	          최대 4000 최소 1
+                    지정된 길이보다 짧으면 나머지는 null로, 저장공간낭비없음
+                    근데 얘 한글은 3바이트먹음
+   > 성별 char(2) : 남/여 => 사용불가.
+
+3. 한글입력을 2byte로 해결하고싶으면
+    NVARCHAR2(크기) == 국가별 문자집합에 따른 공간할당
+  >> 한글은 Unicode기반
+  >> 유니코드 : 2byte
+  >> 최대크기 : 4000바이트
+
+4. 게시판 문자저장
+   * CLOB : 대용량 텍스트 데이터 저장
+===========================
+숫자데이터
+number : 정수, 실수 모두 가능 (22byte 가변길이, 최대 38자리까지저장)
+number(percision, scale)형식 이용
+ : 지정된 자리 이하에서 반올림되어 저장
+ : precision : 정수부 + 소수부 모두를 포함한 전체 유효숫자(0은 유효숫자에서제외)
+ : scale : 소수부 : (소수점이하)자리수
+ : percision 을 지정하지 않고 숫자를 입력하면 입력하는 숫자 값의 크기만큼 저장공간 할당
+ : scale을 지정하지 않고 소수점을 입력하면 정수로 반올림되어 저장
+
+
+kok number(3)
+123.45 => NUMBER => 123.45
+123.54 => NUMBER(3) =>124
+123.54 => number(3,2) => 오류
+123.54 => number(7,1) =>123.5
+123.54 => number(7,-1) => 120 정수부 끝으로부터 -1만큼 반올림, 소수부 제거
+125.54 => number(7,-1) => 130  정수부 -1 절삭
+
+===============================
+날짜데이터타입
+*SYSDATE 함수 : 시스템의 현재 날짜와 시간을 반환
+*TO_DATE함수:
+ TO_DATE('2017-05-12','YYYY-MM-DD') => 문자를 날짜데이터로 변경
+*년,월,일,시,분,초 저장한다
+*7비트 고정길이 필드로 저장된다.
+================================
+기본키 특징:
+- not null 
+- unique
+- 테이블 내 레코드 식별에 사용
+- 외래키 관계시 사용
+- 기본키 적절예시 : 주민번호, 학번, 제품코드, 회원번호
+- 숫자피드생성후 기본키 지정 가능
+- 값 변경이 잦은 컬럼은 기본키로 지정하지 아니한다.
+
+==================================
+외래키
+- 타 테이블과 관계를 맺는 중심점
+- 다른 테이블의 기본키를 참조한다
+- condition : 참조무결성 : 관계 맺어진 기본키의 도메인을 가진다
+                 :외래키는 중복값, null값 둘다 가능하다.
+
+=====customer table
+
+create table customer(
+no NUMBER PRIMARY KEY,
+name VARCHAR2(20) NOT NULL,
+phone VARCHAR2(20) UNIQUE,
+age NUMBER CHECK (age BETWEEN 0 AND 100),
+bank_code VARCHAR2(20) references bank (bank_code)
+);
+
+alter
+컬럼추가
+alter table [tablename] add [colname] [datatype];
+컬럼수정
+alter table [tablename] modify [colname] [datatype];
+컬럼삭제
+alter table [tablename] DROP column [colname];
+컬럼이름변경
+alter table [tablename] rename column [old-colname] to [new-colname]
+
+계좌번호 필드명 추가
+alter table customer add bank_acc varchar2(30);
+alter table customer rename column name to bank_name;
+alter table customer modify bank_name varchar2(30);
+
+create table bank(
+bank_code varchar2(20) primary key,
+bank_name varchar2(20));
+
+
+create table country(
+country_code varchar2(20) primary key,
+last_rank number,
+curr_rank number,
+country_name varchar2(20),
+parti_count number,
+parti_player number);
+
+create table sports(
+sports_code number primary key,
+init_year date,
+sports_name varchar2(20),
+sports_charac text
+);
+
+create table player(
+player_code number primary key,
+sport_code number references sports(sports_code),
+player_name varchar2(20);
+player_age number,
+player_curr_rank number,
+country_code varchar2(20) references country(country_code)
+);
+
+create table schedule(
+country_code varchar2(20) references country(country_code),
+sports_code number refeneces sports(sports_code),
+infos text,
+startdate date,
+enddate date);
+
+
+create table members(
+member_code NUMBER PRIMARY KEY,
+member_id VARCHAR2(30) UNIQUE NOT NULL,
+member_pw VARCHAR2(30) NOT NULL,
+member_point NUMBER DEFAULT(1000),
+member_rank VARCHAR2(10) CHECK(member_rank in ('VIP','GOLD','SILVER','BRONZE')),
+member_email VARCHAR2(100) UNIQUE
+);

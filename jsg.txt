@@ -1,0 +1,7 @@
+<head>
+
+    <script src="/파일경로/제이쿼리파일명.js"></script>
+
+</head>
+
+http://tcpschool.com/jquery/jq_intro_apply
