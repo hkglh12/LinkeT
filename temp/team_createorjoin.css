@@ -54,7 +54,6 @@ button, .dot {
     
     border:2px solid black;
     /*todo*/
-    display:none;
 }
 
 
@@ -68,7 +67,6 @@ button, .dot {
   box-shadow: 5px 5px 20px rgba($gray, 10%);
   border:2px solid black;
     /*todo*/
-    display:none;
 }
 .button-box {
   position: absolute;
@@ -198,7 +196,7 @@ button, .dot {
 #join-box{
   width: 600px;
   height: 90%;
-    margin:0 auto;
+    margin-left:-800px;
 /*이때 컨테이너 height도 늘려주자*/
   background: linear-gradient(to bottom right, $success 40%, $secondary 100%);
   border-radius: 20px;
@@ -208,7 +206,9 @@ button, .dot {
   position:relative;
     transition:margin 0.5s;
 }
-
+#join-box.setload{
+    margin:0 auto;
+}
 #join-box::after{
     margin:0 auto;
 }

@@ -18,23 +18,12 @@ $(document).ready(function(){
             success:function(data){
                 console.log("success")
                 console.log(data);
-                var JsonData = JSON.parse(data);
-                console.log(JsonData);
-                $('.join.team.C').text()
             },
             error:function(data){
                 alert("Check your Team Code Again!");
                 
             }
         })
-    }),
-    
-
-    $("#join-box").ready(function(){
-            $("#join-box").animate({
-                marginLeft:'25%',
-                marginRight:'25%'
-            },'fast');
-        })
+    })
 }
 );
