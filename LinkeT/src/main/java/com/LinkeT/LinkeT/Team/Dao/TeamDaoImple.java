@@ -30,12 +30,12 @@ public class TeamDaoImple implements TeamDao{
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "insert into team (teanname, teamowner, teamcode) values (?,?,?)";
+			String sql = "insert into team (teamname, teamowner, teamcode) values (?,?,?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,usrId);
-			pstmt.setString(2,teamName);
+			pstmt.setString(1,teamName);
+			pstmt.setString(2,usrId);
 			//TODO : 암호화를하던 뭔가 추가를하던
-			pstmt.setString(3, usrId+teamName);
+			pstmt.setString(3, teamName+usrId);
 			result = pstmt.executeUpdate();
 			System.out.println(result);
 		}catch(ClassNotFoundException e) {
@@ -55,24 +55,24 @@ public class TeamDaoImple implements TeamDao{
 	}
 
 	@Override
-	public ArrayList<usrin> getTeam(String usrId) {
+	public Team getTeam(String teamCode) {
 		// TODO Auto-generated method stub
-		ArrayList<usrin> teamlist = new ArrayList();
+		Team team = null;
 		
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "select teamname, usrgrade from organizationchart where usrid = ?";
+			String sql = "select * from team where teamcode= ?";
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1,usrId);
+			pstmt.setString(1,teamCode);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				usrin inset = new usrin();
-				inset.setTeamname(rs.getString("teamname"));
-				inset.setUsrgrade(rs.getNString("usrgrade"));
-				teamlist.add(inset);
+				team = new Team();
+				team.setTeamName(rs.getString("teamname"));
+				team.setTeamOwner(rs.getString("teamowner"));
+				team.setTeamCode(rs.getString("teamcode"));
 			}
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
@@ -86,7 +86,7 @@ public class TeamDaoImple implements TeamDao{
 				e.printStackTrace();
 			}
 		}
-		return teamlist;
+		return team;
 	}
 
 }

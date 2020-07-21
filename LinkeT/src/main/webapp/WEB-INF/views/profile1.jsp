@@ -1,7 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +8,8 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <!--<link href="<c:url value="/assets/profile.css"/>" rel="stylesheet">-->
-    <link rel="stylesheet" href="profile.css">
-    <script src="jquery-3.5.1.js"></script>
+    <link href="<c:url value="/assets/profile.css"/>" rel="stylesheet">
+    <script src="<c:url value="/assets/jquery/jquery-3.5.1.js"/>"></script>
 </head>
 <body>
 <div class="area">
@@ -153,9 +151,9 @@
         </div>
         <div class="info teaminfo">
           <ul>
-              <li id="teamfirst"><a class="link" href="#">${usrTeam1};</a></li>
-              <li id="teamsec"><a class="link" href="#">${usrTeam2};</a></li>
-              <li id="teamthird"><a class="link" href="#">${usrTeam3};</a></li>
+              <li><a href="#">${usrTeam1};</a></li>
+              <li><a href="#">${usrTeam2};</a></li>
+              <li><a href="#">${usrTeam3};</a></li>
           </ul>
         </div>
       </div>
@@ -188,19 +186,6 @@
 </section>
 </body>
 <script>
-    $(document).ready(function(){
-    if(${usrTeam1} == null){
-        $("#teamfirst .link").href="localhost:80/LinkeT/r/team_createorjoin.html";
-        $("#teamfirst .link").innerText="Create or Join new Team";
-    }
-    if(${usrTeam2} == null){
-        $("#teamsec .link").href="localhost:80/LinkeT/r/team_createorjoin.html";
-        $("#teamsec .link").innerText="Create or Join new Team";
-    }
-    if(${usrTeam3} == null){
-        $("#teamthird .link").href="localhost:80/LinkeT/r/team_createorjoin.html";
-        $("#teamthird .link").innerText="Create or Join new Team";
-    }
-    });
 </script>
+
 </html>

@@ -11,7 +11,8 @@
     <meta name="keywords" content="">
     <!--<link href="<c:url value="/assets/profile.css"/>" rel="stylesheet">-->
     <link rel="stylesheet" href="profile.css">
-    <script src="jquery-3.5.1.js"></script>
+    <!--<script src="jquery-3.5.1.js"></script>-->
+    <script src="<c:url value="/assets/jquery/jquery-3.5.1.js"/>"></script>
 </head>
 <body>
 <div class="area">
@@ -121,8 +122,8 @@
       <div class="image-wrapper"></div>
       <h3 class="name">${usrId};</h3>
       <div class="info cf">
-        <div class="four col"><span class="number">${usrPhone};</span>PhoneNumber</div>
-        <div class="four col"><span class="number">${usrEmail};</span>Email</div>
+        <div class="four col"><span class="number">${usrPhone}</span>PhoneNumber</div>
+        <div class="four col"><span class="number">${usrEmail}</span>Email</div>
         <div class="four col"><span class="number">Change</span>PW</div>
       </div>
       <!--<div class="options">

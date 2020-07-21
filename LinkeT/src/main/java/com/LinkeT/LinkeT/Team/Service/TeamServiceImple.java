@@ -13,7 +13,7 @@ import com.LinkeT.LinkeT.Team.Dao.TeamDaoImple;
 public class TeamServiceImple implements TeamService{
 	
 	@Autowired
-	private TeamDaoImple teamdao;
+	TeamDaoImple teamdao;
 	
 	
 	@Override
@@ -24,10 +24,10 @@ public class TeamServiceImple implements TeamService{
 	}
 
 	@Override
-	public ArrayList<usrin> getTeam(String id) {
+	public Team getTeam(String teamCode) {
 		// TODO Auto-generated method stub
-		ArrayList<usrin> list = teamdao.getTeam(id);
-		return list;
+		Team team = teamdao.getTeam(teamCode);
+		return team;
 	}
 
 }

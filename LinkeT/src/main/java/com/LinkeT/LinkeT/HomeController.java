@@ -4,6 +4,9 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,5 +38,8 @@ public class HomeController {
 		
 		return "home";
 	}
-	
+	@RequestMapping(value="/main", method=RequestMethod.GET)
+	public String main(Locale locale, Model model, HttpServletRequest request, HttpSession session) {
+		return "main";
+	}
 }

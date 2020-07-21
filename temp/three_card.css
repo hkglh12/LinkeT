@@ -1,0 +1,123 @@
+*{
+	margin: 0 auto;
+}
+ @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+a{
+	text-decoration: none;
+}
+
+body{
+
+  font-family: 'Open Sans', sans-serif;
+color:#020202;
+  background: #F1F1F1;
+  color: #777;
+}
+
+.pad-block {
+	overflow: hidden;
+	padding: 90px 0;
+	margin: 20px 0;
+}
+.output{
+  margin: 0 auto;
+  width: 980px;
+  max-width: 1170px;
+  overflow:hidden;}
+.card {
+	background: #fff;
+	overflow: hidden;
+	width: 240px;
+	float: left;
+	border: 7px solid transparent;
+	padding: 30px 35px;
+	box-shadow: 6px 7px 12px -3px rgba(189,189,189,1);
+  cursor: pointer
+}
+.card h2 {
+	font-size: 30px;
+	font-weight: 400;
+	margin: 30px 0 25px 0;
+	color: #161616;
+}
+.card span {
+	float: left;
+}
+
+.card .vlue {
+	font-size: 26px;
+	color: #F06292;
+	font-weight: 900;
+}
+.card .tm {
+	font-size: 10px;
+	position: absolute;
+	margin: 5px 0 0 -7px;
+}
+.card .mnt {
+	font-size: 20px;
+	margin: 7px 8px;
+}
+.card .tm {
+	font-size: 10px;
+	position: absolute;
+	margin: 3px 0 0 0;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+.card ul {
+	padding: 0;
+}
+.card ul li {
+	list-style: none;
+	text-align: left;
+	margin: 10px 0;
+	font-size: 17px;
+	font-weight: 200;
+	color: #656666;
+}
+.card a {
+
+	color: #fff;
+	font-size: 20px;
+	letter-spacing: 3px;
+	padding: 10px 35px;
+	font-weight: 700;
+	margin: 12px 23px;
+	display: inline-block;
+	text-transform: uppercase;
+}
+.card .price {
+	margin: 70px 0 25px 0;
+	overflow: hidden;
+}
+.price .free{
+  color:#F06292;
+}
+.price .pre{
+  color: #AEEA00;
+}
+.price .enp{
+  color:#00E5FF;
+}
+.pad-one-btn{
+	background: #F06292;
+}
+.pad-two-btn{
+	background: #AEEA00;
+}.pad-three-btn{
+	background: #00E5FF;
+}
+.pad-two{
+		transform: scale(1.1,1.1);
+    border: 7px solid #F8F8F8;
+    box-shadow: 1px 37px 53px -21px rgba(140,140,140,1);
+}
+footer{
+  padding: 20px 0;
+  font-size:12px;
+}
+footer a{
+  color: #1DA1F2;
+}

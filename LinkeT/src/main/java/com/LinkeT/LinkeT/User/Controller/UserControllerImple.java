@@ -42,13 +42,11 @@ public class UserControllerImple implements UserController{
 	@RequestMapping(value="/usrLogin", method=RequestMethod.POST)
 	@Override
 	public String usrLogin(Model model, HttpServletRequest request, HttpSession session) {
-		System.out.println("called");
-		System.out.println(request);
+	
 		// TODO Auto-generated method stub
 		String usrId = request.getParameter("usrinid");
 		String usrPw = request.getParameter("usrinpw");
-		System.out.println(usrId);
-		System.out.println(usrPw);
+
 		User result = service.loginUser(usrId, usrPw);
 		if(result == null) {
 			model.addAttribute("result", "failed");
@@ -62,9 +60,6 @@ public class UserControllerImple implements UserController{
 	@Override
 	public String usrGet(Model model, HttpServletRequest request, HttpSession session) {
 		// TODO Auto-generated method stub
-		System.out.println("TEST:*********************");
-		System.out.println("param : " + request.getParameter("target"));
-		System.out.println("TEST:SessionKey:" + session.getAttribute("sessionKey"));
 		
 		User result = service.getUser((String)session.getAttribute("sessionKey"));
 		model.addAttribute("usrId", result.getUsrId());
@@ -76,20 +71,21 @@ public class UserControllerImple implements UserController{
 		model.addAttribute("usrTeam3", result.getTeam3());
 		return "profile";
 	}
+	@RequestMapping(value="/teamJoin", method=RequestMethod.POST)
+	@Override
+	public String usrTeamJoin(Model model, HttpServletRequest request, HttpSession session) {
+		// TODO Auto-generated method stub
+		System.out.println("/teamJoin called");
+		return null;
+	}
 	@Override
 	public String LoginPageLoad() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	//TEST
-	@RequestMapping(value="/main", method=RequestMethod.GET)
-	@Override
-	public String mainControl(Model model, HttpServletRequest request, HttpSession session) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	
+
 	public UserServiceImple getService() {
 		return service;
 	}
@@ -97,6 +93,8 @@ public class UserControllerImple implements UserController{
 	public void setService(UserServiceImple service) {
 		this.service = service;
 	}
+
+	
 
 
 
