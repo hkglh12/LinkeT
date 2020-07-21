@@ -2,6 +2,8 @@ package com.LinkeT.LinkeT.Team.Dao;
 
 import java.util.ArrayList;
 
+import com.LinkeT.LinkeT.Team.Team;
+
 
 public interface TeamDao {
 	public class usrin{
@@ -21,7 +23,9 @@ public interface TeamDao {
 			this.usrgrade = usrgrade;
 		}
 	}
-	int createTeam(String usrId, String teamName);
-	ArrayList<usrin> getTeam(String usrId);
+	
+	public int createTeam(String usrId, String teamName);
+	
+	public Team getTeam(String teamCode);
 	
 }

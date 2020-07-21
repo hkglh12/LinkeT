@@ -3,7 +3,14 @@ package com.LinkeT.LinkeT.Team;
 public class Team {
 	private String teamName;
 	private String teamCode;
+	private String teamOwner;
 	
+	public String getTeamOwner() {
+		return teamOwner;
+	}
+	public void setTeamOwner(String teamOwner) {
+		this.teamOwner = teamOwner;
+	}
 	public String getTeamName() {
 		return teamName;
 	}

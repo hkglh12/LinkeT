@@ -7,6 +7,6 @@ import com.LinkeT.LinkeT.Team.Dao.TeamDao.usrin;
 
 public interface TeamService {
 	public int createTeam(String usrId, String teamName);
-	public ArrayList<usrin> getTeam(String id);
+	public Team getTeam(String teamCode);
 }
  

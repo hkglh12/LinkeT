@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Untitled Document</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="team_createorjoin.css">
+<!--     <link rel="stylesheet" href="<c:url value="/assets/team_createorjoin.css"/>"> -->
+    <script src="team_createorjoin.js"></script>
+</head>
+<body>
+<div id="logo">Linke-t</div>
+<div id="container">
+  <div id="success-box">
+    <div class="dot"></div>
+    <div class="dot two"></div>
+    <div class="face">
+      <div class="eye"></div>
+      <div class="eye right"></div>
+      <div class="mouth happy">JOIN</div>
+    </div>
+    <div class="shadow scale"></div>
+    <div class="message"><h1 class="alert">Join</h1><p>Join into already exsisting Teamspace</p></div>
+    <form id="teamcodebox" action="#" method="post">
+        <input type="text" placeholder="your teamcode" name="teamcode">
+         <button type="submit" class="button-box" id="teamcode_join"><h1 class="green">SUBMIT</h1></button>
+    </form>
+   
+  </div>
+  <div id="error-box">
+    <div class="dot"></div>
+    <div class="dot two"></div>
+    <div class="face2">
+      <div class="eye"></div>
+      <div class="eye right"></div>
+      <div class="mouth sad"></div>
+    </div>
+    <div class="shadow move"></div>
+      <div class="message"><h1 class="alert">Create</h1>
+      <p>Just enter your new Team name.</p></div>
+      <form id="teamnamebox" action="/LinkeT/createteam" method="post">
+          <input type="text" name="teamname" placeholder="your new team name">
+          <button type="submit" class="button-box"><h1 class="red">GO CREATE</h1></button>
+      </form>
+    
+  </div>
+</div>
+
+<footer>
+  <p>made by <a href="https://codepen.io/juliepark"> julie</a> ♡
+</footer>
+</body>
+</html>

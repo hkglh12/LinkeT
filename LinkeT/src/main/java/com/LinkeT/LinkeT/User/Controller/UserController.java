@@ -14,5 +14,5 @@ public interface UserController {
 	//get oneself
 	public String usrGet(Model model, HttpServletRequest request, HttpSession session);
 	//test
-	public String mainControl(Model model, HttpServletRequest request, HttpSession session);
+	public String usrTeamJoin(Model model, HttpServletRequest request, HttpSession session);
 }

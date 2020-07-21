@@ -40,7 +40,7 @@ section{
     margin-left:40px;
 }
 .upper{width:100%; background:skyblue;color:black; height:5em; margin:0 auto;}
-.info{width:100%; margin-left:40px;}
+.info{width:500px; margin-left:40px;}
 .main-menu>ul {
 margin:7px 0;
 }
@@ -132,10 +132,24 @@ height: 100%;
   font-weight: 300;
   src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
 }
+/* CONTAINSSSSS NOT NAV*/
+html, body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #ddd;
+  font-family: 'Arimo', sans-serif;
+}
 
-/*NAVFINS*/
+.title{
+  text-align: center;
+  color: #2c3e50;
+}
 
-.container {width:1000px; height:46em; margin: 100px auto 0 auto; padding-left:20px; border:2px solid black; } 
+/* CONTAINERS */ 
+
+.container {max-width: 940px; width: 100%; margin: 0 auto; } 
 .twelve { width: 100%; } 
 .eleven { width: 91.53%; } 
 .ten { width: 83.06%; } 
@@ -148,14 +162,13 @@ height: 100%;
 .three { width: 23.8%; } 
 .two { width: 15.33%; } 
 .one{ width: 6.866%;}
-.info.cf{border:1px solid black;}
+
  /* COLUMNS */ 
 
 .col { 
 	display: block; 
 	float:left;
 	margin: 1% 0 1% 1.6%; 
-
 } 
 
 .col:first-of-type { margin-left: 0; }
@@ -205,11 +218,10 @@ height: 100%;
 	background-size: cover;
 	background-repeat: no-repeat;
 }
-#card1 .info{margin:0;}
+
 #card1 .info .four{
 	text-align: center;
-    width:100%;
-    margin:0;
+	border-right: 1px solid #2c3e50;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -257,7 +269,6 @@ height: 100%;
 /* CARD 2 */
 
 #card2{
-    margin:0;
 	overflow: hidden;
 	color: #2c3e50;
 }
@@ -281,7 +292,7 @@ height: 100%;
 }
 
 #card2 .header:after{
-	content: 'YourTeamInfo';
+	content: '';
     background: inherit;
     bottom: 0;
     display: block;
@@ -292,9 +303,6 @@ height: 100%;
     transform: skewY(-8deg);
     -webkit-transform: skewY(-8deg);
     transform-origin: 100%;
-}
-.info.teaminfo ul{
-    list-style:none;
 }
 
 #card2 .image-wrapper{
@@ -326,7 +334,6 @@ height: 100%;
 }
 
 /* CARD 3 */
-/*
 
 #card3{
 	color: #2c3e50;
@@ -368,4 +375,3 @@ height: 100%;
 	font-size: 20px;
 }
 
-*/

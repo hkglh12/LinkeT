@@ -1,0 +1,55 @@
+0721 oracle
+제약조건추가
+: alter table [table_name] add constraint [constraint_name] [constraint_condition] (fieldname);
+: alter table [table_name] add [constraint] (fieldname);
+
+ex:
+alter table [table_name] add constraint [constraint_name] foreign key(field_name) references [referencing_table_name](field_name);
+
+
+제약조건 삭제
+alter table [table_name] drop constraint [constraint_name];
+alter table [table_name] drop [constraint];
+
+제약조건 수정
+alter table [table_name] modify [field_name][constraint];
+
+create table aa(
+ s number,
+ k varchar2(15),
+ t varchar2(10)
+ constraint s_pk primary key(s),
+ constraint k_uq unique(k);
+);
+
+DML
+=====
+data manipulation language
+정의된 데이터베이스에 새로운 레코드를 삽입하거나 수정하거나 삭제하는 등의 역할을 하는 SQL문이다
+테이블이나 뷰 등 데이터베이스 객체에 새로운 데이터베이르를 삽입, 삭제, 수정, 또는 조회할 수 있다
+
+insert, update, delete, select
+
+트랜잭션
+1. 트랜잭션? 데이터베이스에서 처리되는 여러 SQL을 하나의 논리적 작업단위로 처리하는것
+- 중간에 멈추면 돌아가고, 시작하면 반드시 다 끝내야함
+2. 제어명령 : commit, rollback
+3. 트랜잭션이 필요한 sQL
+ > inert, update, delete : 필요
+ > create, alter, drop, select : 불필요
+
+
+create table employee(
+emp_no number primary key,
+name varchar2(20) not null,
+depart number,
+position varchar2(10),
+gender char(3),
+hire_date date,
+salary number
+);
+
+insert into employee values(1001, '구창민', 1, '과장', '남', '95-05-01', 500000);
+insert into employee values(1002, '구창민', 1, '과장', '남', '95-05-01', 500000);
+insert into employee values(1003, '구창민', 1, '과장', '남', '95-05-01', 500000);
+insert into employee values(1004, '구창민', 1, '과장', '남', '95-05-01', 500000);
