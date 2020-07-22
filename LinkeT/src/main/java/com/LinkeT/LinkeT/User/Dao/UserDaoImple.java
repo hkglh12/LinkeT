@@ -149,7 +149,7 @@ public class UserDaoImple implements UserDao{
 			}
 			// teamcode봐야하는데 db가 teamname보고 있어서 에러남
 			// TODO 20200723
-			// User의 가입, organizationchart 동기화, 쿠키. 이 세개만 하자 내일은
+			// User의 가입, organizationchart 동기화, 쿠키. 이 세개만 하자 내일은/test
 			String sql = "update users set team"+ck+" = "+teamCode+" where usrid = ?";
 			pstmt = conn.prepareStatement(sql);
 
