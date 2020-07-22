@@ -29,9 +29,17 @@ public class UserServiceImple implements UserService{
 		User user = dao.loginUser(usrId,  usrPw);
 		return user;
 	}
+	@Override
 	public User getUser(String usrId) {
 		User user = dao.getUser(usrId);
 		return user;
+	}
+
+	@Override
+	public int joinTeamUser(String usrId, String teamCode) {
+		boolean result = dao.usrJoinTeam(usrId, teamCode) >=1 ? true : false;
+		
+		return 0;
 	}
 
 	

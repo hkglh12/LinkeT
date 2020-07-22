@@ -36,10 +36,10 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		return "redirect:/r/Login.html";
 	}
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public String main(Locale locale, Model model, HttpServletRequest request, HttpSession session) {
-		return "main";
+		return "forward:/r/Login.html";
 	}
 }

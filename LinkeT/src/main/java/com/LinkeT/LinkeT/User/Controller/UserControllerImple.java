@@ -43,6 +43,7 @@ public class UserControllerImple implements UserController{
 	@Override
 	public String usrLogin(Model model, HttpServletRequest request, HttpSession session) {
 	
+		/* 일반 form post방식은 이것. Jquery에서 JSON통신방식의 가장 좋은 예는 "TeamController > createTeam" */ 
 		// TODO Auto-generated method stub
 		String usrId = request.getParameter("usrinid");
 		String usrPw = request.getParameter("usrinpw");
@@ -76,6 +77,17 @@ public class UserControllerImple implements UserController{
 	public String usrTeamJoin(Model model, HttpServletRequest request, HttpSession session) {
 		// TODO Auto-generated method stub
 		System.out.println("/teamJoin called");
+		//TODO :: 사용자를 추가하면 동시에 organization 추가항목도 짜야한다.
+		String teamCode = request.getParameter("teamcode");
+		String teamName = request.getParameter("teamname");
+		String teamOwner = request.getParameter("teamowner");
+		String usrId = request.getParameter("userid");
+		String usrGrade = request.getParameter("usergrade");
+		String workpart = request.getParameter("teamworkpart");
+		
+		System.out.println(teamCode + " : " + teamName + " : " + teamOwner + " : " + usrId + " : " +usrGrade + " : " + workpart);
+		usrId = "test";
+		int result = service.joinTeamUser(usrId, teamCode);
 		return null;
 	}
 	@Override
