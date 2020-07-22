@@ -122,9 +122,9 @@
       <div class="image-wrapper"></div>
       <h3 class="name">${usrId}</h3>
       <div class="info cf">
-        <div class="four col"><span class="number">${usrPhone}</span>PhoneNumber</div>
-        <div class="four col"><span class="number">${usrEmail}</span>Email</div>
-        <div class="four col"><span class="number">Change</span>PW</div>
+        <div class="four col">PhoneNumber<span class="number">${usrPhone}</span></div>
+        <div class="four col">Email<span class="number">${usrEmail}</span></div>
+        <div class="four col">PW<span class="number">Change</span></div>
       </div>
       <!--<div class="options">
         <ul>
@@ -154,7 +154,7 @@
         </div>
         <div class="info teaminfo">
           <ul>
-              <li id="teamfirst"><a class="link" href="localhost:80/LinkeT/r/team_createorjoin.html">testatata${usrTeam1}</a></li>
+              <li id="teamfirst"><a class="link" href="#">${usrTeam1}</a></li>
               <li id="teamsec"><a class="link" href="#">${usrTeam2}</a></li>
               <li id="teamthird"><a class="link" href="#">${usrTeam3}</a></li>
           </ul>
@@ -201,14 +201,23 @@
     if(usrTeam1 === ''){
         $("#teamfirst .link").attr("href","/LinkeT/r/team_createorjoin.html");
         $("#teamfirst .link").text("Create or Join new Team");
+    }else{
+    	$("#teamfirst .link").attr("href","#");
+        $("#teamfirst .link").text("${usrTeam1}");
     }
     if(usrTeam2 === ''){
     	$("#teamsec .link").attr("href","/LinkeT/r/team_createorjoin.html");
         $("#teamsec .link").text("Create or Join new Team");
+    }else{
+    	$("#teamfirst .link").attr("href","#");
+        $("#teamfirst .link").text("${usrTeam2}");
     }
     if(usrTeam3 === ''){
     	$("#teamthird .link").attr("href","/LinkeT/r/team_createorjoin.html");
         $("#teamthird .link").text("Create or Join new Team");
+    }else{
+    	$("#teamfirst .link").attr("href","#");
+        $("#teamfirst .link").text("${usrTeam3}");
     }
     });
     console.log("after");
