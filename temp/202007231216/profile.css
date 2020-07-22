@@ -12,7 +12,7 @@ body{width:95%;}
 .area {float: left; background: #e2e2e2; width: 100%; height: 100%;}
 .main-menu {background:#212121; border-right:1px solid #e5e5e5; position:absolute; top:0; bottom:0; height:100%; left:0; width:60px; overflow:hidden; -webkit-transition:width .05s  inear; transition:width .05s linear; -webkit-transform:translateZ(0) scale(1,1); z-index:1000;}
 .main-menu>ul {margin:7px 0;}
-.main-menu li {position:relative; display:block; width:250px;margin:30px 0;}
+.main-menu li {position:relative; display:block; width:250px;}
 .main-menu li>a {position:relative; display:table; border-collapse:collapse; border-spacing:0; color:#999; font-family: arial; font-size: 14px; text-decoration:none; -webkit-transform:translateZ(0) scale(1,1); -webkit-transition:all .1s linear; transition:all .1s linear;}
 .main-menu .nav-icon {position:relative; display:table-cell; width:60px; height:36px; text-align:center; vertical-align:middle; font-size:18px; }
 .main-menu .nav-text {position:relative; display:table-cell; vertical-align:middle; width:190px; font-family: 'Titillium Web', sans-serif;}
@@ -36,7 +36,7 @@ nav ul,nav li {outline:0; margin:0; padding:0;}
 section{width:100%; height:56em; margin-left:50px; box-sizing: border-box; margin-top:0; }
 .upper{width:100.7%; color:black; height:7em; padding:0;background: rgba(75, 75, 75, 0.6);}
 .upper .info{width:95%; margin-left:0px; height:7em; display:flex; align-items: center; padding-left:30px; color:white;}
-.container {width:1000px; padding-top:3em; height:35em;} 
+.container {width:1200px; padding-top:3em; height:35em;} 
 .twelve { width: 100%; } 
 .eleven { width: 91.53%; } 
 .ten { width: 83.06%; } 
@@ -52,13 +52,11 @@ section{width:100%; height:56em; margin-left:50px; box-sizing: border-box; margi
 
  /* COLUMNS */ 
 /*container*/
-.profilebg{width:100%; margin-top:40px; background:rgba(146, 214, 239, 0.34);}
-.profile{width:1000px; height:44em;margin:0 auto 0 auto; border-radius: 10px;}
-
+.profile{margin-top:1.5em; border:1px solid black; width:1000px; height:44em;margin-left:auto; margin-right:auto; background:rgba(146, 214, 239, 0.34);}
 .row.cf{width:1000px; display:flex; padding:0; justify-content: space-between;}
 /*각 파트 outter*/
 .card{width:420px; height: 590px; background-color: #fff;	font-family: 'Arimo', sans-serif; font-size: 14px; 
-border:1px solid #ffffff; border-radius: 10px;}
+border:1px solid #aaaaaa; border-radius: 10px;}
 
 /*각 표시부*/
 /*좌측카드*/
