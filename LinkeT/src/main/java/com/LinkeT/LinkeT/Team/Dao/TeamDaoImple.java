@@ -30,7 +30,7 @@ public class TeamDaoImple implements TeamDao{
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "insert into team (teamname, teamowner, teamcode) values (?,?,?)";
+			String sql = "insert into team (t_code, t_name, t_owner) values (?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,teamName);
 			pstmt.setString(2,usrId);
@@ -62,7 +62,7 @@ public class TeamDaoImple implements TeamDao{
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "select * from team where teamcode= ?";
+			String sql = "select * from team where t_code= ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1,teamCode);
@@ -70,9 +70,9 @@ public class TeamDaoImple implements TeamDao{
 			
 			while(rs.next()) {
 				team = new Team();
-				team.setTeamName(rs.getString("teamname"));
-				team.setTeamOwner(rs.getString("teamowner"));
-				team.setTeamCode(rs.getString("teamcode"));
+				team.setTeamName(rs.getString("t_name"));
+				team.setTeamOwner(rs.getString("t_owner"));
+				team.setTeamCode(rs.getString("t_code"));
 			}
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
