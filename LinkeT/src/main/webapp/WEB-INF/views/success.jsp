@@ -1,6 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +9,74 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link href="<c:url value="/assets/success.css"/>" rel="stylesheet"/>
+    <script src="<c:url value="/assets/jquery/jquery-3.5.1.js"/>"></script>
     <script src="<c:url value="/assets/success.js"/>"></script>
+    <script>
+    /*  JSP는 Server-side Lan. JS는 Client-side.
+    동작순서는 JSP > JSTL > HTML > JS. 따라서 JS에서는 JSP 변수에
+    접근이  가능하지만, JSP는 JS의 변수정보를 알 수 없음.
+    전달하려면 AJAX통신 or form에 숨겨놔야함.
+    또한 동일 파일내에서 var 선언으로 JS 객체 선언을 해두고 ,JSP변수를
+    저장해두어야만 접근이 가능
+    REFER: https://coderanch.com/t/287106/java/jsp-variables-javascript
+    내가 이해한 방향은 JSP가 Compile되면서 JS 선언 공간을 인식,
+    이후 JSP가 선언이되면서 그 JS 선언공간에 값 할당.
+    만약 선언하지 않는다면 JSP의 결과물로 그저 "HTML" 파일이 완성되어
+    "객체처리화"가 되지 아니함을 의미.*/
+		var ct = "${contents}";
+		var val = "${value}";
+		console.log(ct);
+		console.log(val);
+	    /* $(document).ready(function(){
+	    	console.log("docready");
+	    	
+	    	var ct = "${contents}";
+	    	var val = "${value}";
+	    	console.log(ct);
+	    	console.log(val);
+	    	if(ct == "join"){
+	    		if(val == "true"){
+	    			$("#btn_go").html("가입성공!");
+	    			$("#btn_go").on("click",(function(){
+	    				location.href="http://localhost:80/LinkeT/";
+	    			}));
+	    		}else{
+	    			$("#btn_go").text("가입실패!");
+	    			$("#btn_go").on("click",(function(){
+	    				location.href="http://localhost:80/LinkeT/";
+	    			}));
+	    		}
+	    	}
+	    }); */
+    </script>
+<!--     <script>
+console.log("docready");
+	
+	var ct = "${contents}";
+	var val = "${value}";
+	
+	if(ct == "join"){
+		if(val == "true"){
+			$("#btn_go").text("가입성공!");
+			$("#btn_go").on("click",(function(){
+				location.href="/";
+			}));
+		}else{
+			$("#btn_go").text("가입실패!");
+			$("#btn_go").on("click",(function(){
+				location.href="/";
+			}
+		}
+	}
+    
+    </script> -->
 <!--    <link rel="stylesheet" href="success.css">  -->
 </head>
  <body>
    <div class="wrapper">
     <div class="upper info">
        <h2>Join Complete!</h2>
-       <button type="button" onclick="go_main()"></button>
+       <button type="button" id="btn_go">메인으로갈수있었으면좋곘다</button>
     </div>
     <div class="container clearfix">
       <div class="pa mackbook hover">
