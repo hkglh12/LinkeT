@@ -4,11 +4,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Untitled Document</title>
+    <title>We Linke-t</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link href="<c:url value="/assets/main.css"/>" rel="stylesheet">
+    <link href="adf">	
+    <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
 </head>
 <body>
 <div class="area">
@@ -17,10 +19,19 @@
 <nav class="main-menu">
     <ul>
         <li>
+            <a href="http://localhost:80/LinkeT/usrmain">
+                <i class="fa fa-home fa-2x"></i>
+                <span class="nav-text">
+                    Main
+                </span>
+            </a>
+
+        </li>
+        <li>
             <a href="http://localhost:80/LinkeT/me?target='me'">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
-                    Dashboard
+                    My Information
                 </span>
             </a>
 
@@ -29,61 +40,21 @@
             <a href="#">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
-                    Stars Components
+                    My Team
+                    <!--아래에 팀 세개 추가해야함.-->
                 </span>
             </a>
-
         </li>
         <li class="has-subnav">
             <a href="#">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
-                    Forms
+                    문의하기
                 </span>
             </a>
 
         </li>
-        <li class="has-subnav">
-            <a href="#">
-               <i class="fa fa-folder-open fa-2x"></i>
-                <span class="nav-text">
-                    Pages
-                </span>
-            </a>
-
-        </li>
-        <li>
-            <a href="#">
-                <i class="fa fa-bar-chart-o fa-2x"></i>
-                <span class="nav-text">
-                    Graphs and Statistics
-                </span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fa fa-font fa-2x"></i>
-                <span class="nav-text">
-                   Quotes
-                </span>
-            </a>
-        </li>
-        <li>
-           <a href="#">
-               <i class="fa fa-table fa-2x"></i>
-                <span class="nav-text">
-                    Tables
-                </span>
-            </a>
-        </li>
-        <li>
-           <a href="#">
-                <i class="fa fa-map-marker fa-2x"></i>
-                <span class="nav-text">
-                    Maps
-                </span>
-            </a>
-        </li>
+       
         <li>
             <a href="#">
                <i class="fa fa-info fa-2x"></i>

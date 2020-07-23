@@ -1,5 +1,6 @@
 package com.LinkeT.LinkeT.User.Controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.LinkeT.LinkeT.HomeController;
+import com.LinkeT.LinkeT.OrganizationChart.OrganizationChart;
+import com.LinkeT.LinkeT.OrganizationChart.Service.OrganizationChartServiceImple;
+import com.LinkeT.LinkeT.Team.Service.TeamServiceImple;
 import com.LinkeT.LinkeT.User.User;
 import com.LinkeT.LinkeT.User.Service.UserService;
 import com.LinkeT.LinkeT.User.Service.UserServiceImple;
@@ -28,15 +32,82 @@ public class UserControllerImple implements UserController{
 	private static final Logger logger = LoggerFactory.getLogger(UserControllerImple.class);
 	
 	@Autowired
-	UserServiceImple service;
+	UserServiceImple uService;
+	@Autowired
+	OrganizationChartServiceImple oService; 
+	@Autowired
+	TeamServiceImple tService;
+	
 	
 	public UserControllerImple() {}
 	
-	//Join Validator.
+	public UserServiceImple getuService() {
+		return uService;
+	}
+
+
+	public void setuService(UserServiceImple uService) {
+		this.uService = uService;
+	}
+
+
+	public OrganizationChartServiceImple getoService() {
+		return oService;
+	}
+
+
+	public void setoService(OrganizationChartServiceImple oService) {
+		this.oService = oService;
+	}
+
+
+	public TeamServiceImple gettService() {
+		return tService;
+	}
+
+
+	public void settService(TeamServiceImple tService) {
+		this.tService = tService;
+	}
+
+	public UserServiceImple getService() {
+		return uService;
+	}
+
+	public void setService(UserServiceImple service) {
+		this.uService = service;
+	}	
+
+	
+	//사용자는 로그인합니다.
+		@RequestMapping(value="/usrLogin", method=RequestMethod.POST)
+		@Override
+		public String usrLogin(Model model, HttpServletRequest request, HttpSession session) {
+		
+			/* 일반 form post방식은 이것. Jquery에서 JSON통신방식의 가장 좋은 예는 "TeamController > createTeam" */ 
+			// TODO Auto-generated method stub
+			logger.info("/usrLogin Called");
+			
+			String usrId = request.getParameter("u_id");
+			String usrPw = request.getParameter("u_pw");
+			logger.info("User id" + usrId +" tried to login");
+			
+			User result = uService.loginUser(usrId, usrPw);
+			if(result == null) {
+				model.addAttribute("result", "failed");
+				return "login";
+			}else{
+				session.setAttribute("sessionKey", result.getUsrId());
+				System.out.println(result.getUsrId());
+				return "main";
+			}
+		}
+		
+	//회원가입시에 "아이디, 이메일, 팀코드"가 유효한지 확인합니다. 단, 팀코드는 true/false가 뒤집혀서 전달되는데, 이는 프론트에서 처리합니다.
 	@RequestMapping(value="/validate", method=RequestMethod.POST)
 	@Override
 	@ResponseBody
-	public HashMap<String, String> usrJoinValidatino(@RequestBody HashMap<String,String> target, HttpServletRequest request) {
+	public HashMap<String, String> usrJoinValidation(@RequestBody HashMap<String,String> target, HttpServletRequest request) {
 		logger.info("/validate called");
 		HashMap<String, String> returnInfo=new HashMap<String,String>();
 		String key = "";
@@ -45,16 +116,17 @@ public class UserControllerImple implements UserController{
 		}
 		String value = target.get(key);
 		logger.info("Request for : " + key + " / value : " +value);
-		String result = service.userValidator(key,value);
+		String result = uService.userValidator(key,value);
 		returnInfo.put("result", result);
 		logger.info("answers : " + "result : " + result);
 		return returnInfo;
 	}
 	
+	//사용자 회원가입을 처리합니다
+	//회원가입시에 팀코드 입력이 성공했다면 팀 가입도 이곳에서 처리합니다.
 	@RequestMapping(value="/usrJoin", method=RequestMethod.POST)
 	@Override
 	public String usrJoin(Model model, HttpServletRequest request) {
-		// 사용자 회원가입 control
 		logger.info("/usrJoin Called");
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
@@ -63,8 +135,7 @@ public class UserControllerImple implements UserController{
 		String usrName = request.getParameter("u_name");
 		logger.info(usrId + " : " + usrPw + " : " + usrPhone + " : " + usrEmail + " : " + usrName);
 		
-		//사용자 서비스 호출
-		boolean result = service.userRegister(usrId, usrPw, usrPhone, usrEmail,usrName);
+		boolean result = uService.userRegister(usrId, usrPw, usrPhone, usrEmail,usrName);
 		
 		if(result == true) {
 			//성공 >> 성공 대상과 성공을 전달
@@ -74,41 +145,53 @@ public class UserControllerImple implements UserController{
 		}else {
 			//실패 >> 실패 대상과 실패를 전달
 			model.addAttribute("contents", "join");
-			model.addAttribute("value", "fail");
+			model.addAttribute("value", "false");
 			return "signup_Failed";
 		}
 	}
-	@RequestMapping(value="/usrLogin", method=RequestMethod.POST)
+	
+	
+	// 메인으로 돌려주는 역할을 합니다. 이때 세션의 여부를 확인하여 세션이있다면(로그인기록이있다면) main으로, 없다면 Login창으로 돌려보냅니다.
+	@RequestMapping(value="/usrmain", method=RequestMethod.GET)
 	@Override
-	public String usrLogin(Model model, HttpServletRequest request, HttpSession session) {
+	public String usrTurnMain(Model model, HttpServletRequest request, HttpSession session) {
 	
 		/* 일반 form post방식은 이것. Jquery에서 JSON통신방식의 가장 좋은 예는 "TeamController > createTeam" */ 
 		// TODO Auto-generated method stub
 		logger.info("/usrLogin Called");
-		String usrId = request.getParameter("u_id");
-		String usrPw = request.getParameter("u_pw");
-		logger.info("User id" + usrId +" tried to login");
-		User result = service.loginUser(usrId, usrPw);
-		if(result == null) {
-			model.addAttribute("result", "failed");
-			return "redirect:/resources/Login.html";
-		}else {
-			session.setAttribute("sessionKey", result.getUsrId());
+		String sky = "";
+		sky = (String)session.getAttribute("sessionKey");
+		System.out.println(sky);
+		if(sky!=null) {
 			return "main";
+		}else {
+			return "login";
+			}
 		}
-	}
+	// mypage(profile)역할을 합니다.
 	@RequestMapping(value="/me", method=RequestMethod.GET)
 	@Override
 	public String usrGet(Model model, HttpServletRequest request, HttpSession session) {
 		// TODO Auto-generated method stub
 		
-		User result = service.getUser((String)session.getAttribute("sessionKey"));
-		System.out.println("/me");
-		System.out.println(result);
-		System.out.println(result.getUsrId());
-		System.out.println(result.getUsrName());
-		System.out.println(result.getUsrPw());
-		System.out.println(result.getUsrEmail());
+		User result = uService.getUser((String)session.getAttribute("sessionKey"));
+		
+		if((String)session.getAttribute("sessionKey")==null) {
+			return "redirect:/usrmain";
+		}
+		
+		ArrayList<OrganizationChart> teamlist = oService.getUsrBelong(result.getUsrId());
+		System.out.println(teamlist);
+		
+		for(int i=0; i<3; i++) {
+			if(i<teamlist.size()) {
+				model.addAttribute("usrTeam"+(i+1), tService.getTeam(teamlist.get(i).getTeamCode()).getTeamName());
+				model.addAttribute("usrTeam"+(i+1)+"code",teamlist.get(i).getTeamCode());
+			}else {
+				model.addAttribute("usrTeam"+(i+1), "");
+				model.addAttribute("usrTeam"+(i+1)+"code","");
+			}
+		}
 		model.addAttribute("usrId", result.getUsrId());
 		model.addAttribute("usrPw", result.getUsrPw());
 		model.addAttribute("usrPhone", result.getUsrPhone());
@@ -116,41 +199,35 @@ public class UserControllerImple implements UserController{
 		model.addAttribute("usrteamcount",result.getUsrTeamcount());
 		return "profile";
 	}
+	//사용자는 팀에 가입할 수 있습니다. 이때 userservice, organizationchartservice를 사용합니다. (컨트롤러에서 타 서비스 참조)
+	//팀에 가입했다면 org chart에 추가해주고, userteamcount를 업데이트해야합니다.
 	@RequestMapping(value="/teamJoin", method=RequestMethod.POST)
 	@Override
 	public String usrTeamJoin(Model model, HttpServletRequest request, HttpSession session) {
 		// TODO Auto-generated method stub
-		System.out.println("/teamJoin called");
+		logger.info("/teamJoin called");
 		//TODO :: 사용자를 추가하면 동시에 organization 추가항목도 짜야한다.
+		int result = 0;
+		
 		String teamCode = request.getParameter("t_code");
 		String teamName = request.getParameter("t_name");
 		String teamOwner = request.getParameter("t_owner");
 		String usrId = request.getParameter("u_id");
 		String usrGrade = request.getParameter("u_grade");
-		String workpart = request.getParameter("u_part");
+		String usrPart = request.getParameter("u_part");
 		
-		System.out.println(teamCode + " : " + teamName + " : " + teamOwner + " : " + usrId + " : " +usrGrade + " : " + workpart);
-		usrId = "test";
-		int result = service.joinTeamUser(usrId, teamCode);
-		return null;
+		logger.info("TeamJoin :: // "+teamCode + " : " + teamName + " : " + teamOwner + " : " + usrId + " : " +usrGrade + " : " + usrPart);
+		result = oService.joinTeam(usrId, teamCode, usrGrade, usrPart);
+		if(result!=0) {	// join succeed
+			result = uService.userTeamCountUpdate(teamCode, usrId, usrGrade, usrPart);
+			return "success";
+		}else {
+			result = 0; // == failed
+			return "failed";
+		}
+		
+		
 	}
-	@Override
-	public String LoginPageLoad() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	//TEST
-
-
-	public UserServiceImple getService() {
-		return service;
-	}
-
-	public void setService(UserServiceImple service) {
-		this.service = service;
-	}
-
-	
 
 	
 
