@@ -32,7 +32,7 @@
     <div class="shadow scale"></div>
     <div class="message"><h1 class="alert">Join</h1><p>Join into already exsisting Teamspace</p></div>
     <form id="teamcodebox"><!-- action="#" method="post"-->
-        <input type="text" placeholder="your teamcode" name="teamcode" id="teamcode">
+        <input type="text" placeholder="your teamcode" name="t_code" id="teamcode">
          <button type="button" class="button-box" id="teamcode_join"><h1 class="green">SUBMIT</h1></button>
     </form>
    
@@ -50,7 +50,7 @@
       <div class="message"><h1 class="alert">Create</h1>
       <p>Just enter your new Team name.</p></div>
       <form id="teamnamebox" action="/LinkeT/createteam" method="post">
-          <input type="text" name="teamname" placeholder="your new team name">
+          <input type="text" name="t_name" placeholder="your new team name">
           <button type="submit" class="button-box"><h1 class="red">GO CREATE</h1></button>
       </form>
     
@@ -59,17 +59,17 @@
     <div id="join message"><h1 class="alert">Join</h1><p>WELCOME TO <label id="teamspacename"></label></p></div>
     <form class="join teamcodebox" action="/LinkeT/teamJoin" method="post">
         <p class="inputinfo">Your Team code</p>
-        <input type="text" name="teamcode" class="join team C">
+        <input type="text" name="t_code" class="join team C">
         <p class="inputinfo">Your team Name</p>
-        <input type="text" name="teamname" class="join team N">
+        <input type="text" name="t_name" class="join team N">
         <p class="inputinfo">your team Owner</p>
-        <input type="text" name="teamowner" class="join team O">
+        <input type="text" name="t_owner" class="join team O">
         <p class="inputinfo">your Id</p>
-        <input type="text" name="userid" class="join team U">
+        <input type="text" name="u_id" class="join team U">
         <p class="inputinfo">your Grade in team</p>
-        <input type="text" name="usergrade" class="join team G">
+        <input type="text" name="u_grade" class="join team G">
         <p class="inputinfo">your workpart</p>
-        <input type="text" placeholder="your workPart" name="teamworkpart" class="join team W">
+        <input type="text" placeholder="your workPart" name="u_part" class="join team W">
         
          <button type="submit" id="join_button"><h1 class="green">SUBMIT</h1></button>
     </form>

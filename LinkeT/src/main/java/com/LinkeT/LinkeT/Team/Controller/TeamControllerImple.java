@@ -34,9 +34,9 @@ public class TeamControllerImple implements TeamController{
 	public String teamCreate(Model model, HttpServletRequest request, HttpSession session) {
 		// TODO Auto-generated method stub
 		System.out.println("TEAM CONTROLLER");
-		System.out.println(request.getParameter("teamname"));
+		System.out.println(request.getParameter("t_name"));
 		String usrId = (String)session.getAttribute("sessionKey");
-		String teamName = request.getParameter("teamname");
+		String teamName = request.getParameter("t_name");
 		System.out.println(usrId + " : " + teamName);
 		int result = teamservice.createTeam(usrId, teamName);
 		// 성공했다면, 아니라면
@@ -47,17 +47,19 @@ public class TeamControllerImple implements TeamController{
 	@Override
 	@ResponseBody
 	public HashMap<String, String> teamGet(@RequestBody HashMap<String,String> target, Model model, HttpServletRequest request, HttpSession session) {
-		HashMap<String, String> returnInfo = null;
+		HashMap<String, String> returnInfo = new HashMap<String, String>();
 		System.out.println(target);
-		System.out.println(target.get("targetTeamCode"));
+		System.out.println(target.get("t_code"));
 		Team team = null;
-		team = teamservice.getTeam(target.get("targetTeamCode"));
+		team = teamservice.getTeam(target.get("t_code"));
 		System.out.println(team);
 		if(team!=null) {
-			returnInfo = new HashMap<String, String>();
 			returnInfo.put("teamCode", team.getTeamCode());
 			returnInfo.put("teamOwner", team.getTeamOwner());
 			returnInfo.put("teamName", team.getTeamName());
+		}else {
+			
+			returnInfo.put("fstatus", "404");
 		}
 	
 		return returnInfo;

@@ -15,9 +15,19 @@ public class UserServiceImple implements UserService{
 	@Autowired
 	UserDaoImple dao;
 	
+	
+	//회원가입 정보 정상 판독기
+	@Override
+	public String userValidator(String key, String value) {
+		// TODO Auto-generated method stub
+		// 검색성공여부를 (이미 있는지)를 리턴한것을, 있다면 > 거절. 없다면 > 수락 할것
+		String result = dao.validate(key, value) == false ? "accept" : "deny";
+		return result;
+	}
+	
 	@Override
 	public boolean userRegister(String usrId, String usrPw, String usrPhone, String usrEmail, String usrName) {
-		// TODO Auto-generated method stub
+		// 데이터베이스 접속, transaction 결과를 service에서 성공/실패 로 변환하여 리턴
 		boolean result = dao.usrInsert(usrId, usrPw, usrPhone, usrEmail,usrName) >=1 ? true:false;
 		
 		return result;
@@ -26,7 +36,7 @@ public class UserServiceImple implements UserService{
 	@Override
 	public User loginUser(String usrId, String usrPw) {
 		// TODO Auto-generated method stub
-		User user = dao.loginUser(usrId,  usrPw);
+		User user = dao.logInUser(usrId,  usrPw);
 		return user;
 	}
 	@Override
@@ -41,6 +51,8 @@ public class UserServiceImple implements UserService{
 		
 		return 0;
 	}
+
+	
 
 	
 

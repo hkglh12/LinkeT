@@ -18,28 +18,35 @@ public class UserDaoImple implements UserDao{
  	private PreparedStatement pstmt = null;
  	private ResultSet rs = null;
  	
-	@Override
-	public int usrInsert(String usrId, String usrPw, String usrPhone, String usrEmail, String usrName) {
-		// TODO Auto-generated method stub
-		int result = 0;
-		
+ 	@Override
+	public boolean validate(String key, String value) {
+ 		boolean result = true;
 		try {
+			//DB접속
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "insert into users (usrid, usrpw, usrname, usrphone, usremail) values (?,?,?,?,?)";
+			//검색시도
+			String sql = "select * from users where "+key+" = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,usrId);
-			pstmt.setString(2,usrPw);
-			pstmt.setString(3,usrName);
-			pstmt.setString(4,usrPhone);
-			pstmt.setString(5,usrEmail);
-			result = pstmt.executeUpdate();
-			System.out.println(result);
+			pstmt.setString(1,value);
+			System.out.println(pstmt);
+			System.out.println(pstmt.toString());
+			rs = pstmt.executeQuery();	
+			System.out.println(rs);
+			System.out.println(rs.toString());
+			if(rs.next()) {
+				//어차피 한개라도 검색에 성공했다면, 이미 있는것. 따라서 while이아니라 if
+				result = true;
+				System.out.println("search true");
+			}else {
+				result = false;
+				System.out.println("search false");
+			}
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}catch(SQLException e) {
 			e.printStackTrace();
-		}finally {	// �옄�썝�빐�젣
+		}finally {
 			try {
 				if (pstmt!=null) pstmt.close();
 				if (conn!=null) conn.close();
@@ -47,27 +54,62 @@ public class UserDaoImple implements UserDao{
 				e.printStackTrace();
 			}
 		}
-		
+		return result;
+	}
+ 	
+	@Override
+	public int usrInsert(String usrId, String usrPw, String usrPhone, String usrEmail, String usrName) {
+		//회원가입
+		int result = 0;
+		try {
+			//DB접속
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, userId, userPw);
+			//회원가입 시도
+			String sql = "insert into users (u_id, u_pw, u_name, u_phone, u_email) values (?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,usrId);
+			pstmt.setString(2,usrPw);
+			pstmt.setString(3,usrName);
+			pstmt.setString(4,usrPhone);
+			pstmt.setString(5,usrEmail);
+			result = pstmt.executeUpdate();
+			
+			
+		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 실패했다면0, 성공했다면 1이 return될것
 		return result;
 	}
 
 	@Override
-	public User loginUser(String usrId, String usrPw) {
+	public User logInUser(String usrId, String usrPw) {
+		//로그인
 		User user = null;
+		//유저 정보를 "객체 전체" 대상으로 검색해서 대상을 리턴, service에서 일부만 걸러서 다시올려보냄 << getUser랑 합쳐질 여지가 있음
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "select * from users where usrid = ? and usrPw = ?";
+			String sql = "select * from users where u_id = ? and u_Pw = ?";
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setString(1,usrId);
 			pstmt.setString(2,usrPw);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				user = new User();
-				user.setUsrId(rs.getString("usrid"));
-				user.setUsrPw(rs.getString("usrPw"));
+				user.setUsrId(rs.getString("u_id"));
+				user.setUsrPw(rs.getString("u_Pw"));
 			}
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
@@ -90,7 +132,7 @@ public class UserDaoImple implements UserDao{
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "select * from users where usrid = ?";
+			String sql = "select * from users where u_id = ?";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1,usrId);
@@ -98,8 +140,13 @@ public class UserDaoImple implements UserDao{
 			
 			while(rs.next()) {
 				user = new User();
-				user.setUsrId(rs.getString("usrid"));
-				user.setUsrPw(rs.getString("usrPw"));
+				user.setUsrId(rs.getString("u_id"));
+				user.setUsrPw(rs.getString("u_Pw"));
+				user.setUsrName(rs.getString("u_name"));
+				user.setUsrPhone(rs.getString("u_phone"));
+				user.setUsrEmail(rs.getString("u_email"));
+				user.setUsrTeamcount(rs.getInt("u_teamcount"));
+				
 			}
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
@@ -117,12 +164,12 @@ public class UserDaoImple implements UserDao{
 	}
 
 	@Override
-	public int usrJoinTeam(String usrId, String teamCode) {
+	public int usrJoinTeam(String usrId, String teamCode) {		//존재하는 workspace에 가입
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
 			
-			String usrgetsql = "select * from users where usrid = ?";
+			String usrgetsql = "select * from users where u_id = ?";	// 사용자 계정을 먼저 찾는다
 			pstmt = conn.prepareStatement(usrgetsql);
 			pstmt.setString(1, usrId);
 			rs=pstmt.executeQuery();
@@ -133,26 +180,11 @@ public class UserDaoImple implements UserDao{
 				//이거 아이디 검색 안될때임. 잘생각해서 지우기도해야함 리펙토링때 지울것
 				return -1;
 			}
-			ArrayList<String> teams = new ArrayList<String>();
-			teams.add(rs.getString("team1"));
-			teams.add(rs.getString("team2"));
-			teams.add(rs.getString("team3"));
-			int ck = 1;
-			for(String i : teams) {
-				if(i != null) {
-					ck++;
-				}
-			}
-			if(ck >=4) {
-				// 금지를 나타내고싶었음.
-				return 403;
-			}
 			// teamcode봐야하는데 db가 teamname보고 있어서 에러남
 			// TODO 20200723
 			// User의 가입, organizationchart 동기화, 쿠키. 이 세개만 하자 내일은/test
-			String sql = "update users set team"+ck+" = "+teamCode+" where usrid = ?";
+			String sql = "update users set u_teamcount = (select u_teamcount from users where u_id = ?) + 1";
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setString(1,usrId);
 			
 			int result = pstmt.executeUpdate();
@@ -172,5 +204,7 @@ public class UserDaoImple implements UserDao{
 		}
 		return 0;
 	}
+
+	
 
 }
