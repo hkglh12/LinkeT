@@ -15,6 +15,17 @@
     <link href="<c:url value="/assets/profile.css"/>" rel="stylesheet">
     <script src="<c:url value="/assets/jquery/jquery-3.5.1.js"/>"></script>
     <script src="<c:url value="/assets/profile.js"/>"></script>
+    <script>
+    	var usrTeam1 = "${usrTeam1}";
+    	var usrTeam2 = "${usrTeam2}";
+    	var usrTeam3 = "${usrTeam3}";
+/*    	console.log("usrTeam1 : " + usrTeam1);
+    	console.log("usrTeam2 : " + usrTeam2);
+    	console.log("usrTeam3 : " + usrTeam3);*/
+    	var usrTeam1code = "${usrTeam1code}";
+    	var usrTeam2code = "${usrTeam2code}";
+    	var usrTeam3code = "${usrTeam3code}";
+</script>
 
 </head>
 <body>
@@ -99,7 +110,7 @@
           <div class="info cf">
             <div class="four col">PhoneNumber<span class="number">${usrPhone}</span></div>
             <div class="four col">Email<span class="number">${usrEmail}</span></div>
-            <div class="four col">PW<span class="number">Change</span></div>
+            <div class="four col">JoinDate<span class="number">${usrSignInDate}</span></div>
           </div>
           <!--<div class="options">
             <ul>
@@ -129,12 +140,12 @@
             </div>-->
             <div class="info teaminfo">
               <ul>
-                  <li id="teamfirst"><label class="cd2 lb teamname"><a class="link" href="#">${usrTeam1}</a></label>
-                  <p class="card2 teamcode" id="c1">${usrTeam1code}</p></li>
-                  <li id="teamsec"><label class="cd2 lb teamname"><a class="link" href="#">${usrTeam2}</a></label>
-                  <p class="card2 teamcode" id="c2">${usrTeam2code}</p></li>
-                  <li id="teamthird"><label class="cd2 lb teamname"><a class="link" href="#">${usrTeam3}</a></label>
-                  <p class="card2 teamcode" id="c3">${usrTeam3code}</p></li>
+                  <li id="teamfirst"><label class="cd2 lb teamname"><a class="link" href="#"></a></label>
+                  <p class="card2 teamcode" id="c1"></p></li>
+                  <li id="teamsec"><label class="cd2 lb teamname"><a class="link" href="#"></a></label>
+                  <p class="card2 teamcode" id="c2"></p></li>
+                  <li id="teamthird"><label class="cd2 lb teamname"><a class="link" href="#"></a></label>
+                  <p class="card2 teamcode" id="c3"></p></li>
               </ul>
             </div>
           </div>
@@ -163,47 +174,5 @@
     </div>
     </section>
     </body>
-<script>
-    $(document).ready(function(){
-    	
-    	var usrTeam1 = "${usrTeam1}";
-    	var usrTeam2 = "${usrTeam2}";
-    	var usrTeam3 = "${usrTeam3}";
-    	console.log("usrTeam1 : " + usrTeam1);
-    	console.log("usrTeam2 : " + usrTeam2);
-    	console.log("usrTeam3 : " + usrTeam3);
-    	
-    if(usrTeam1 == ''){
-        $("#teamfirst .link").attr("href","/LinkeT/r/team_createorjoin.html");
-        $("#teamfirst .link").text("Create or Join new Team");
-        $("#c1").text("");
-    }else{
-    	$("#teamfirst .link").attr("href","#");
-        $("#teamfirst .link").text("${usrTeam1}");
-        $("#c1").text("${usrTeam1code}");
-    }
-    
-    
-    if(usrTeam2 == ''){
-    	$("#teamsec .link").attr("href","/LinkeT/r/team_createorjoin.html");
-        $("#teamsec .link").text("Create or Join new Team");
-        $("#c2").text("");
-    }else{
-    	$("#teamsec .link").attr("href","#");
-        $("#teamsec .link").text("${usrTeam2}");
-        $("#c2").text("${usrTeam2code}");
-    }
-    
-    
-    if(usrTeam3 == ''){
-    	$("#teamthird .link").attr("href","/LinkeT/r/team_createorjoin.html");
-        $("#teamthird .link").text("Create or Join new Team");
-        $("#c3").text("");
-    }else{
-    	$("#teamthird .link").attr("href","#");
-        $("#teamthird .link").text("${usrTeam3}");
-        $("#c3").text("${usrTeam3code}");
-    } 
-    });
-</script>
+
 </html>

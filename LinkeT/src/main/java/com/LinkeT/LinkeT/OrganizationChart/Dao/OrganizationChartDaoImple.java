@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
@@ -25,19 +26,20 @@ public class OrganizationChartDaoImple implements OrganizationChartDao {
  	private ResultSet rs = null;
 	
 	@Override
-	public int joinTeam(String usrId, String teamCode, String usrGrade, String usrPart) {
+	public int joinTeam(String usrId, String teamCode, String usrGrade, String usrPart, Timestamp usrJoinDate) {
 		
 		int result = 0;
 		
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "insert into organizationchart (t_code, u_id, u_grade, u_part) values (?,?,?,?)";
+			String sql = "insert into organizationchart (t_code, u_id, u_grade, u_part, u_joindate) values (?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,teamCode);
 			pstmt.setString(2,usrId);
 			pstmt.setNString(3,usrGrade);
 			pstmt.setString(4, usrPart);
+			pstmt.setTimestamp(5,usrJoinDate);
 			result = pstmt.executeUpdate();
 			System.out.println(result);
 		}catch(ClassNotFoundException e) {
@@ -78,6 +80,7 @@ public class OrganizationChartDaoImple implements OrganizationChartDao {
 				org.setUsrId(rs.getString("u_id"));
 				org.setUsrGrade(rs.getString("u_grade"));
 				org.setUsrPart(rs.getString("u_part"));
+				org.setUsrJoinDate(rs.getTimestamp("u_joindate"));
 				resultset.add(org);
 			}
 		}catch(ClassNotFoundException e) {

@@ -17,5 +17,5 @@ import com.LinkeT.LinkeT.Team.Team;
 public interface TeamController {
 	public String teamCreate(Model model, HttpServletRequest request, HttpSession session);
 	public HashMap<String, String> teamGet(@RequestBody HashMap<String, String> target,Model model, HttpServletRequest request, HttpSession session);
-
+	public String teamMain(Model model, HttpServletRequest request, HttpSession session);
 }

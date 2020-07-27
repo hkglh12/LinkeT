@@ -16,8 +16,8 @@ public class TeamServiceImple implements TeamService{
 	
 	
 	@Override
-	public int createTeam(String usrId, String teamName) {
-		int result = teamdao.createTeam(usrId, teamName);
+	public String createTeam(String usrId, String teamName) {
+		String result = teamdao.createTeam(usrId, teamName);
 		// TODO Auto-generated method stub
 		return result;
 	}

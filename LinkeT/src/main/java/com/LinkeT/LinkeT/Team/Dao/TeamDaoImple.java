@@ -24,24 +24,26 @@ public class TeamDaoImple implements TeamDao{
  	private ResultSet rs = null;
 	
 	@Override
-	public int createTeam(String usrId, String teamName) {
+	public String createTeam(String usrId, String teamName) {
 		int result = 0;
-		
+		String teamCode = "";
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
 			String sql = "insert into team (t_code, t_name, t_owner) values (?,?,?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,teamName+usrId);
+			teamCode = teamName+usrId;
+			pstmt.setString(1,teamCode);
 			pstmt.setString(2,teamName);
 			//TODO : 암호화를하던 뭔가 추가를하던
 			pstmt.setString(3,usrId);
 			result = pstmt.executeUpdate();
-			System.out.println(result);
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
+			return "";
 		}catch(SQLException e) {
 			e.printStackTrace();
+			return "";
 		}finally {	
 			try {
 				if (pstmt!=null) pstmt.close();
@@ -50,8 +52,12 @@ public class TeamDaoImple implements TeamDao{
 				e.printStackTrace();
 			}
 		}
+		if(result >=1 && teamCode !="") {
+			return teamCode;			
+		}else {
+			return "";
+		}
 		
-		return result;
 	}
 
 	@Override

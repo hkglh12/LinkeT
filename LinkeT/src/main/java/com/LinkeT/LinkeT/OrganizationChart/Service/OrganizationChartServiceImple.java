@@ -1,5 +1,7 @@
 package com.LinkeT.LinkeT.OrganizationChart.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,9 @@ public class OrganizationChartServiceImple implements OrganizationChartService {
 	@Override
 	public int joinTeam(String usrId, String teamCode, String usrGrade, String usrPart) {
 		int result = 0;
-		result = dao.joinTeam(usrId, teamCode, usrGrade, usrPart);
+		Timestamp usrJoinDate = Timestamp.valueOf(LocalDateTime.now());
+		String ownerShip = "";
+		result = dao.joinTeam(usrId, teamCode, usrGrade, usrPart, usrJoinDate);
 		return result;
 	}
 

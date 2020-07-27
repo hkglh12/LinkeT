@@ -58,7 +58,7 @@ public class UserDaoImple implements UserDao{
 	}
  	
 	@Override
-	public int usrInsert(String usrId, String usrPw, String usrPhone, String usrEmail, String usrName) {
+	public int usrInsert(String usrId, String usrPw, String usrPhone, String usrEmail, String usrName, Timestamp signInDate) {
 		//회원가입
 		int result = 0;
 		try {
@@ -66,13 +66,14 @@ public class UserDaoImple implements UserDao{
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
 			//회원가입 시도
-			String sql = "insert into users (u_id, u_pw, u_name, u_phone, u_email) values (?,?,?,?,?)";
+			String sql = "insert into users (u_id, u_pw, u_name, u_phone, u_email, u_signindate) values (?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,usrId);
 			pstmt.setString(2,usrPw);
 			pstmt.setString(3,usrName);
 			pstmt.setString(4,usrPhone);
 			pstmt.setString(5,usrEmail);
+			pstmt.setTimestamp(6, signInDate);
 			result = pstmt.executeUpdate();
 			
 			
@@ -100,16 +101,16 @@ public class UserDaoImple implements UserDao{
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "select * from users where u_id = ? and u_Pw = ?";
+			String sql = "select * from users where u_id = ? and u_pw = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,usrId);
 			pstmt.setString(2,usrPw);
+			System.out.println(usrId + " : " + usrPw);
 			rs = pstmt.executeQuery();
-			
 			while(rs.next()) {
 				user = new User();
 				user.setUsrId(rs.getString("u_id"));
-				user.setUsrPw(rs.getString("u_Pw"));
+				user.setUsrPw(rs.getString("u_pw"));
 			}
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
@@ -132,7 +133,7 @@ public class UserDaoImple implements UserDao{
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, userId, userPw);
-			String sql = "select * from users where u_id = ?";
+			String sql = "select * from users where u_id = ? and u_signoutdate is NULL";
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setString(1,usrId);
@@ -141,11 +142,12 @@ public class UserDaoImple implements UserDao{
 			while(rs.next()) {
 				user = new User();
 				user.setUsrId(rs.getString("u_id"));
-				user.setUsrPw(rs.getString("u_Pw"));
+				user.setUsrPw(rs.getString("u_pw"));
 				user.setUsrName(rs.getString("u_name"));
 				user.setUsrPhone(rs.getString("u_phone"));
 				user.setUsrEmail(rs.getString("u_email"));
 				user.setUsrTeamcount(rs.getInt("u_teamcount"));
+				user.setSignindate(rs.getTimestamp("u_signindate"));
 				
 			}
 		}catch(ClassNotFoundException e) {

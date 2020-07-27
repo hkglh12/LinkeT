@@ -1,12 +1,28 @@
 package com.LinkeT.LinkeT.OrganizationChart;
 
+import java.sql.Timestamp;
+
 public class OrganizationChart {
 	private int organizationChart_serial;
 	private String teamCode;
 	private String usrId;
 	private String usrGrade;
 	private String usrPart;
+	private Timestamp usrJoinDate;
+	private Timestamp usrOutDate;
 	
+	public Timestamp getUsrJoinDate() {
+		return usrJoinDate;
+	}
+	public void setUsrJoinDate(Timestamp u_joindate) {
+		this.usrJoinDate = u_joindate;
+	}
+	public Timestamp getUsrOutDate() {
+		return usrOutDate;
+	}
+	public void setUsrOutDate(Timestamp u_outdate) {
+		this.usrOutDate = u_outdate;
+	}
 	public int getOrganizationChart_serial() {
 		return organizationChart_serial;
 	}
