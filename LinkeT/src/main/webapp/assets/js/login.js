@@ -1,18 +1,21 @@
-/*
-$(document).ready(function(){
-	var result = "${result}";
-	console.log("${result}");
-	console.log(result);
-	if("${result}"=="failed"){
-			alert("ID 혹은 PW를 확인해주세요!");	
-		}
-	
 
-	/*$("#signup").on("click",function(){
+$(document).ready(function(){
+	console.log("functiontest")
+	if(result=="failed"){
+		console.log("fuloginst")
+			alert("ID 혹은 PW를 확인해주세요!");	
+	}else if(result=="sessionOut"){
+		console.log("sessionOut");
+		alert("Session이 만료되었습니다. 다시로그인해주세요!");
+	}
+	
+    
+	$("#signup").on("click",function(){
+        console.log("test");
 		location.href="http://localhost:80/LinkeT/r/signup.html";
 	})
 });
-*/
+
 /*
 	.jsp 파일 내에 <script> << js
 	<script> jqueyr.js </script> < jquery

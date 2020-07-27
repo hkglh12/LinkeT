@@ -1,5 +1,8 @@
 package com.LinkeT.LinkeT.User.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +30,8 @@ public class UserServiceImple implements UserService{
 	@Override
 	public boolean userRegister(String usrId, String usrPw, String usrPhone, String usrEmail, String usrName) {
 		// 데이터베이스 접속, transaction 결과를 service에서 성공/실패 로 변환하여 리턴
-		boolean result = dao.usrInsert(usrId, usrPw, usrPhone, usrEmail,usrName) >=1 ? true:false;
+		Timestamp signInDate = Timestamp.valueOf(LocalDateTime.now());
+		boolean result = dao.usrInsert(usrId, usrPw, usrPhone, usrEmail,usrName, signInDate) >=1 ? true:false;
 		
 		return result;
 	}

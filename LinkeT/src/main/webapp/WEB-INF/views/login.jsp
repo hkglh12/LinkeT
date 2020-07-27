@@ -14,9 +14,7 @@
     <script type="text/javascript" src="<c:url value="/assets/js/login.js"/>"></script>
     <!-- <script src="login.js"></script> -->
 	<script>
- 		if("${result}"=="failed"){
-			alert("ID 혹은 PW를 확인해주세요!");	
-		}
+ 		var result="${result}";
 	 
 	</script>
 </head>

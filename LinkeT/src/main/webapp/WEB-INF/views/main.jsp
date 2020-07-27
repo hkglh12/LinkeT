@@ -1,6 +1,6 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!--<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +8,10 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="<c:url value="/assets/main.css"/>" rel="stylesheet">
-    <link href="adf">	
+    <link href="<c:url value="/assets/css/main.css"/>" rel="stylesheet">
+    <script src="<c:url value="/assets/jquery/jquery-3.5.1.js"/>"></script>
+    <script src="<c:url value="/assets/js/main.js"/>"></script>
+<!--    <link rel="stylesheet" href="main.css">-->
     <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
 </head>
 <body>
@@ -78,8 +80,8 @@
 </nav>
 <section>
 <div class="upper">
-<div class="info">YourInfos</div>
-</div>
+        <div class="info"><h1 class="title">WelCome to Linke-T ! We are Linked!</h1></div>
+    </div>
 </section>
 </body>
 

@@ -6,7 +6,7 @@ $(document).ready(function(){
 		$.ajax({
 			type:"GET",
 			async:true,
-			 headers: { 
+            headers: { 
                 'Accept': 'application/json',
                 'Content-Type': 'application/json' 
             },

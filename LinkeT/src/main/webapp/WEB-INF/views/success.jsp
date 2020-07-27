@@ -25,6 +25,8 @@
     "객체처리화"가 되지 아니함을 의미.*/
 		var ct = "${contents}";
 		var val = "${value}";
+		var teamCode = "${teamCode}";
+		console.log(teamCode);
 		console.log(ct);
 		console.log(val);
 	    /* $(document).ready(function(){

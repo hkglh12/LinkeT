@@ -1,6 +1,7 @@
 package com.LinkeT.LinkeT.User;
 
 import com.LinkeT.LinkeT.Team.Team;
+import java.sql.Timestamp;
 
 public class User {
 	private String usrId;
@@ -9,7 +10,14 @@ public class User {
 	private String usrPhone;
 	private String usrEmail;
 	private int usrTeamcount;
+	private Timestamp signindate;
 	
+	public Timestamp getSignindate() {
+		return signindate;
+	}
+	public void setSignindate(Timestamp signindate) {
+		this.signindate = signindate;
+	}
 	public int getUsrTeamcount() {
 		return usrTeamcount;
 	}

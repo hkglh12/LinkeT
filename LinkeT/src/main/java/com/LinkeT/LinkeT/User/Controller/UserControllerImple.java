@@ -1,5 +1,7 @@
 package com.LinkeT.LinkeT.User.Controller;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -78,7 +80,25 @@ public class UserControllerImple implements UserController{
 		this.uService = service;
 	}	
 
-	
+	//회원가입시에 "아이디, 이메일, 팀코드"가 유효한지 확인합니다. 단, 팀코드는 true/false가 뒤집혀서 전달되는데, 이는 프론트에서 처리합니다.
+		@RequestMapping(value="/validate", method=RequestMethod.POST)
+		@Override
+		@ResponseBody
+		public HashMap<String, String> usrJoinValidation(@RequestBody HashMap<String,String> target, HttpServletRequest request) {
+			logger.info("/validate called");
+			HashMap<String, String> returnInfo=new HashMap<String,String>();
+			String key = "";
+			for(String entrykey : target.keySet()) {
+				key = entrykey;
+			}
+			String value = target.get(key);
+			logger.info("Request for : " + key + " / value : " +value);
+			String result = uService.userValidator(key,value);
+			returnInfo.put("result", result);
+			logger.info("answers : " + "result : " + result);
+			return returnInfo;
+		}
+		
 	//사용자는 로그인합니다.
 		@RequestMapping(value="/usrLogin", method=RequestMethod.POST)
 		@Override
@@ -93,6 +113,7 @@ public class UserControllerImple implements UserController{
 			logger.info("User id" + usrId +" tried to login");
 			
 			User result = uService.loginUser(usrId, usrPw);
+			
 			if(result == null) {
 				model.addAttribute("result", "failed");
 				return "login";
@@ -103,25 +124,6 @@ public class UserControllerImple implements UserController{
 			}
 		}
 		
-	//회원가입시에 "아이디, 이메일, 팀코드"가 유효한지 확인합니다. 단, 팀코드는 true/false가 뒤집혀서 전달되는데, 이는 프론트에서 처리합니다.
-	@RequestMapping(value="/validate", method=RequestMethod.POST)
-	@Override
-	@ResponseBody
-	public HashMap<String, String> usrJoinValidation(@RequestBody HashMap<String,String> target, HttpServletRequest request) {
-		logger.info("/validate called");
-		HashMap<String, String> returnInfo=new HashMap<String,String>();
-		String key = "";
-		for(String entrykey : target.keySet()) {
-			key = entrykey;
-		}
-		String value = target.get(key);
-		logger.info("Request for : " + key + " / value : " +value);
-		String result = uService.userValidator(key,value);
-		returnInfo.put("result", result);
-		logger.info("answers : " + "result : " + result);
-		return returnInfo;
-	}
-	
 	//사용자 회원가입을 처리합니다
 	//회원가입시에 팀코드 입력이 성공했다면 팀 가입도 이곳에서 처리합니다.
 	@RequestMapping(value="/usrJoin", method=RequestMethod.POST)
@@ -133,6 +135,7 @@ public class UserControllerImple implements UserController{
 		String usrPhone = request.getParameter("u_phone");
 		String usrEmail = request.getParameter("u_email");
 		String usrName = request.getParameter("u_name");
+
 		logger.info(usrId + " : " + usrPw + " : " + usrPhone + " : " + usrEmail + " : " + usrName);
 		
 		boolean result = uService.userRegister(usrId, usrPw, usrPhone, usrEmail,usrName);
@@ -146,7 +149,7 @@ public class UserControllerImple implements UserController{
 			//실패 >> 실패 대상과 실패를 전달
 			model.addAttribute("contents", "join");
 			model.addAttribute("value", "false");
-			return "signup_Failed";
+			return "failed";
 		}
 	}
 	
@@ -173,12 +176,18 @@ public class UserControllerImple implements UserController{
 	@Override
 	public String usrGet(Model model, HttpServletRequest request, HttpSession session) {
 		// TODO Auto-generated method stub
-		
-		User result = uService.getUser((String)session.getAttribute("sessionKey"));
-		
+		// session이 없다면 로그인으로 되돌려보냄
 		if((String)session.getAttribute("sessionKey")==null) {
-			return "redirect:/usrmain";
+			model.addAttribute("result", "sessionOut");
+			return "login";
 		}
+		User result = uService.getUser((String)session.getAttribute("sessionKey"));
+		model.addAttribute("usrId", result.getUsrId());
+		model.addAttribute("usrPw", result.getUsrPw());
+		model.addAttribute("usrPhone", result.getUsrPhone());
+		model.addAttribute("usrEmail", result.getUsrEmail());
+		model.addAttribute("usrteamcount",result.getUsrTeamcount());
+		model.addAttribute("usrSignInDate", result.getSignindate());
 		
 		ArrayList<OrganizationChart> teamlist = oService.getUsrBelong(result.getUsrId());
 		System.out.println(teamlist);
@@ -192,11 +201,7 @@ public class UserControllerImple implements UserController{
 				model.addAttribute("usrTeam"+(i+1)+"code","");
 			}
 		}
-		model.addAttribute("usrId", result.getUsrId());
-		model.addAttribute("usrPw", result.getUsrPw());
-		model.addAttribute("usrPhone", result.getUsrPhone());
-		model.addAttribute("usrEmail", result.getUsrEmail());
-		model.addAttribute("usrteamcount",result.getUsrTeamcount());
+
 		return "profile";
 	}
 	//사용자는 팀에 가입할 수 있습니다. 이때 userservice, organizationchartservice를 사용합니다. (컨트롤러에서 타 서비스 참조)

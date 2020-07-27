@@ -15,7 +15,7 @@ public interface TeamDao {
 	 * this.usrgrade = usrgrade; } }
 	 */
 	
-	public int createTeam(String usrId, String teamName);
+	public String createTeam(String usrId, String teamName);
 	
 	public Team getTeam(String teamCode);
 	
