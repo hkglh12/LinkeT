@@ -6,10 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.project.Link.HomeController;
+/*
 @Component
 public class PostingDaoImple implements PostingDao{
+	
  	private final String driver = "com.mysql.cj.jdbc.Driver";
  	private final String url = "jdbc:mysql://localhost:3306/Link?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
  	private final String userId = "root";
@@ -82,3 +87,4 @@ public class PostingDaoImple implements PostingDao{
 	}
 
 }
+*/

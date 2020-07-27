@@ -62,4 +62,8 @@ public class HomeController {
 	/*
 	 * http://wiki.gurubee.net/pages/viewpage.action?pageId=6261117
 	 */	
-}
+	/*
+	 * 에러페이지 https://jaehun2841.github.io/2018/08/30/2018-08-25-spring-mvc-handle-
+	 * exception/#controller-%EB%A0%88%EB%B2%A8%EC%97%90%EC%84%9C%EC%9D%98-%EC%B2%98
+	 * %EB%A6%AC
+	 */}

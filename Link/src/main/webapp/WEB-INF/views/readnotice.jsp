@@ -1,6 +1,8 @@
-<!--<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>-->
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,18 +12,14 @@
     <meta name="keywords" content="">
     <link href="<c:url value="/a/css/readnotice.css"/>" rel="stylesheet">
     <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script src="<c:url value="/a/js/readnotice.css.js"/>"></script>
+    <script src="<c:url value="/a/js/readnotice.js"/>"></script>
 <!--    <link rel="stylesheet" href="main.css">-->
     <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 <!--     <link rel="stylesheet" href="readnotice.css">
     <script src="jquery-3.5.1.js"></script>
     <script src="readnotice.css"></script> -->
-    <script>
-        console.log("${t_owner}");
-        console.log("${u_id}");        
-        var ownership = "${t_owner}" == "${u_id}" ? true : false;
-        console.log(ownership);
+    <script>   
     </script>
 </head>
 <body>
@@ -97,8 +95,8 @@
      <!--최상단 헤더, 위치안내용으로 쓰임 large-4 column lpad-->
       <div class="main lpad header location">
         <div class="logo">
-          <span>CurrentLocation : </span>
-          <span id="main_header_location_t_name">${t_name}</span>
+          <span>CurrentLocation :</span>
+          <span id="main_header_location_t_name"> /Notice</span>
         </div>
       </div>
       <div class="main header submenu ar">
@@ -125,7 +123,7 @@
 
     <div class="main lpad greets ar">
       Welcome,
-      <a href="#" class="underline">${u_id}</a>
+      <a href="#" class="underline">${request.getAttribute("usrId")}</a>
     </div>
   </div> 
 
@@ -134,7 +132,7 @@
   <div id="notiwrapper">
       <div class="forum-category rounded top">
         <div id="noticetitle">
-          ${n_title}
+          ${posting.title}
         </div>
         <div class="mpad ar">
           <button id="upd"> 수정하기 </button>
@@ -143,19 +141,27 @@
       </div>
         <div id="noticeinfos">
             <ul>
-                <li>게시글번호 : ${n_serial}</li>
-                <li>작성자 : ${u_id}</li>
-                <li>작성일 : ${n_createdate}</li>
-                <li>조회수 : ${n_count}</li>
+                <li>게시글번호 : ${posting.serial}</li>
+                <li>작성자 : ${posting.usrId}</li>
+                <li>작성일 : ${posting.createDate}</li>
+                <li>조회수 : ${posting.noticeCount}</li>
             </ul>
         </div>
         <div id="noticecontent">
-          <textarea name="content" id="content" readonly="true">${n_contents}
+          <textarea name="content" id="content" readonly="true">${posting.contents}
           </textarea>
         </div>
         
     <div id="uploadfiles">
-     파일업로드기능은 이곳에
+     <%-- <c:if test="${fn:length(list) eq 0}"> --%>
+     <c:if test="${empty posting.uFileList}">
+     <label>등록된 파일이 없습니다!</label>
+     </c:if>
+     <c:if test="${not empty posting.uFileList}">
+     <c:forEach items="${posting.uFileList}" var="i">
+     	<li><a href=#>${i.uFileOriginName}<label class="uFileCode">${i.uFileCode}</label></a>
+     </c:forEach>
+     </c:if>
       </div>
         
 <!--      </div>-->
@@ -167,17 +173,17 @@
     </section>
     </body>
     <script>
-    	var serial = ${n_serial};
-    	console.log(serial);
+  		console.log("${posting.serial}");
     	$('#upd').on("click",function(){
-    		location.href="/Link/notice/update?serial="+${n_serial};
+    		location.href="/Link/notice/update?serial="+${posting.serial};
     	});
     	$("#del").on("click",function(){
     		var f = document.createElement("form");
     		var inputl = document.createElement("input");
     		inputl.setAttribute("type", "hidden");
     		inputl.setAttribute("name", "serial");
-    		inputl.setAttribute("value",serial);
+    		inputl.setAttribute("value","${posting.serial}");
+    		
     		f.appendChild(inputl);
     		f.action="http://localhost:80/Link/notice/delete";
     		f.method="post";

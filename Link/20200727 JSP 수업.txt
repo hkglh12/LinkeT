@@ -1,0 +1,9 @@
+request는 JSP 내장객체이고, JSP끼리 주고받을때 form에 넣고, request.getParameter로 받음
+
+JSP에서 UTF-8 : korean 인식 실패하면
+<%request.setCharacterEncoding("utf-8") 추가해보셈%>
+
+checkbox 동일이름으로 넘어오는거 배열처리 가능함.
+name으로, 체크해서 form 내에 넣어두면
+>> 받을때
+ getParameterValues("name")으로 받을 수 있음

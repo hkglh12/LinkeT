@@ -30,7 +30,7 @@
 
         </li>
         <li>
-            <a href="http://localhost:80/LinkeT/me?target='me'">
+            <a href="http://localhost:80/Link/">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
                     My Information
@@ -39,7 +39,7 @@
 
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/notice/list?page=1">
+            <a href="http://localhost:80/Link/notice/list">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
                     Noticement
@@ -69,7 +69,7 @@
 
     <ul class="logout">
         <li>
-           <a href="http://localhost:80/Link?usr/logout">
+           <a href="http://localhost:80/Link/usr/logout">
                  <i class="fa fa-power-off fa-2x"></i>
                 <span class="nav-text">
                     Logout
