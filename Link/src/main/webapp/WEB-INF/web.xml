@@ -8,7 +8,9 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
-	
+	<!-- 안되면 common으로 분리 안해서일수도
+	 https://melonpeach.tistory.com/51
+	 -->
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

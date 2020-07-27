@@ -136,7 +136,7 @@
      <input type="text" value=${n_serial} hidden=true>
       <div class="forum-category rounded top">
         <div id="noticetitle">
-          <input type="text" value="{$n_title}" name="n_title">
+          <input type="text" value="${n_title}" name="n_title">
         </div>
         <div class="mpad ar">
           <button id="submit" type="submit"> 갱신하기 </button>

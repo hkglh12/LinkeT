@@ -116,7 +116,7 @@ public class CommunityControllerImple implements CommunityController{
 			int targetSerial = Integer.valueOf(request.getParameter("serial"));
 			int ntcSerial = Integer.valueOf((String)request.getParameter("n_serial"));
 			boolean result = cService.deleteNoticement(targetSerial) >= 1 ? true : false;
-			return "/cpmmunity";
+			return "/community";
 		}
 	}
 

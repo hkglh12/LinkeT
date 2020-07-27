@@ -46,7 +46,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
 </div>
 <nav class="main-menu">
     <ul>
-        <li>
+       <li>
             <a href="http://localhost:80/Link/">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
@@ -56,7 +56,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
 
         </li>
         <li>
-            <a href="http://localhost:80/LinkeT/me?target='me'">
+            <a href="http://localhost:80/Link/">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
                     My Information
@@ -65,7 +65,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
 
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/notice/list?page=1">
+            <a href="http://localhost:80/Link/notice/list">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
                     Noticement
@@ -95,7 +95,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
 
     <ul class="logout">
         <li>
-           <a href="#">
+           <a href="http://localhost:80/Link/usr/logout">
                  <i class="fa fa-power-off fa-2x"></i>
                 <span class="nav-text">
                     Logout
@@ -114,7 +114,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
       <div class="main lpad header location">
         <div class="logo">
           <span>CurrentLocation : </span>
-          <span id="main_header_location_t_name">${t_name}</span>
+          <span id="main_header_location_t_name">/Link/noticement</span>
         </div>
       </div>
       <div class="main header submenu ar">
@@ -147,7 +147,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
     </div> -->
     <div class="main lpad greets ar">
       Welcome,
-      <a href="#" class="underline">${u_id}</a>
+      <a href="#" class="underline">${session.getAttribute("usrId")}</a>
     </div>
   </div> 
   <!--사용자 계정 맞이-->

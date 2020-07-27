@@ -88,6 +88,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.20</version>
 		</dependency>
+		<!-- DB SpringFramework, Transactional 사용 -->
+		<dependency>
+	    	<groupId>org.springframework</groupId>
+	    	<artifactId>spring-jdbc</artifactId>
+	    	<version>${org.springframework-version}</version>
+		</dependency>
 		<!-- JSON -->
 		<dependency>
              <groupId>com.fasterxml.jackson.core</groupId>

@@ -1,5 +1,5 @@
 $(document).ready( function() {
-    $('')
+    $('.mulfile').val('');
     
   $('nav.menu a').click( function() {
     $(this).parent().find('.current').removeClass('current');

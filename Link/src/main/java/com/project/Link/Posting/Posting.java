@@ -1,6 +1,10 @@
 package com.project.Link.Posting;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.project.Link.Ufile.UFile;
 
 public class Posting {
 	private int serial;
@@ -12,10 +16,23 @@ public class Posting {
 	private Timestamp modifyDate;
 	private Timestamp deleteDate;
 	private int noticeCount;
+	private ArrayList<UFile> uFileList;
+	
+	public Posting() {
+		uFileList = new ArrayList<UFile>();
+	}
 	
 	public int getNoticeCount() {
 		return noticeCount;
 	}
+	public ArrayList<UFile> getuFileList() {
+		return uFileList;
+	}
+
+	public void setuFileList(ArrayList<UFile> uFileList) {
+		this.uFileList = uFileList;
+	}
+
 	public void setNoticeCount(int noticeCount) {
 		this.noticeCount = noticeCount;
 	}

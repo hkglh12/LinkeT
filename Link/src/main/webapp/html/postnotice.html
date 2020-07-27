@@ -132,7 +132,7 @@
   
   <div class="mainwrapper">
   <div id="notiwrapper">
-     <form action="/Link/notice/post" method="post">
+     <form action="/Link/notice/post" method="post" enctype="multipart/form-data">
       <div class="forum-category rounded top">
         <div id="noticetitle">
           <input type="text" placeholder="제목 입력" name="n_title">
@@ -147,7 +147,9 @@
         </div>
         
     <div id="uploadfiles">
-     파일업로드기능은 이곳에
+    <label>파일 업로드는 1회 2개로 제한됩니다.</label>
+    	<input mutiple="multiple" class="mulfile" type="file" name="u_files"/>
+    	<input mutiple="multiple" class="mulfile" type="file" name="u_files"/>
      <!-- AJAX해야함 -->
      <!-- https://ktko.tistory.com/entry/Spring-%EB%8B%A8%EC%9D%BC%ED%8C%8C%EC%9D%BC-%EB%8B%A4%EC%A4%91%ED%8C%8C%EC%9D%BC-%EC%97%85%EB%A1%9C%EB%93%9C%ED%95%98%EA%B8%B0 -->
       </div>

@@ -118,7 +118,7 @@ public class UserControllerImple implements UserController {
 		logger.info("User id" + usrId + " tried to login");
 
 		User result = uService.userGet(usrId, usrPw);
-		
+		System.out.println(result.getUsrId());
 		boolean isAdmin = result.getUsrLevel() == 1 ? false : true; 
 		System.out.println(isAdmin);
 		if (result == null) {
