@@ -32,6 +32,12 @@ $(document).ready( function() {
       e>150?$('#top-button').fadeIn() :$('#top-button').fadeOut();   
     }
   });
+	$("#addfile").on("click",functino(){
+		var multi = document.createElement("input");
+		multi.setAttribute("type", "file");
+		multi.setAttribute("class", "mulfile");
+		
+	});
     /*submit버튼관련*/
     /*$('#notice_submit').on("click", function(){
         var title = $("#title");  // val로 접근함

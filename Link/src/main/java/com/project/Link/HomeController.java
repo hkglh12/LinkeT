@@ -40,14 +40,18 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session) {
-		System.out.println(session.getAttribute("usrId"));
-		HashMap<String, String> sr = sc.sessionControl(session);
-		System.out.println(sr.get("usrId"));
-		if(sr.get("usrId")==null) {
+		/*
+		 * System.out.println(session.getAttribute("usrId")); HashMap<String, String> sr
+		 * = sc.sessionControl(session); System.out.println(sr.get("usrId"));
+		 */
+		logger.info("///////////////////////////////////////HOMECOMTROLLERCALLED");
+		if(session.getAttribute("usrId")==null) {
 			return "login";
 		}else {
 			return "main";
 		}
+		/* return main; */
+		
 		
 		
 	}
@@ -66,4 +70,7 @@ public class HomeController {
 	 * 에러페이지 https://jaehun2841.github.io/2018/08/30/2018-08-25-spring-mvc-handle-
 	 * exception/#controller-%EB%A0%88%EB%B2%A8%EC%97%90%EC%84%9C%EC%9D%98-%EC%B2%98
 	 * %EB%A6%AC
+	 */
+	/* 인터셉터
+	 * https://gangnam-americano.tistory.com/11
 	 */}

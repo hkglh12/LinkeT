@@ -181,9 +181,10 @@ public class NoticementDaoImple implements NoticementDao{
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			String sql = "select * from "+targetBoard+" where n_deletedate IS NULL Order by n_serial desc Limit " + (page*pagePerBlock) +","+pagePerBlock;
+
 			pstmt = conn.prepareStatement(sql);
-			
 			rs = pstmt.executeQuery();
+
 			while(rs.next()) {
 				Posting posting = new Posting();
 				posting.setSerial(rs.getInt("n_serial"));

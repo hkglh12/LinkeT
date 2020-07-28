@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
@@ -21,4 +22,6 @@ public interface NoticementController {
 	public String UpdateNoticement(Model model, MultipartHttpServletRequest reqeust, HttpSession session, RedirectAttributes redirectAttr)throws Exception;
 	/* 공지사항삭제 */
 	public String DeleteNoticement(Model model, HttpServletRequest reqeust, HttpSession session, RedirectAttributes redirectAttr);
+	
+	public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception;
 }

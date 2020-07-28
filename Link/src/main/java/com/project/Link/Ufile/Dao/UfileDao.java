@@ -10,5 +10,7 @@ import com.project.Link.Ufile.UFile;
 public interface UfileDao {
 	
 	public int uploadFile(String targetBoard, String modifiedFileName, String usrId, long fileSize, Timestamp createDate, String originalFileName, int serial);
-	public ArrayList<UFile> getFile(String targetBoard, int relativeSerial); 
+	public ArrayList<UFile> getFileList(String targetBoard, int relativeSerial);
+	public UFile getFile(String targetBoard, String fileCode);
+	public void detachFile(String targetBoard, String targetCode, String usrId, Timestamp disconnDate);
 }

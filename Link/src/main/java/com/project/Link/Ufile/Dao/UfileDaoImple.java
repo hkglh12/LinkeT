@@ -34,13 +34,13 @@ public class UfileDaoImple implements UfileDao{
 	@Override
 	public int uploadFile(String targetBoard, String modifiedFileName, String usrId, long fileSize,
 			Timestamp createDate, String originalFileName, int serial) {
-		targetBoard = targetBoard+"file";
+
 		logger.info("::UploadFile Called");
  		int result = 0;
  		try {
  			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			
+			System.out.println(targetBoard);
 			String sql = "insert into "+targetBoard+" (f_code, u_id, f_size, f_createdate, f_originname, n_serial) values (?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,modifiedFileName);
@@ -67,9 +67,9 @@ public class UfileDaoImple implements UfileDao{
 	}
 
 	@Override
-	public ArrayList<UFile> getFile(String targetBoard,int relativeSerial) {
+	public ArrayList<UFile> getFileList(String targetBoard,int relativeSerial) {
 		ArrayList<UFile> uFileList = new ArrayList<UFile>();
-		targetBoard += "file";
+
 		String prefix = targetBoard.substring(0, 1) +"_";
 		logger.info("::Getfile, prefix got = " + prefix);
 		try {
@@ -104,6 +104,60 @@ public class UfileDaoImple implements UfileDao{
 			}
 		}
 		return uFileList;
+	}
+
+	@Override
+	public UFile getFile(String targetBoard, String fileCode) {
+		/*
+		 * targetBoard += "file"; String prefix = targetBoard.substring(0, 1) +"_";
+		 * logger.info("::Getfile, prefix got = " + prefix); try {
+		 * Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl, dbUserId,
+		 * dbUserPw);
+		 * 
+		 * String sql =
+		 * "select * from "+targetBoard+" where f_code= ? and isdisconn IS FALSE"; pstmt
+		 * = conn.prepareStatement(sql); pstmt.setString(1,fileCode); rs =
+		 * pstmt.executeQuery(); while(rs.next()) { UFile ufile = new UFile();
+		 * ufile.setuFileCode(rs.getString("f_code"));
+		 * ufile.setUsrId(rs.getNString("u_id"));
+		 * ufile.setFileSize(rs.getLong("f_size"));
+		 * ufile.setuFilePostDate(rs.getTimestamp("f_createdate"));
+		 * ufile.setuFileOriginName(rs.getString("f_originname"));
+		 * ufile.setSerial(rs.getInt("n_serial")); }
+		 * 
+		 * }catch(ClassNotFoundException e) { e.printStackTrace(); }catch(SQLException
+		 * e) { e.printStackTrace(); }finally { try { if (pstmt!=null) pstmt.close(); if
+		 * (conn!=null) conn.close(); }catch(SQLException e) { e.printStackTrace(); } }
+		 */
+		return null;
+	}
+
+	@Override
+	public void detachFile(String targetBoard, String targetCode, String usrId, Timestamp disconnDate) {
+		try {
+ 			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			System.out.println(targetCode);
+			String sql = "update "+targetBoard+" set isdisconn = true, f_disconndate = ?, f_disconn_u_id = ? where f_code = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setTimestamp(1, disconnDate);
+			pstmt.setString(2, usrId);
+			pstmt.setString(3, targetCode);
+			System.out.println(sql);
+			int result = pstmt.executeUpdate();
+			System.out.println("detach result int : " + result);
+ 		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/*

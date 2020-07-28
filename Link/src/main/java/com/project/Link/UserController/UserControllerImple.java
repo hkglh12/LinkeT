@@ -115,12 +115,8 @@ public class UserControllerImple implements UserController {
 
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
-		logger.info("User id" + usrId + " tried to login");
-
 		User result = uService.userGet(usrId, usrPw);
-		System.out.println(result.getUsrId());
 		boolean isAdmin = result.getUsrLevel() == 1 ? false : true; 
-		System.out.println(isAdmin);
 		if (result == null) {
 			model.addAttribute("result", "failed");
 			return "login";
@@ -136,8 +132,9 @@ public class UserControllerImple implements UserController {
 	@Override
 	public String GetMe(Model model, HttpServletRequest request, HttpSession session) {
 
-		 	HashMap<String,String> sessionExtract = sc.sessionControl(session);
-		 	if(sessionExtract.get("usrId")==null) {
+		/* HashMap<String,String> sessionExtract = sc.sessionControl(session); */
+		/* if(sessionExtract.get("usrId")==null) { */
+		 	if(session.getAttribute("usrId")==null) {
 		 		model.addAttribute("result","sout");
 		 		return "login";
 		 	}

@@ -1,6 +1,8 @@
-<!--<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>-->
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,19 +11,18 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link href="<c:url value="/a/css/updateform.css"/>" rel="stylesheet">
-    <script src="<c:url value="/a/jquery/jquery-3.5.1.js"/>"></script>
+    <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
+    <script src="<c:url value="/a/js/jquery.MultiFile.js"/>"></script>
     <script src="<c:url value="/a/js/updateform.js"/>"></script>
 <!--    <link rel="stylesheet" href="main.css">-->
     <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
 <!--    <link rel="stylesheet" href="updateform.css">
     <script src="jquery-3.5.1.js"></script>
     <script src="updateform.js"></script>-->
     <script>
-        console.log("${t_owner}");
-        console.log("${u_id}");        
-        var ownership = "${t_owner}" == "${u_id}" ? true : false;
-        console.log(ownership);
+        
     </script>
 </head>
 <body>
@@ -125,18 +126,19 @@
 
     <div class="main lpad greets ar">
       Welcome,
-      <a href="#" class="underline">${u_id}</a>
+      <a href="#" class="underline">${request.getAttribute("usrId")}</a>
     </div>
   </div> 
 
   
   <div class="mainwrapper">
   <div id="notiwrapper">
-     <form action="/Link/notice/update" method="post">
+     <form action="/Link/notice/update" method="post" enctype="multipart/form-data" id="updform">
      <input type="text" value=${n_serial} hidden=true>
       <div class="forum-category rounded top">
         <div id="noticetitle">
-          <input type="text" value="${n_title}" name="n_title">
+        <input type="hidden" value="${posting.serial}" name="n_serial">
+          <input type="text" value="${posting.title}" name="n_title">
         </div>
         <div class="mpad ar">
           <button id="submit" type="submit"> 갱신하기 </button>
@@ -144,11 +146,27 @@
       </div>
         
         <div id="noticecontent">
-          <textarea name="n_contents" id="content">${n_contents}</textarea>
+          <textarea name="n_contents" id="content">${posting.contents}</textarea>
         </div>
         
     <div id="uploadfiles">
-     파일업로드기능은 이곳에
+     <div id="previous uploaded">
+     <c:if test="${empty posting.uFileList}">
+     <label>등록된 파일이 없습니다!</label>
+     </c:if>
+     <c:if test="${not empty posting.uFileList}">
+     <c:forEach items="${posting.uFileList}" var="i">
+     <li><button type="button" class="test" onclick="delthiscode(this);"></button><input type="text" name="previous" value="${i.uFileOriginName}" readonly>
+     <input type="hidden" class ="tgf_code" value="${i.uFileCode}"></li>
+     </c:forEach>
+     <%-- <c:forEach items="${posting.uFileList}" var="i">
+     	<li><button class="test +${i.uFileCode}"></button><a href="http://localhost:80/Link/notice/download?fileCode=${i.uFileCode}">${i.uFileOriginName}
+     	<label class="uFileCode">${i.uFileCode}</label></a></li>
+     </c:forEach> --%>
+          </c:if></div>
+     <div id="newlyuploaded">
+		<input type="file" class="multi" name="u_files"/>
+	</div>
       </div>
     </form>
 <!--      </div>-->
@@ -159,5 +177,27 @@
     
     </section>
     </body>
+    <script>
+    $(document).ready(function(){
+	    console.log("${posting.uFileList[0].uFileCode}");
+    });
+    function delthiscode(qa){
+    	console.log(qa);
+    	console.log($(qa).parent().find('input').val());
+    	var inputl = document.createElement("input");
+		inputl.setAttribute("type", "hidden");
+		inputl.setAttribute("name", "delete_target");
+		inputl.setAttribute("value", $(qa).parent().find('.tgf_code').val());
+    	$("#updform").append(inputl);
+    	$(qa).parent().css("display", "none");
+    }
+    /* $(".test").on("click", function(){
+    	console.log("test");
+    	var inputl = document.createElement("input");
+    	inputl.setAttribute("type", "hidden");
+    	inputl.setAttribute("name", "f_code");
+    	inputl.setAttribute("value", )
+    }); */
+    </script>
 </html>     
  

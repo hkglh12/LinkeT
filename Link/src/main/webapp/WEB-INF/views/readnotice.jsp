@@ -29,7 +29,7 @@
 <nav class="main-menu">
     <ul>
         <li>
-            <a href="http://localhost:80/LinkeT/usrmain">
+            <a href="http://localhost:80/Link/">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
                     Main
@@ -47,7 +47,7 @@
 
         </li>
         <li class="has-subnav">
-            <a href="#">
+            <a href="http://localhost:80/Link/notice/list">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
                     My Team
@@ -159,7 +159,8 @@
      </c:if>
      <c:if test="${not empty posting.uFileList}">
      <c:forEach items="${posting.uFileList}" var="i">
-     	<li><a href=#>${i.uFileOriginName}<label class="uFileCode">${i.uFileCode}</label></a>
+     	<li><a href="http://localhost:80/Link/notice/download?fileCode=${i.uFileCode}">${i.uFileOriginName}
+     	<%-- <label class="uFileCode">${i.uFileCode}</label> --%></a>
      </c:forEach>
      </c:if>
       </div>

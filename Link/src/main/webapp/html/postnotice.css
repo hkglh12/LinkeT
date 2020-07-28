@@ -107,7 +107,7 @@ a.underline:hover:after {content: ''; display: block; width: inherit; height: 2p
 #top-button {display: none; width: 27px; background-color: hsl(206, 35%, 13%); position: fixed; right: 60px; bottom: 20px; border-radius: 3px; cursor: pointer; padding: 5px; text-align: center; color: hsl(0, 0%, 100%);}
 #top-button.show {display: block;}
 
-.mainwrapper{display:block; width: 100%; height:47em; overflow:hidden; position:relative;}
+.mainwrapper{display:block; width: 100%; height:47em; /* overflow:hidden; */ position:relative;}
 #notiwrapper{display:block; width:90%; height:100%; position:absolute; top:1em; left:5%; right:5%;}
 #noticetitle{width:100%; height:2em; padding:0; font-size:3em; box-sizing: border-box;}
 #noticetitle input[type="text"]{width:100%; margin:0; height:3em; font-size:0.4em; box-sizing: border-box;}

@@ -25,7 +25,7 @@ public interface NoticementService {
 	public Posting getNoticement(HttpServletRequest request);
 	/* 공지사항 업데이트 */
 	//TODO file 등록까지 끝내면 파일등록도 이거에 동기화되야함
-	public boolean updateNoticement(HttpSession session,MultipartHttpServletRequest mprequest) throws Exception;
+	public boolean updateNoticement(HttpSession session,MultipartHttpServletRequest mprequest)throws Exception;
 	/* 공지사항삭제 */
 	public boolean deleteNoticement(HttpSession session,HttpServletRequest request);
 }
