@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public interface NoticementController {
+	/* 해당 클래스 관리자로 승격해야할껄?>*/
+	public String getPostTemplate(Model model, HttpServletRequest request, HttpSession session);
 	/* 공지사항리스팅 */
 	public String ListNoticements(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirecAttr);
 	/* 공지사항작성 */

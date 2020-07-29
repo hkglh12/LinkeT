@@ -25,9 +25,9 @@
 	</beans:bean>
 	
 	<!-- 인터셉터 객체 생성 -->
-    <beans:bean id="SessionControlIntercetpor" class="com.project.Link.SessionControlInterceptor">
+   <!--  <beans:bean id="SessionControlIntercetpor" class="com.project.Link.SessionControlInterceptor">
     </beans:bean>
-    <!-- Interceptor 설정 -->
+  
     <interceptors>
         <interceptor>
             <mapping path="/board/register"/>
@@ -35,8 +35,8 @@
             <mapping path="/board/delete"/>
             <beans:ref bean="authenticationInterceptor"/>
         </interceptor>
-    </interceptors>
-
+    </interceptors> -->
+  <!-- Interceptor 설정 -->
 
 
 	<context:component-scan base-package="com.LinkeT" />

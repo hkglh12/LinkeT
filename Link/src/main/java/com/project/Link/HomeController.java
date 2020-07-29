@@ -73,4 +73,7 @@ public class HomeController {
 	 */
 	/* 인터셉터
 	 * https://gangnam-americano.tistory.com/11
-	 */}
+	 */
+	//TODO Service로 녹여내린 http, session정보 다시 꺼내야함.
+	// 서비스에는 Id, String 등등만 써야한대요
+}

@@ -10,9 +10,9 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="<c:url value="/a/css/readnotice.css"/>" rel="stylesheet">
+    <link href="<c:url value="/a/css/communityRead.css"/>" rel="stylesheet">
     <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script src="<c:url value="/a/js/readnotice.js"/>"></script>
+    <script src="<c:url value="/a/js/communityRead.js"/>"></script>
 <!--    <link rel="stylesheet" href="main.css">-->
     <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -38,7 +38,7 @@
 
         </li>
         <li>
-            <a href="http://localhost:80/LinkeT/me?target='me'">
+            <a href="http://localhost:80/Link/">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
                     My Information
@@ -50,16 +50,16 @@
             <a href="http://localhost:80/Link/notice/list">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
-                    My Team
+                    Noticement
                     <!--아래에 팀 세개 추가해야함.-->
                 </span>
             </a>
         </li>
         <li class="has-subnav">
-            <a href="#">
+            <a href="http://localhost:80/Link/community/list">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
-                    문의하기
+                    Community
                 </span>
             </a>
 
@@ -77,7 +77,7 @@
 
     <ul class="logout">
         <li>
-           <a href="#">
+           <a href="http://localhost:80/Link/usr/logout">
                  <i class="fa fa-power-off fa-2x"></i>
                 <span class="nav-text">
                     Logout
@@ -96,7 +96,7 @@
       <div class="main lpad header location">
         <div class="logo">
           <span>CurrentLocation :</span>
-          <span id="main_header_location_t_name"> /Notice</span>
+          <span id="main_header_location_t_name"> /Community/read</span>
         </div>
       </div>
       <div class="main header submenu ar">
@@ -123,7 +123,7 @@
 
     <div class="main lpad greets ar">
       Welcome,
-      <a href="#" class="underline">${request.getAttribute("usrId")}</a>
+      <a href="#" class="underline">${request.getParameter("usrId")}</a>
     </div>
   </div> 
 
@@ -132,7 +132,7 @@
   <div id="notiwrapper">
       <div class="forum-category rounded top">
         <div id="noticetitle">
-          ${posting.title}
+          ${community.title}
         </div>
         <div class="mpad ar">
           <button id="upd"> 수정하기 </button>
@@ -141,25 +141,25 @@
       </div>
         <div id="noticeinfos">
             <ul>
-                <li>게시글번호 : ${posting.serial}</li>
-                <li>작성자 : ${posting.usrId}</li>
-                <li>작성일 : ${posting.createDate}</li>
-                <li>조회수 : ${posting.noticeCount}</li>
+                <li>게시글번호 : ${community.serial}</li>
+                <li>작성자 : ${community.usrId}</li>
+                <li>작성일 : ${community.createDate}</li>
+                <li>조회수 : ${community.readCount}</li>
             </ul>
         </div>
         <div id="noticecontent">
-          <textarea name="content" id="content" readonly="true">${posting.contents}
+          <textarea name="content" id="content" readonly="true">${community.contents}
           </textarea>
         </div>
         
     <div id="uploadfiles">
      <%-- <c:if test="${fn:length(list) eq 0}"> --%>
-     <c:if test="${empty posting.uFileList}">
+     <c:if test="${empty community.uFileList}">
      <label>등록된 파일이 없습니다!</label>
      </c:if>
-     <c:if test="${not empty posting.uFileList}">
-     <c:forEach items="${posting.uFileList}" var="i">
-     	<li><a href="http://localhost:80/Link/notice/download?fileCode=${i.uFileCode}">${i.uFileOriginName}
+     <c:if test="${not empty community.uFileList}">
+     <c:forEach items="${community.uFileList}" var="i">
+     	<li><a href="http://localhost:80/Link/community/download?fileCode=${i.uFileCode}">${i.uFileOriginName}</a></li>
      	<%-- <label class="uFileCode">${i.uFileCode}</label> --%></a>
      </c:forEach>
      </c:if>
@@ -170,23 +170,51 @@
   </div>
   
 
+    <div class="comment part">
+    	<div class="upload commet">
+    		<form action="#">
+    		<input name="c_serial" type="hidden" value="${community.serial}">
+    		<textarea name="cc_contents">
+    		
+    		</textarea>
+    		<button type="button"> 보내버리기</button>
+    		</form>
+    	</div>
+    	<div class="registered comment">
+    	     <c:if test="${empty community.comments}">
+     		<label>아직 등록된 댓글이 없습니다</label>
+     		</c:if>
+    		<c:if test="${not empty community.comments}">
+     		<c:forEach items="${community.comments}" var="i">
+     		<li>
+     		<label>${i.usrId}</label>
+     		<mark>${i.contents}</mark>
+     		<form action="#">
+     			<input type="hidden" value="${i.serial}">
+     			<button type="submit"></button>
+     		</form>
+     		</li>
+     		</c:forEach>
+    		</c:if>
+    	
+    	</div>
     
+    </div>
     </section>
     </body>
     <script>
-  		console.log("${posting.serial}");
     	$('#upd').on("click",function(){
-    		location.href="/Link/notice/update?serial="+${posting.serial};
+    		location.href="/Link/community/update?c_serial="+${community.serial};
     	});
     	$("#del").on("click",function(){
     		var f = document.createElement("form");
     		var inputl = document.createElement("input");
     		inputl.setAttribute("type", "hidden");
-    		inputl.setAttribute("name", "serial");
-    		inputl.setAttribute("value","${posting.serial}");
+    		inputl.setAttribute("name", "c_serial");
+    		inputl.setAttribute("value","${community.serial}");
     		
     		f.appendChild(inputl);
-    		f.action="http://localhost:80/Link/notice/delete";
+    		f.action="http://localhost:80/Link/community/delete";
     		f.method="post";
     		document.body.appendChild(f);
     		f.submit();

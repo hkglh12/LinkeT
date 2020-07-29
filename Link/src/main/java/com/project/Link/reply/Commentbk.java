@@ -2,7 +2,7 @@ package com.project.Link.reply;
 
 import java.sql.Timestamp;
 
-public class Reply {
+public class Commentbk {
 	private int replySerial;
 	private String usrId;
 	private int serial;

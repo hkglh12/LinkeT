@@ -15,15 +15,26 @@ public class Posting {
 	private Timestamp createDate;
 	private Timestamp modifyDate;
 	private Timestamp deleteDate;
-	private int noticeCount;
+	private int readCount;
 	private ArrayList<UFile> uFileList;
+	
+	private String modifiedUsr;
 	
 	public Posting() {
 		uFileList = new ArrayList<UFile>();
 	}
 	
-	public int getNoticeCount() {
-		return noticeCount;
+	public String getModifiedUsr() {
+		return modifiedUsr;
+	}
+
+	public void setModifiedUsr(String modifiedUsr) {
+		this.modifiedUsr = modifiedUsr;
+	}
+
+
+	public int getReadCount() {
+		return readCount;
 	}
 	public ArrayList<UFile> getuFileList() {
 		return uFileList;
@@ -33,8 +44,8 @@ public class Posting {
 		this.uFileList = uFileList;
 	}
 
-	public void setNoticeCount(int noticeCount) {
-		this.noticeCount = noticeCount;
+	public void setReadCount(int noticeCount) {
+		this.readCount = noticeCount;
 	}
 	public int getSerial() {
 		return serial;
