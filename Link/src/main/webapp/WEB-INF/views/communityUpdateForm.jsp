@@ -10,10 +10,10 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="<c:url value="/a/css/updateform.css"/>" rel="stylesheet">
+    <link href="<c:url value="/a/css/communityUpdateForm.css"/>" rel="stylesheet">
     <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
     <script src="<c:url value="/a/js/jquery.MultiFile.js"/>"></script>
-    <script src="<c:url value="/a/js/updateform.js"/>"></script>
+    <script src="<c:url value="/a/js/communityUpdateForm.js"/>"></script>
 <!--    <link rel="stylesheet" href="main.css">-->
     <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -99,7 +99,7 @@
       <div class="main lpad header location">
         <div class="logo">
           <span>CurrentLocation : </span>
-          <span id="main_header_location_t_name">${t_name}</span>
+          <span id="main_header_location_t_name">/Community/Update</span>
         </div>
       </div>
       <div class="main header submenu ar">
@@ -125,20 +125,19 @@
   <div class="row">
 
     <div class="main lpad greets ar">
-      Welcome,
-      <a href="#" class="underline">${request.getAttribute("usrId")}</a>
+      <a href="#" class="underline">${request.getParameter("usrId")}</a>
     </div>
   </div> 
 
   
   <div class="mainwrapper">
   <div id="notiwrapper">
-     <form action="/Link/notice/update" method="post" enctype="multipart/form-data" id="updform">
-     <input type="text" value=${n_serial} hidden=true>
+     <form action="/Link/community/update" method="post" enctype="multipart/form-data" id="updform">
+     <input type="hidden" value="${community.serial}">
       <div class="forum-category rounded top">
         <div id="noticetitle">
-        <input type="hidden" value="${posting.serial}" name="n_serial">
-          <input type="text" value="${posting.title}" name="n_title">
+        <input type="hidden" value="${community.serial}" name="c_serial">
+          <input type="text" value="${community.title}" name="c_title">
         </div>
         <div class="mpad ar">
           <button id="submit" type="submit"> 갱신하기 </button>
@@ -146,16 +145,16 @@
       </div>
         
         <div id="noticecontent">
-          <textarea name="n_contents" id="content">${posting.contents}</textarea>
+          <textarea name="c_contents" id="content">${community.contents}</textarea>
         </div>
         
     <div id="uploadfiles">
      <div id="previous uploaded">
-     <c:if test="${empty posting.uFileList}">
+     <c:if test="${empty community.uFileList}">
      <label>등록된 파일이 없습니다!</label>
      </c:if>
-     <c:if test="${not empty posting.uFileList}">
-     <c:forEach items="${posting.uFileList}" var="i">
+     <c:if test="${not empty community.uFileList}">
+     <c:forEach items="${community.uFileList}" var="i">
      <li><button type="button" class="test" onclick="delthiscode(this);"></button><input type="text" name="previous" value="${i.uFileOriginName}" readonly>
      <input type="hidden" class ="tgf_code" value="${i.uFileCode}"></li>
      </c:forEach>
@@ -179,6 +178,7 @@
     </body>
     <script>
     $(document).ready(function(){
+    	console.log("${request.g}")
 	    console.log("${posting.uFileList[0].uFileCode}");
     });
     function delthiscode(qa){
@@ -186,7 +186,7 @@
     	console.log($(qa).parent().find('input').val());
     	var inputl = document.createElement("input");
 		inputl.setAttribute("type", "hidden");
-		inputl.setAttribute("name", "delete_target");
+		inputl.setAttribute("name", "del_target");
 		inputl.setAttribute("value", $(qa).parent().find('.tgf_code').val());
     	$("#updform").append(inputl);
     	$(qa).parent().css("display", "none");

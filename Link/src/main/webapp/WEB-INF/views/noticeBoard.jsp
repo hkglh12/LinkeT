@@ -32,9 +32,9 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
     <script src="jquery-3.5.1.js"></script>
     <script src="noticeboard.js"></script> -->
     
-    <link href="<c:url value="/a/css/noticeboard.css"/>" rel="stylesheet">
+    <link href="<c:url value="/a/css/noticeBoard.css"/>" rel="stylesheet">
     <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script src="<c:url value="/a/js/noticeboard.js"/>"></script>
+    <script src="<c:url value="/a/js/noticeBoard.js"/>"></script>
 
 <!--    <link rel="stylesheet" href="main.css">-->
     <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
@@ -46,7 +46,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
 </div>
 <nav class="main-menu">
     <ul>
-       <li>
+        <li>
             <a href="http://localhost:80/Link/">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
@@ -74,10 +74,10 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
             </a>
         </li>
         <li class="has-subnav">
-            <a href="#">
+            <a href="http://localhost:80/Link/community/list">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
-                    문의하기
+                    Community
                 </span>
             </a>
 
@@ -241,14 +241,14 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
             <span class="center" id="total">${notice.fileCount}</span>
           </div>
           <div class="large-5 column ltpad">
-            <span class="center" id="counts">${notice.noticeCount}</span>
+            <span class="center" id="counts">${notice.readCount}</span>
           </div>
           <div class="large-15 small-4 column lpad">
             <span>
               <a href="#">Noticement</a>
             </span>
             <span>${notice.createDate}</span>
-            <span>by <!-- <a href="#"> -->${notice.usrId};<!-- </a> --></span>
+            <span>by <!-- <a href="#"> -->${notice.usrId}<!-- </a> --></span>
           </div>
         </div>
         </c:forEach>
@@ -278,7 +278,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
 		}
 	    function pagecall(serial){
 	    	console.log("called" + serial)
-	    	location.href="/Link/notice/get?serial="+serial;
+	    	location.href="/Link/notice/get?n_serial="+serial;
 	    }
     </script>
 </html>

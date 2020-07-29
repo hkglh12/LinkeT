@@ -1,19 +1,23 @@
 package com.project.Link.Noticement.Dao;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import com.project.Link.Noticement.Noticement;
 import com.project.Link.Posting.Dao.PostingDao;
 
 public interface NoticementDao extends PostingDao {
+	// 조회, 리스팅은 다른 "객체"가 리턴되므로 재선언
+	// 조회
+	public Noticement getNoticement(int targetSerial);
+	// 리스팅
+	public ArrayList<Noticement> getListNoticement(int page, int pagePerBlock);
 	
-	// 특정 DB에 접속하는것이 명백하므로 데이터베이스 접두어와 타겟데이터베이스 선언
-
-	
-	// PostingDao가 공통기능만을 선언하였으므로, 그대로 상속받아서 사용
-	/*
-	 * public int total(); 공지사항 생성 public int create(String usrId, String ntcTitle,
-	 * String ntcContents, int fileCount, Timestamp createDate); 공지사항 리스팅 public
-	 * ArrayList<Posting> list(int page, int pagePerBlock); 공지사항 조회 public Posting
-	 * get(int targetSerial); public int update(int targetSerial, String ntcTitle,
-	 * String ntcContents, int fileCount, Timestamp modifyDate); public int
-	 * delete(int targetSerial, Timestamp deleteDate);
-	 */
+	//update, delete가 각각 Noticement와 Community가 가지는 속성이 다르므로 재생성
+	// 공지사항은 한 관리자가 다른 관리자의 공지사항을 수정할 수 있음.
+	// 이때, 수정한사람이 최종 작성자로 변경됨.
+	public int updateNoticement(String usrId,int targetSerial,  String title, String contents, int fileCount, Timestamp modifyDate);
+	// 사유 상 동
+	public int deleteNoticement(String usrId, int targetSerial, Timestamp deleteDate);
+ 
 }

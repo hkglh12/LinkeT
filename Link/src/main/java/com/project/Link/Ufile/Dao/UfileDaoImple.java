@@ -38,10 +38,11 @@ public class UfileDaoImple implements UfileDao{
 		logger.info("::UploadFile Called");
  		int result = 0;
  		try {
+ 			String prefix = targetBoard.substring(0,1)+"_";
  			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			System.out.println(targetBoard);
-			String sql = "insert into "+targetBoard+" (f_code, u_id, f_size, f_createdate, f_originname, n_serial) values (?,?,?,?,?,?)";
+			String sql = "insert into "+targetBoard+" (f_code, u_id, f_size, f_createdate, f_originname, "+prefix+"serial) values (?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,modifiedFileName);
 			pstmt.setNString(2, usrId);
@@ -77,6 +78,7 @@ public class UfileDaoImple implements UfileDao{
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			
 			String sql = "select * from "+targetBoard+" where "+prefix+"serial = ? and isdisconn IS FALSE";
+			logger.info(sql);
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,relativeSerial);
 			rs = pstmt.executeQuery();
@@ -87,7 +89,7 @@ public class UfileDaoImple implements UfileDao{
 				ufile.setFileSize(rs.getLong("f_size"));
 				ufile.setuFilePostDate(rs.getTimestamp("f_createdate"));
 				ufile.setuFileOriginName(rs.getString("f_originname"));
-				ufile.setSerial(rs.getInt("n_serial"));
+				ufile.setSerial(rs.getInt(prefix+"serial"));
 				uFileList.add(ufile);
 			}
 			
@@ -138,7 +140,7 @@ public class UfileDaoImple implements UfileDao{
  			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			System.out.println(targetCode);
-			String sql = "update "+targetBoard+" set isdisconn = true, f_disconndate = ?, f_disconn_u_id = ? where f_code = ?";
+			String sql = "update "+targetBoard+" set isdisconn = true, f_disconndate = ?, f_disconn_id = ? where f_code = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setTimestamp(1, disconnDate);
 			pstmt.setString(2, usrId);

@@ -48,10 +48,10 @@
             </a>
         </li>
         <li class="has-subnav">
-            <a href="#">
+            <a href="http://localhost:80/Link/community/list">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
-                    문의하기
+                    Community
                 </span>
             </a>
 

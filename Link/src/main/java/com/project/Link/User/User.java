@@ -12,7 +12,14 @@ public class User {
 	private Timestamp usrIndate;
 	private Timestamp usrOutdate;
 	private Timestamp usrKickedDate;
+	private String usrBannedId;
 	
+	public String getUsrBannedUsrId() {
+		return usrBannedId;
+	}
+	public void setUsrBannedUsrId(String usrBannedUsrId) {
+		this.usrBannedId = usrBannedUsrId;
+	}
 	public String getUsrId() {
 		return usrId;
 	}

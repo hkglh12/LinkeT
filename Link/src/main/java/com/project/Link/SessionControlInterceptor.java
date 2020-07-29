@@ -35,7 +35,7 @@ public class SessionControlInterceptor extends HandlerInterceptorAdapter{
 		if(redirectAttrs!=null) {
 			logger.info("/////////////////////////FlashInfos Extracted////////");
 			session.setAttribute("usrId", (String)redirectAttrs.get("usrId"));
-			session.setAttribute("isAdmin", (String)redirectAttrs.get("isAdmin"));
+			session.setAttribute("isAdmin",String.valueOf(redirectAttrs.get("isAdmin")));
 			logger.info("//At Redirective Access//SessionControlIntercepter got this :::: // ID : " + session.getAttribute("usrId") + "isAdmin : " +session.getAttribute("isAdmin"));
 			return true;
 		}else if(session.getAttribute("usrId") != null) {

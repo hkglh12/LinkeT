@@ -2,6 +2,7 @@ package com.project.Link.Community.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,14 +10,24 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.project.Link.Posting.Posting;
+import com.project.Link.Community.Community;
 
 @Service
 public interface CommunityService {
-	public ArrayList<Posting> ListCommunities(int targetPage);
-	public int createCommunity(String usrId, String cmtyTitle, String cmtyContents, int fileCount);
-	public Posting getCommunity(int targetSerial);
-	public int updateCommunity(int targetSerial, String cmtyTitle, String cmtyContents, int fileCount);
-	public int deleteNoticement(int targetSerial);
+	// 자유게시글 총 갯수 리턴 (삭제안해썩나, 벤당하지 않은 것만)
+	public int totalCountCommunities();
+	// 자유게시글 리스팅
+	public ArrayList<Community> ListCommunities(int targetPage);
+	// 자유게시글 등록
+	public boolean createCommunity(String usrId, String title, String contents, List<MultipartFile> uFileList) throws Exception;
+	// 자유게시글 조회
+	public Community getCommunity(int targetSerial);
+	// 자유게시글 업데이트
+	public boolean updateCommunity(String usrId, int serial, String title, String contents,
+			List<String> previousFileCodes, List<String> deleteFileCodes, List<MultipartFile> uFilelist) throws Exception;
+	// 자유게시글 삭제
+	public boolean deleteCommunity(int targetSerial);
 }

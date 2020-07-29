@@ -7,9 +7,36 @@ public class UFile {
 	private String usrId;
 	private Long fileSize;
 	private Timestamp uFilePostDate;
-	private String uFileOriginName;
+	private String uFileOriginalName;
 	private int serial;
+	private boolean isDisConn;
+	private Timestamp uFileDisConnDate;
+	private String uFileDisConnId;
 	
+	public String getuFileOriginalName() {
+		return uFileOriginalName;
+	}
+	public void setuFileOriginalName(String uFileOriginalName) {
+		this.uFileOriginalName = uFileOriginalName;
+	}
+	public boolean isDisConn() {
+		return isDisConn;
+	}
+	public void setDisConn(boolean isDisConn) {
+		this.isDisConn = isDisConn;
+	}
+	public Timestamp getuFileDisConnDate() {
+		return uFileDisConnDate;
+	}
+	public void setuFileDisConnDate(Timestamp uFileDisConnDate) {
+		this.uFileDisConnDate = uFileDisConnDate;
+	}
+	public String getuFileDisConnUsrId() {
+		return uFileDisConnId;
+	}
+	public void setuFileDisConnUsrId(String uFileDisConnUsrId) {
+		this.uFileDisConnId = uFileDisConnUsrId;
+	}
 	public Long getFileSize() {
 		return fileSize;
 	}
@@ -35,10 +62,10 @@ public class UFile {
 		this.uFilePostDate = uFilePostDate;
 	}
 	public String getuFileOriginName() {
-		return uFileOriginName;
+		return uFileOriginalName;
 	}
 	public void setuFileOriginName(String uFileOriginName) {
-		this.uFileOriginName = uFileOriginName;
+		this.uFileOriginalName = uFileOriginName;
 	}
 	public int getSerial() {
 		return serial;

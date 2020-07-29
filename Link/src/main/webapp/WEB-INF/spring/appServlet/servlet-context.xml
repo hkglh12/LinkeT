@@ -39,6 +39,7 @@
     <interceptors>
         <interceptor>
         	<mapping path="/notice/**"></mapping>
+        	<mapping path="/community/**"></mapping>
    <!--      	<mapping path="/**"></mapping>
         	<exclude-mapping path="/**"></exclude-mapping>
         	<exclude-mapping path="/usr/login/())"></exclude-mapping>
