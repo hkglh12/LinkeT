@@ -137,7 +137,7 @@ public class UserDaoImple implements UserDao {
 				user.setUsrPhone(rs.getString("u_phone"));
 				user.setUsrEmail(rs.getString("u_email"));
 				user.setUsrLevel(rs.getInt("u_level"));
-				user.setUsrIndate(rs.getTimestamp("u_indate"));
+				user.setUsrInDate(rs.getTimestamp("u_indate"));
 			}
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();

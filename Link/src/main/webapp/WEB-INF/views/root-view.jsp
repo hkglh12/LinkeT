@@ -30,7 +30,7 @@
 
         </li>
         <li>
-            <a href="http://localhost:80/Link/">
+            <a href="http://localhost:80/Link/usr/me">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
                     My Information

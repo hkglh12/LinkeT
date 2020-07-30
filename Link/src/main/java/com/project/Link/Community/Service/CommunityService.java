@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.project.Link.Comment.Comment;
 import com.project.Link.Community.Community;
 
 @Service
@@ -30,4 +31,11 @@ public interface CommunityService {
 			List<String> previousFileCodes, List<String> deleteFileCodes, List<MultipartFile> uFilelist) throws Exception;
 	// 자유게시글 삭제
 	public boolean deleteCommunity(int targetSerial);
+	
+	public int getCommentTotalCount(int communitySerial);
+	public ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum);
+	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret);
+	public boolean deleteComment(String usrId, int targetSerial);
+	public boolean updateComment(int targetSerial, String contents, boolean isSecret);
+
 }

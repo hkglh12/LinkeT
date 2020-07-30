@@ -40,6 +40,10 @@
         <interceptor>
         	<mapping path="/notice/**"></mapping>
         	<mapping path="/community/**"></mapping>
+        	<mapping path="/usr/me"></mapping>
+        	<mapping path="/usr/update"></mapping>
+        	<mapping path="/usr/signout"></mapping>
+        	<mapping path="/usr/logout"></mapping>
    <!--      	<mapping path="/**"></mapping>
         	<exclude-mapping path="/**"></exclude-mapping>
         	<exclude-mapping path="/usr/login/())"></exclude-mapping>

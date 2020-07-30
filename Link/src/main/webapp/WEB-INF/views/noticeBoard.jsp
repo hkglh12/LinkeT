@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     import="java.util.*"%>
@@ -31,7 +32,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
 <!--      <link rel="stylesheet" href="noticeboard.css">
     <script src="jquery-3.5.1.js"></script>
     <script src="noticeboard.js"></script> -->
-    
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">    
     <link href="<c:url value="/a/css/noticeBoard.css"/>" rel="stylesheet">
     <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
     <script src="<c:url value="/a/js/noticeBoard.js"/>"></script>
@@ -106,7 +107,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
 </nav>
 <section>
  <!--내용부 헤더-->
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
   <!--상단부 로고-->
   <header id="atop">
     <div class="row">
@@ -259,11 +260,14 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
       <ul class="blocks">
       	<!-- //https://yoonka.tistory.com/459 -->
          <!-- https://blog.nerdfactory.ai/2019/05/05/spring-mvc-jstl.html -->
+         <fmt:parseNumber var="comment_block" value="${(commentlength/10) + (commentlength%10 == 0 ? 0 :1)}" integerOnly="true"></fmt:parseNumber>
        <%-- <c:set var="block" value="${total}/8"/> --%>
-      <fmt:parseNumber var="block" value = "${(total/8)+1}" integerOnly="true"/>
+      <fmt:parseNumber var="block" value ="${(total/8)+(total%8 == 0 ? 0 : 1)}" integerOnly="true"/>
+      <c:if test="${block gt 0}">
           <c:forEach begin="1" end="${block}" var="i" step="1">
           <li><a href="javascript:blockmove('${i}')">${i}</a></li>
           </c:forEach>
+          </c:if>
       </ul>
   </div>
   </div>

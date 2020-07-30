@@ -160,7 +160,7 @@ a.underline:hover:after {content: ''; display: block; width: inherit; height: 2p
 #top-button.show {
   display: block;
 }
-.mainwrapper{display:block; width: 100%; height:47em; overflow:hidden; position:relative;}
+.mainwrapper{display:block; width: 100%; height:47em; /*overflow:hidden;*/ position:relative;}
 
 .dashboard{display:block; width:100%; height:100%; position:absolute; top:50em;}
 .curr{top:0em;}

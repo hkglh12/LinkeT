@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.project.Link.Comment.Comment;
 import com.project.Link.Comment.Service.CommentService;
 import com.project.Link.Community.Community;
 import com.project.Link.Community.Dao.CommunityDao;
@@ -47,11 +48,17 @@ public class CommunityServiceImple implements CommunityService{
 	
 	
 	public CommunityServiceImple() {}
+
 	public CommunityDao getcDao() {return cDao;}
 	public void setcDao(CommunityDao cDao) {this.cDao = cDao;}
 	public UfileService getUfService() {return ufService;}
 	public void setUfService(UfileService ufService) {this.ufService = ufService;}
-
+	public CommentService getCcService() {
+		return ccService;
+	}
+	public void setCcService(CommentService ccService) {
+		this.ccService = ccService;
+	}
 	@Override
 	public int totalCountCommunities() {
 		int totalCount = cDao.getTotalCount(targetBoard, prefix);
@@ -110,12 +117,13 @@ public class CommunityServiceImple implements CommunityService{
 	@Override
 	public Community getCommunity(int targetSerial) {
 		logger.info("			ServiceLevelCalled ::::::: getCommunity");
-		
 		Community targetCommunity = cDao.getCommunity(targetSerial);
 		cDao.countUp(targetBoard, prefix, targetSerial, targetCommunity.getReadCount()+1);
 		targetCommunity.setuFileList(ufService.uFileGet(targetBoardFile, targetSerial));
 		// 댓글가져오는부분 점검하세요
-		targetCommunity.setComments(ccService.ListCommunities(targetSerial));
+		int pageNum = 0;
+		targetCommunity.setComments(ccService.ListCommunities(targetSerial, pageNum));
+		System.out.println("in getcomm : " + targetSerial);
 		targetCommunity.setReadCount( targetCommunity.getReadCount() +1);
 		return targetCommunity;
 	}
@@ -181,7 +189,7 @@ public class CommunityServiceImple implements CommunityService{
 		int fileCount = previousListSize - deleteTargetSize + ufileListSize;
 		//파일 자체의 업데이트를 끝내면
 		cDao.updateCommunity(serial, title, contents, fileCount, modifyDate);
-		//기존 파일이 있을경우 파일 연결을 끊어야하고
+		
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -194,6 +202,34 @@ public class CommunityServiceImple implements CommunityService{
 		boolean result = cDao.deleteCommunity(targetSerial, deleteDate) >= 1 ? true : false;
 		return result;
 	}
+	@Override
+	public int getCommentTotalCount(int communitySerial) {
+		int result = ccService.totalCountComments(communitySerial);
+		System.out.println("communityserbvice commentservice totalcaoutn : " + result);
+		return result;
+	}
+	@Override
+	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret) {
+		ccService.createComment(usrId, targetSerial, contents, isSecret);
+		return true;
+	}
+	@Override
+	public boolean deleteComment(String usrId, int targetSerial) {
+		ccService.deleteCommunity(usrId, targetSerial);
+		return true;
+	}
+	@Override
+	public  ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum){
+		ArrayList<Comment> list = ccService.ListCommunities(targetSerial, pageNum);
+		return list;
+	}
+	@Override
+	public boolean updateComment(int targetSerial, String contents, boolean isSecret) {
+		ccService.updateComment(targetSerial, contents, isSecret);
+		return true;
+	}
+
+	
 }
 
 

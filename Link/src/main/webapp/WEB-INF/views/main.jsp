@@ -18,7 +18,7 @@
 <div class="area">
     
 </div>
-<nav class="main-menu">
+<!-- <nav class="main-menu">
     <ul>
         <li>
             <a href="http://localhost:80/Link/">
@@ -43,7 +43,7 @@
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
                     Noticement
-                    <!--아래에 팀 세개 추가해야함.-->
+                    아래에 팀 세개 추가해야함.
                 </span>
             </a>
         </li>
@@ -77,7 +77,8 @@
             </a>
         </li>  
     </ul>
-</nav>
+</nav> -->
+<%@ include file="root-view.jsp"%>
 <section>
 <div class="upper">
         <div class="info"><h1 class="title">WelCome to Linke-T ! We are Linked!</h1></div>

@@ -29,7 +29,7 @@
 <div class="area">
     
 </div>
-<nav class="main-menu">
+<!-- <nav class="main-menu">
     <ul>
         <li>
             <a href="http://localhost:80/LinkeT/usrmain">
@@ -54,7 +54,7 @@
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
                     My Team
-                    <!--아래에 팀 세개 추가해야함.-->
+                    아래에 팀 세개 추가해야함.
                 </span>
             </a>
         </li>
@@ -88,7 +88,8 @@
             </a>
         </li>  
     </ul>
-</nav>
+</nav> -->
+<%@ include file="root-view.jsp"%>
  <section>
  <!--내용부 헤더-->
   <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">

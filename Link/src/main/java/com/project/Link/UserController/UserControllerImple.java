@@ -30,12 +30,15 @@ public class UserControllerImple implements UserController {
 	private UserService uService;
 	@Autowired
 	private SessionControl sc;
+
 	/*
 	 * @Autowired OrganizationChartServiceImple oService;
 	 * 
 	 * @Autowired TeamServiceImple tService;
 	 */
-	public UserControllerImple() {};
+	public UserControllerImple() {
+	};
+
 	public UserService getuService() {
 		return uService;
 	}
@@ -43,9 +46,11 @@ public class UserControllerImple implements UserController {
 	public SessionControl getSc() {
 		return sc;
 	}
+
 	public void setSc(SessionControl sc) {
 		this.sc = sc;
 	}
+
 	public void setuService(UserService uService) {
 		this.uService = uService;
 	}
@@ -70,7 +75,9 @@ public class UserControllerImple implements UserController {
 		return returnInfo;
 	}
 
-	/* 메인컨트롤러로 뺴자
+	/*
+	 * 메인컨트롤러로 뺴자
+	 * 
 	 * @RequestMapping(value="/main", method=RequestMethod.POST)
 	 * 
 	 * @Override public String goMain(Model model, HttpServletRequest request,
@@ -116,7 +123,7 @@ public class UserControllerImple implements UserController {
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
 		User result = uService.userGet(usrId, usrPw);
-		boolean isAdmin = result.getUsrLevel() == 1 ? false : true; 
+		boolean isAdmin = result.getUsrLevel() == 1 ? false : true;
 		if (result == null) {
 			model.addAttribute("result", "failed");
 			return "login";
@@ -127,28 +134,31 @@ public class UserControllerImple implements UserController {
 			return "main"; // 이거 메인컨트롤러로 다시 돌리자
 		}
 	}
-	//프로파일역할
+
+	// 프로파일역할
 	@RequestMapping(value = "/me", method = RequestMethod.GET)
 	@Override
 	public String GetMe(Model model, HttpServletRequest request, HttpSession session) {
 
 		/* HashMap<String,String> sessionExtract = sc.sessionControl(session); */
 		/* if(sessionExtract.get("usrId")==null) { */
-		 	if(session.getAttribute("usrId")==null) {
-		 		model.addAttribute("result","sout");
-		 		return "login";
-		 	}
-			User result = uService.userGet((String)session.getAttribute("usrId"));
-			model.addAttribute("usrId", result.getUsrId());
-			/*model.addAttribute("usrPw", result.getUsrPw());*/
-			model.addAttribute("usrName", result.getUsrName());
-			model.addAttribute("usrPhone", result.getUsrPhone());
-			model.addAttribute("usrEmail", result.getUsrEmail());
-			model.addAttribute("usrLevel", result.getUsrLevel());
-			model.addAttribute("usrSignInDate", result.getUsrIndate());
-			/*나중에 카운터만들어서 댓글, 게시글 개수 새주자*/
-			return "profile";
-		}
+		/*
+		 * if (session.getAttribute("usrId") == null) { model.addAttribute("result",
+		 * "sout"); return "login"; }
+		 */
+		User result = uService.userGet((String) session.getAttribute("usrId"));
+		model.addAttribute("user", result);
+		/*
+		 * model.addAttribute("usrId", result.getUsrId()); model.addAttribute("usrPw",
+		 * result.getUsrPw()); model.addAttribute("usrName", result.getUsrName());
+		 * model.addAttribute("usrPhone", result.getUsrPhone());
+		 * model.addAttribute("usrEmail", result.getUsrEmail());
+		 * model.addAttribute("usrLevel", result.getUsrLevel());
+		 * model.addAttribute("usrSignInDate", result.getUsrIndate());
+		 */
+		/* 나중에 카운터만들어서 댓글, 게시글 개수 새주자 */
+		return "profile";
+	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@Override
@@ -163,7 +173,8 @@ public class UserControllerImple implements UserController {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	@Override
 	public String LogOut(Model model, HttpServletRequest request, HttpSession session) {
 		session.invalidate();

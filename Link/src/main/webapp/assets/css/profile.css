@@ -1,0 +1,161 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+}
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+/*FAVICONS*/
+.fa-2x {font-size: 2em;}
+.fa {position: relative; display: table-cell; width: 60px; height: 36px; text-align: center; vertical-align: middle; font-size:20px;}
+/*Global Settings*/
+html{width:100%; padding:0; margin:0;}
+body{width:95%;}
+/*left-mainmenu*/
+/*left-mainmenu initial setting*/
+.area {float: left; background: #e2e2e2; width: 100%; height: 100%;}
+.main-menu {background:#212121; border-right:1px solid #e5e5e5; position:absolute; top:0; bottom:0; height:100%; left:0; width:60px; overflow:hidden; -webkit-transition:width .05s  inear; transition:width .05s linear; -webkit-transform:translateZ(0) scale(1,1); z-index:1000;}
+.main-menu>ul {margin:7px 0;}
+.main-menu li {position:relative; display:block; width:250px;margin:30px 0;}
+.main-menu li>a {position:relative; display:table; border-collapse:collapse; border-spacing:0; color:#999; font-family: arial; font-size: 14px; text-decoration:none; -webkit-transform:translateZ(0) scale(1,1); -webkit-transition:all .1s linear; transition:all .1s linear;}
+.main-menu .nav-icon {position:relative; display:table-cell; width:60px; height:36px; text-align:center; vertical-align:middle; font-size:18px; }
+.main-menu .nav-text {position:relative; display:table-cell; vertical-align:middle; width:190px; font-family: 'Titillium Web', sans-serif;}
+.main-menu>ul.logout {position:absolute; left:0; bottom:0;}
+.no-touch .scrollable.hover {overflow-y:hidden;} 
+/*left-mainmenu hover (expand)*/
+.main-menu:hover,nav.main-menu.expanded {width:250px; overflow:visible;}
+.main-menu:hover .upper.info{margin-left:500px;}
+.no-touch .scrollable.hover:hover {overflow-y:auto; overflow:visible;}
+a:hover,a:focus {text-decoration:none;}
+nav {-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; -o-user-select:none; user-select:none;}
+nav ul,nav li {outline:0; margin:0; padding:0;}
+.main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {color:#fff; background-color:#5fa2db;}
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+}
+/*여기부터 카드파트*/
+section{width:100%; height:56em; margin-left:50px; box-sizing: border-box; margin-top:0; }
+.upper{width:100.7%; color:black; height:7em; padding:0;background: rgba(75, 75, 75, 0.6);}
+.upper .info{width:95%; margin-left:0px; height:7em; display:flex; align-items: center; padding-left:30px; color:white;}
+.container {width:1000px; padding-top:3em; height:35em;} 
+.twelve { width: 100%; } 
+.eleven { width: 91.53%; } 
+.ten { width: 83.06%; } 
+.nine { width: 74.6%; } 
+.eight { width: 66.13%; } 
+.seven { width: 57.66%; } 
+.six { width: 49.2%; } 
+.five { width: 40.73%; } 
+.four { width: 32.26%;} 
+.three { width: 23.8%; } 
+.two { width: 15.33%; } 
+.one{ width: 6.866%;}
+
+ /* COLUMNS */ 
+/*container*/
+.profilebg{width:100%; margin-top:40px; background:rgba(146, 214, 239, 0.34);}
+.profile{width:1000px; height:44em;margin:0 auto 0 auto; border-radius: 10px;}
+
+.row.cf{width:1000px; display:flex; padding:0; justify-content: space-between;}
+/*각 파트 outter*/
+.card{width:420px; height: 590px; background-color: #fff;	font-family: 'Arimo', sans-serif; font-size: 14px; 
+border:1px solid #ffffff; border-radius: 10px;}
+
+/*각 표시부*/
+/*좌측카드*/
+#card1{text-align: center; color: #2c3e50; padding: 0; margin:0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+#card1 .image-wrapper{width:200px;height: 200px;margin: 20px auto; border-radius: 100%; background-image: url("https://static.pexels.com/photos/7096/people-woman-coffee-meeting.jpg"); background-size: cover; background-repeat: no-repeat;}
+.info.cf{width:100%; height:320px; padding:0; margin:0;}
+.cf:before, .cf:after {content: " "; display: table;} 
+.cf:after{clear: both;} 
+.cf {*zoom: 1;}
+/*좌측 상세프로필*/
+#card1 .info{margin:0; display:flex; flex-direction: column; justify-content: space-between;}
+#card1 .info .four{	text-align: center; width:100%; height:5em; margin:0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box;
+box-sizing: border-box;}
+#card1 .info .four:last-of-type{border-right: none;}
+#card1 .info .four .number{display: block; font-size: 20px;	padding: 3px 0;	font-weight: 700;}
+#card1 .options{margin-top: 30px; text-align: left;}
+#card1 .options ul{list-style-type: none; padding: 0; margin: 0;}
+#card1 .options ul .icon{display: inline-block; width: 30px; height: 30px; background-color: #3498db; border-radius: 100%; margin-right: 8px; vertical-align: middle; color: #fff; line-height: 30px; text-align: center;}
+#card1 .options ul li{margin: 12px 0;}
+
+/* CARD 2 외곽 */
+#card2{margin:0; overflow: hidden; color: #2c3e50;}
+#card2 a{color: #2c3e50; text-decoration: none;}
+#card2 .wrapper{padding: 10px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+/*머리부분*/
+#card2 .header{width: 100%; height: 100px; position: relative; background-color: #3498db;}
+#card2 .header:after{ content: 'Your Team'; background: inherit; bottom: 0; display: block; height: inherit; position: absolute; left: 0;
+right: 0; transform: skewY(-8deg); -webkit-transform: skewY(-8deg); transform-origin: 100%; font-size:4em; color:white;padding-left:1em;}
+
+/*#card2 .image-wrapper{
+	width: 100px;
+	height: 100px;
+	border-radius: 100%;
+	background-image: url("https://static.pexels.com/photos/7097/people-coffee-tea-meeting.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	position: absolute;
+    z-index: 5;
+    top: 130px;
+    left: 50%;
+    margin-left: -50px;
+}*/
+/*
+#card2 .name{
+	margin-top: 70px;
+	text-align: center;
+}*/
+
+/*#card2 .social .four{text-align: center;}*/
+
+#card2 .info.teaminfo{padding:0; margin:0; width: 100%; text-align: center; height:400px; margin-top:50px;}
+.info.teaminfo ul{list-style:none; padding:0;font-size:20px;}
+.info.teaminfo ul li{width:100%; height:6em; }
+.info.teaminfo ul li a{color:cornflowerblue;}
+.info.teaminfo .cd2.lb.teamname{display:flex; width:97%; height:2em; flex-direction: row; justify-content:flex-start; align-items: center; padding-left:10px; border-bottom: 1px solid gray;}
+.info.teaminfo .card2.teamcode{height:1.9em; display:flex; justify-content: flex-end; align-items: center; padding-right:10px;}
+/* CARD 3 */
+/*
+
+#card3{
+	color: #2c3e50;
+}
+
+#card3 .header{
+	width: 100%;
+	height: 180px;
+	background-image: url("https://static.pexels.com/photos/9692/pexels-photo.jpeg");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+#card3 .wrapper{
+	padding: 0px 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#card3 .name{
+	font-weight: 400;
+}
+
+#card3 .info{
+	margin: 20px 0;
+	text-align: center;
+}
+
+#card3 .info .number{
+	background-color: #3498db;
+	color: #fff;
+	border-radius: 100%;
+	width: 70px;
+	height: 70px;
+	line-height: 70px;
+	text-align: center;
+	margin: 0 auto;
+	font-size: 20px;
+}
+
+*/

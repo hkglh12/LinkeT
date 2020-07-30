@@ -10,9 +10,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.project.Link.Comment.Comment;
 
 public interface CommentService {
-	public int totalCountComments();
-	public ArrayList<Comment> ListCommunities(int targetSerial);
-	public boolean createComment(HttpServletRequest request, HttpSession session);
-	public boolean updateComment(HttpSession session,HttpServletRequest request);
-	public boolean deleteCommunity(HttpSession session,HttpServletRequest request);
+	public int totalCountComments(int communitySerial);
+	public ArrayList<Comment> ListCommunities(int targetSerial, int pageNum);
+	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret);
+	public boolean updateComment(int targetSerial, String contents, boolean isSecret);
+	public boolean deleteCommunity(String usrId, int targetSerial);
 }
