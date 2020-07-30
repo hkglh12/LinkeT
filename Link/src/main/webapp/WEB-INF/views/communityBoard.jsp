@@ -175,10 +175,12 @@
       	<!-- //https://yoonka.tistory.com/459 -->
          <!-- https://blog.nerdfactory.ai/2019/05/05/spring-mvc-jstl.html -->
        <%-- <c:set var="block" value="${total}/8"/> --%>
-      <fmt:parseNumber var="block" value = "${(total/8)+1}" integerOnly="true"/>
+      <fmt:parseNumber var="block" value = "${(total/8)+ (total%8 == 0 ? 0 : 1)}" integerOnly="true"/>
+          <c:if test="${block gt 0}">
           <c:forEach begin="1" end="${block}" var="i" step="1">
           <li><a href="javascript:blockmove('${i}')">${i}</a></li>
           </c:forEach>
+          </c:if>
       </ul>
   </div>
   </div>

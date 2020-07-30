@@ -1,6 +1,5 @@
-$(document).ready( function() {
-    $('')
-    
+$(document).ready(function() {
+
   $('nav.menu a').click( function() {
     $(this).parent().find('.current').removeClass('current');
     $(this).addClass('current');

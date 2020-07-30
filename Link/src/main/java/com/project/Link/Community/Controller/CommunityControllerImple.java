@@ -19,13 +19,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.Link.Comment.Comment;
 import com.project.Link.Community.Community;
 import com.project.Link.Community.Service.CommunityService;
 import com.project.Link.Posting.Posting;
@@ -130,6 +133,7 @@ public class CommunityControllerImple implements CommunityController{
 		//}else {
 		/* int targetSerial = Integer.valueOf(request.getParameter("serial")); */
 		int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
+		System.out.println("targetSerial in controller : " + targetSerial);
 		Community community = cService.getCommunity(targetSerial);
 			/*
 			 * model.addAttribute("n_serial", community.getSerial());
@@ -139,6 +143,8 @@ public class CommunityControllerImple implements CommunityController{
 			 * model.addAttribute("f_count", community.getFileCount());
 			 * model.addAttribute("n_createdate", community.getCreateDate());
 			 */
+			logger.info("		RequestURICHECK " + request.getRequestURI());
+			model.addAttribute("total_comment", cService.getCommentTotalCount(targetSerial));
 			model.addAttribute("community",community);
 			return "communityRead";
 		//}
@@ -236,6 +242,78 @@ public class CommunityControllerImple implements CommunityController{
 			return "redirect:/community/list";
 		//}
 	}
+
+	/* 개별적 댓글 List get */
+	@RequestMapping(value="/comment/list", method=RequestMethod.POST)
+	@Override
+	@ResponseBody
+										//Jackson-databind로 인해서, 같은 모양새를 가졌기 때문에 자동바인드
+										// 아니면 @RequestBody로 열고 VO에 받던가 String 하나하나 이름맞춰가면서해야함
+	public HashMap<String, ArrayList<Comment>> ListCommentsAjax(@RequestBody HashMap<String,String> ajaxRequest, Model model, HttpServletRequest request, HttpSession session) throws Exception {
+		System.out.println(request.toString());
+		//int targetSerial = request.getParameter("c_serial") != null ? Integer.valueOf((String)request.getParameter("c_serial")) : -1;
+		/*int targetSerial = Integer.valueOf((String)request.getParameter("c_serial"));*/
+		// AJAx통신에서 >> Json, <pom.xml dependency에 json-databind 추가했다면,> @RequestBody 위 설명 참고
+		int targetSerial = ajaxRequest.containsKey("c_serial") == true ? Integer.valueOf(ajaxRequest.get("c_serial")) : 0;
+		if(targetSerial == 0) {
+			throw new Exception();
+		}
+		//int pageNum = request.getParameter("page_num") != null ? Integer.valueOf((String)request.getParameter("page_num"))-1 : 0;
+		int pageNum = ajaxRequest.containsKey("page_num") == true ? Integer.valueOf(ajaxRequest.get("page_num"))-1: 0;
+		System.out.println(targetSerial);
+		System.out.println(pageNum);
+		
+		logger.info("		ListCommentAjax : " + targetSerial + " : " + pageNum);
+		ArrayList<Comment> list = cService.ListCommentsAjax(targetSerial, pageNum);
+		// ResponseBody 이므로 객체 자체가 전달.
+		// Ajax Response의 "서버쪽 유효응답"이 XML, html, script, json, jsonp, text 이므로
+		// 부득이하게 list 자체를 넘기지 못하고, JSON으로 전달
+		//return list;
+		HashMap<String, ArrayList<Comment>> returnInfo = new HashMap<String, ArrayList<Comment>>();
+		returnInfo.put("list", list);
+		return returnInfo;
+		
+	}
+	
+	@RequestMapping(value="/comment/post", method=RequestMethod.POST)
+	@Override
+	public String PostComments(Model model, HttpServletRequest request, HttpSession session,
+			RedirectAttributes redirectAttr) {
+			String usrId = (String)session.getAttribute("usrId");
+			int targetSerial = Integer.valueOf((String)request.getParameter("c_serial"));
+			String contents = request.getParameter("cc_contents");
+			boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("issecret")) : false;
+			logger.info("		RequestURICHECK " + request.getRequestURI());
+			cService.createComment(usrId, targetSerial, contents, isSecret);
+			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
+			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
+			return "redirect:/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
+	}
+	@RequestMapping(value="/comment/update", method=RequestMethod.POST)
+	@Override
+	public String UpdateComments(Model model, HttpServletRequest request, HttpSession session,
+			RedirectAttributes redirectAttr) {
+		
+		int targetSerial = Integer.valueOf((String)request.getParameter("cc_serial"));
+		String contents = request.getParameter("modi_contents");
+		boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("is_secret")) : false;
+		cService.updateComment(targetSerial, contents, isSecret);
+		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
+		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
+		return "redirect:/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
+	}
+	@RequestMapping(value="/comment/delete", method=RequestMethod.POST)
+	@Override
+	public String DeleteComments(Model model, HttpServletRequest request, HttpSession session,
+			RedirectAttributes redirectAttr) {
+		String usrId = (String)session.getAttribute("usrId");
+		int targetSerial = Integer.valueOf((String)request.getParameter("del_serial"));
+		cService.deleteComment(usrId, targetSerial);
+		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
+		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
+		return "redirect:/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
+	}
+	
 	@RequestMapping(value="/download", method=RequestMethod.GET)
 	@Override
 	public void getCommunityFile(Model model, HttpServletRequest request, HttpSession session,
@@ -264,17 +342,15 @@ public class CommunityControllerImple implements CommunityController{
 
 			}
 		}catch(Exception e) {
-
+			e.printStackTrace();
 		}
-		
 	}
+
 	 @ExceptionHandler(value=Exception.class)
 	 public String handleDemoException(Exception e) { 
 		 logger.error(e.getMessage());
 		 e.printStackTrace();
 		 return "/error/404"; }
-	
-	 
 	
 
 

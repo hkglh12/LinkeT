@@ -99,11 +99,11 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from "+ctargetBoard+" where c_deletedate IS NULL Order by c_serial desc Limit " + (page*pagePerBlock) +","+pagePerBlock;
+			String sql = "select * from "+ctargetBoard+" where c_deletedate IS NULL Order by c_serial desc Limit " + (page*pagePerBlock) +", "+pagePerBlock;
 
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
+			System.out.println(sql);
 			while(rs.next()) {
 				Community community = new Community();
 				community.setSerial(rs.getInt("c_serial"));

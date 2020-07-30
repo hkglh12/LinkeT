@@ -33,52 +33,44 @@ public class CommentServiceImple implements CommentService{
 
 
 	@Override
-	public int totalCountComments() {
+	public int totalCountComments(int communitySerial) {
 		logger.info("totalPage called");
-		int totalCount = ccDao.getTotalCount();
-		logger.info("totalpage get result : " + totalCount);
+		int totalCount = ccDao.getTotalCount(communitySerial);
+		
 		return totalCount;
 	}
 
 	@Override
-	public ArrayList<Comment> ListCommunities(int targetSerial) {
+	public ArrayList<Comment> ListCommunities(int targetSerial, int pageNum) {
 		logger.info("listCommunities called");
 		/*
 		 * int targetPage = request.getParameter("page") == null ? 0 :
 		 * Integer.parseInt(request.getParameter("page"))-1;
 		 */	
-		int targetPage = 0;
-		ArrayList<Comment> list = ccDao.getListComment(targetSerial, targetPage, pagePerBlock);
+		System.out.println(targetSerial);
+		ArrayList<Comment> list = ccDao.getListComment(targetSerial, pageNum, pagePerBlock);
 		logger.info("listCommunities finished, answer size : " + list.size());
 		return list;
 	}
 
 	@Override
-	public boolean createComment(HttpServletRequest request, HttpSession session) {
+	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret) {
 		Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
-		String usrId = (String)session.getAttribute("usrId");
-		String contents = request.getParameter("cc_contents");
-		int communitySerial = Integer.valueOf(request.getParameter("c_serial"));
-		boolean isSecret = false;
-		ccDao.createComment(communitySerial, usrId, contents, createDate, isSecret);
+		ccDao.createComment(usrId, targetSerial, contents, createDate, isSecret);
 		return true;
 	}
 
 	@Override
-	public boolean updateComment(HttpSession session, HttpServletRequest request) {
-		int serial = Integer.valueOf(request.getParameter("cc_serial"));
-		String contents = request.getParameter("cc_contents");
+	public boolean updateComment(int targetSerial, String contents, boolean isSecret) {
 		Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
-		ccDao.updateComment(serial, contents, modifyDate);
+		ccDao.updateComment(targetSerial, contents, modifyDate);
 		return false;
 	}
 
 	@Override
-	public boolean deleteCommunity(HttpSession session, HttpServletRequest request) {
-		int serial = Integer.valueOf(request.getParameter("cc_serial"));
-		String usrId = (String) session.getAttribute("usrId");
+	public boolean deleteCommunity(String usrId, int targetSerial) {
 		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
-		ccDao.deleteComment(serial, usrId, deleteDate);
+		ccDao.deleteComment(targetSerial, usrId, deleteDate);
 		return false;
 	}
 

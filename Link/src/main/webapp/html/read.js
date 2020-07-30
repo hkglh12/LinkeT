@@ -1,6 +1,5 @@
 $(document).ready( function() {
-    $('')
-    
+    $('.toglemodi').css("display","block");
   $('nav.menu a').click( function() {
     $(this).parent().find('.current').removeClass('current');
     $(this).addClass('current');

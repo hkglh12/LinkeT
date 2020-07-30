@@ -9,8 +9,8 @@ public class User {
 	private String usrPhone;
 	private String usrEmail;
 	private int usrLevel;
-	private Timestamp usrIndate;
-	private Timestamp usrOutdate;
+	private Timestamp usrInDate;
+	private Timestamp usrOutDate;
 	private Timestamp usrKickedDate;
 	private String usrBannedId;
 	
@@ -56,17 +56,17 @@ public class User {
 	public void setUsrLevel(int i) {
 		this.usrLevel = i;
 	}
-	public Timestamp getUsrIndate() {
-		return usrIndate;
+	public Timestamp getUsrInDate() {
+		return usrInDate;
 	}
-	public void setUsrIndate(Timestamp usrIndate) {
-		this.usrIndate = usrIndate;
+	public void setUsrInDate(Timestamp usrInDate) {
+		this.usrInDate = usrInDate;
 	}
-	public Timestamp getUsrOutdate() {
-		return usrOutdate;
+	public Timestamp getUsrOutDate() {
+		return usrOutDate;
 	}
-	public void setUsrOutdate(Timestamp usrOutdate) {
-		this.usrOutdate = usrOutdate;
+	public void setUsrOutDate(Timestamp usrOutDate) {
+		this.usrOutDate = usrOutDate;
 	}
 	public Timestamp getUsrKickedDate() {
 		return usrKickedDate;
