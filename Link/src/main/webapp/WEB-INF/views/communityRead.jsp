@@ -151,8 +151,8 @@
             </ul>
         </div>
         <div id="noticecontent">
-          <textarea name="content" id="content" readonly>${community.contents}
-          </textarea>
+          <div id="content">${community.contents}
+          </div>
         </div>
         
     <div id="uploadfiles">

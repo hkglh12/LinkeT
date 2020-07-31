@@ -60,15 +60,32 @@ public class CommunityServiceImple implements CommunityService{
 		this.ccService = ccService;
 	}
 	@Override
-	public int totalCountCommunities() {
-		int totalCount = cDao.getTotalCount(targetBoard, prefix);
+	public int totalCountCommunities(String searchCategory, String searchTarget) {
+		int totalCount = 0;
+		if(searchTarget == null) {
+			totalCount = cDao.getTotalCount(targetBoard, prefix);
+		}else {
+			totalCount = cDao.getSearchCount(targetBoard, prefix, searchCategory, searchTarget);
+		}
 		return totalCount;
 	}
 	
 	@Override
-	public ArrayList<Community> ListCommunities(int targetPage) {
+	public ArrayList<Community> ListCommunities(int targetPage, String searchCategory, String searchTarget) {
 		logger.info("			ServiceLevelCalled ::::::: ListCommunities");
-		ArrayList<Community> list = cDao.getListCommunity(targetPage, pagePerBlock);
+		ArrayList<Community> list = null;
+		if(searchTarget == null) {
+			list = cDao.getListCommunity(targetPage, pagePerBlock); 
+		}else {
+			list = cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory, searchTarget);
+		}
+		/*
+		 * if(searchCategory == null) { list = cDao.getListCommunity(targetPage,
+		 * pagePerBlock); }else { if(searchTarget != null){ list =
+		 * cDao.getListCommunity(targetPage, pagePerBlock); }else { list =
+		 * cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory,
+		 * searchTarget); } }
+		 */
 		return list;
 	}
 	//TODO 이아이는 Transactional이어야 합니다.

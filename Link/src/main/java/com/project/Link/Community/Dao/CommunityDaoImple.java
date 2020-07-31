@@ -230,6 +230,69 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
 	}
 
 
+	@Override
+	public ArrayList<Community> searchListCommunity(int targetPage, int pagePerBlock, String searchCategory,
+			String searchTarget) {
+		logger.info("				DaoLvel : CommunityDamImple //////GetListCommunity////// Called");
+ 		ArrayList<Community> list = new ArrayList<Community>();
+		try {
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			String sql = "select * from "+ctargetBoard+" where c_deletedate IS NULL and "+searchCategory+" like ? Order by c_serial desc Limit " + (targetPage*pagePerBlock) +", "+pagePerBlock;
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+searchTarget+"%");
+			rs = pstmt.executeQuery();
+			System.out.println(sql);
+			while(rs.next()) {
+				Community community = new Community();
+				community.setSerial(rs.getInt("c_serial"));
+				community.setUsrId(rs.getString("u_id"));
+				community.setTitle(rs.getString("c_title"));
+				community.setContents(rs.getString("c_contents"));
+				community.setFileCount(rs.getInt("f_count"));
+				community.setCreateDate(rs.getTimestamp("c_createdate"));
+				community.setModifyDate(rs.getTimestamp("c_modifydate"));
+				community.setReadCount(rs.getInt("c_count"));
+				list.add(community);
+			}
+		}catch(ClassNotFoundException e) {e.printStackTrace();
+		}catch(SQLException e) {e.printStackTrace();
+		}finally {	
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {e.printStackTrace();}
+		}
+		return list;
+	}
+
+
+	@Override
+	public int getSearchCount(String targetBoard, String prefix, String searchCategory, String searchTarget) {
+		logger.info("				DaoLevel : PostingDaoImple///// getTotalCount /////For : " + targetBoard + "table\n");
+		
+		int result = 0;
+ 		try {
+ 			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			String sql = "select count(*) as count from " + targetBoard +" where "+prefix+"deletedate IS NULL and "+searchCategory+" like ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+searchTarget+"%");
+			rs = pstmt.executeQuery();
+			result = (rs.next()) == true ? rs.getInt("count") : -1;	
+ 		}catch(ClassNotFoundException e) {e.printStackTrace();
+		}catch(SQLException e) {e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {e.printStackTrace();}
+		}
+ 		return result;
+	}
+
+
 
 	}
 

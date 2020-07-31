@@ -10,6 +10,7 @@
     <link href="<c:url value="/a/css/signup.css"/>" rel="stylesheet">
     <script type="text/javascript" src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/a/js/signup.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/a/js/encryptor.js"/>"></script>
 </head>
 <body>
 <div class="outter-wrapper">
@@ -34,21 +35,21 @@
         </tr>
         <tr class="inputarea">
             <td class="head">아이디</td>
-            <td class="body"><input type="text" name="u_id" id="u_id" placeholder="영문, 숫자 조합(8~12자)">
+            <td class="body"><input type="text" name="u_id" id="u_id" placeholder="영문 혹은 숫자 6~12자리">
             <button type="button" id="idcheck">중복확인</button>
             </td>
         </tr>
         <tr class="inputarea">
             <td class="head">비밀번호</td>
-            <td class="body"><input type="password" name="u_pw" id="u_pw" placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합"></td>
+            <td class="body"><input type="password" name="u_pwraw" id="u_pwraw" placeholder="특수문자 (!,@,#)를 포함한 영문 혹은 숫자 12~16자리"></td>
         </tr>
         <tr class="inputarea">
             <td class="head">비밀번호 확인</td>
-            <td class="body"><input type="password" name="pwc" id="pwc" placeholder="영문, 숫자, 특수기호 중 2가지 이상 조합"></td>
+            <td class="body"><input type="password" name="pwc" id="pwc" placeholder=""></td>
         </tr>
         <tr class="inputarea">
             <td class="head">이메일 주소</td>
-            <td class="body"><input type="text" name="u_email" id="u_email" placeholder="이메일 주소를 입력해주세요"> <button type="button" id="emailcheck">중복확인</button></td>
+            <td class="body"><input type="email" name="u_email" id="u_email" placeholder="이메일 주소를 입력해주세요"> <button type="button" id="emailcheck">중복확인</button></td>
         </tr>
     </table>
       

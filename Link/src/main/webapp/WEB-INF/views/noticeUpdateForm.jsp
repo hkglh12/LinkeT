@@ -17,7 +17,15 @@
 <!--    <link rel="stylesheet" href="main.css">-->
     <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
+ <!-- Summernote Setting -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+	<!-- include summernote css/js -->
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="<c:url value="/a/summernote/summernote-ko-KR.js"/>"></script>
 <!--    <link rel="stylesheet" href="updateform.css">
     <script src="jquery-3.5.1.js"></script>
     <script src="updateform.js"></script>-->
@@ -179,6 +187,7 @@
     </section>
     </body>
     <script>
+    $('#content').summernote();
     $(document).ready(function(){
 	    console.log("${noticement.uFileList[0].uFileCode}");
     });

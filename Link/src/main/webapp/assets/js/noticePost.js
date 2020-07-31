@@ -1,4 +1,11 @@
 $(document).ready( function() {
+	$('#n_contents').summernote({
+		lang : 'ko-KR',
+
+		height:120,
+		plcaeholder:"제발되주라",
+		focus:true
+	});
     $('.mulfile').val('');
     
   $('nav.menu a').click( function() {

@@ -14,6 +14,7 @@
     <script src="<c:url value="/a/js/communityBoard.js"/>"></script>
 
 </head>
+	
 <body>
 <%@ include file="root-view.jsp"%>
 <section>
@@ -59,12 +60,13 @@
     </div> -->
     <div class="main lpad greets ar">
       Welcome,
-      <a href="#" class="underline">${session.getAttribute("usrId")}</a>
+      <a href="#" class="underline">${sessionScope.usrId}</a>
     </div>
   </div> 
   <!--사용자 계정 맞이-->
            <!-- https://www.baeldung.com/jstl  -->
   <div class="mainwrapper" id="test">
+ 
   <!--대쉬보드로 쓰려고-->
   <div class="dashboard mt curr">
 <!--    <div class="large-12">-->
@@ -72,11 +74,18 @@
         <div class="column lpad categ">
           Dashboard
         </div>
-        <div>
-        	검색기능도 제공해야지
+        <div id ="search_comm">
+        	<form action="/Link/community/list" method="GET">
+        		<select id="search_category" name="search_category">
+        			<option value="title" selected>글 제목</option>
+        			<option value="id" >작성자</option>
+        		</select>
+        		<input type="text" id="search_target" name="search_target">
+        		<button type="submit">검색하기</button>
+        	</form>
         </div>
         <div class="mpad ar">
-        <button type="btn" id="community_post"> 자유게시글 올리기</button>
+        <button type="button" id="community_post"> 자유게시글 올리기</button>
          <!--내용물 가리기 말기 버튼-->
           <!-- <a data-connect>
             <i class="icon-collapse-top"></i>
@@ -104,7 +113,8 @@
           </div>
         </div>
          
-        
+        <input type="hidden" id="search_category_hd" value="${request.getParameter('search_target')}">
+        <input type="hidden" id="search_target_hd" value="${request.getParameter('search_target')}">
          <!-- 모델에서 넘긴건 바로없이 접근가능 
          단, 이터레이팅 변수는 여기서 선언한것이므로 -->
         <!-- 결과로 받아온 리스트가 비어있을경우 -->
@@ -149,6 +159,7 @@
               <a href="javascript:pagecall(${community.serial})"> #<c:out value="${community.serial}"/></a>
             </span>
             <span class="overflow-control">
+
               <c:out value="${community.title}"/>
             </span>
           </div>
@@ -189,13 +200,24 @@
   </section>
 </body>
     <script>
+    var stc = "${search_category}";
+    var stg = "${search_target}";
+    console.log(stc);
+    console.log(stg);
+    //Model정보 접근
+    console.log("${search_target}");
+    // Session정보 접근
+    console.log("${usrId}");
+    console.log("${sessionScope.usrId}");
+    
     $("#community_post").on("click",function(){
     	console.log("post called");
     	location.href="http://localhost:80/Link/community/form";
     });
 	    function blockmove(block){
+	    	if(stc != null && stg != null)
 			console.log("called" + block)
-			location.href="/Link/community/list?page="+block;
+			location.href="/Link/community/list?page="+block+"&search_category="+stc+"&search_target="+stg;
 		}
 	    function pagecall(serial){
 	    	console.log("called" + serial)

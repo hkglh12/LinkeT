@@ -19,9 +19,9 @@ import com.project.Link.Community.Community;
 @Service
 public interface CommunityService {
 	// 자유게시글 총 갯수 리턴 (삭제안해썩나, 벤당하지 않은 것만)
-	public int totalCountCommunities();
+	public int totalCountCommunities(String searchCategory, String searchTarget);
 	// 자유게시글 리스팅
-	public ArrayList<Community> ListCommunities(int targetPage);
+	public ArrayList<Community> ListCommunities(int targetPage, String searchCategory, String searchTarget);
 	// 자유게시글 등록
 	public boolean createCommunity(String usrId, String title, String contents, List<MultipartFile> uFileList) throws Exception;
 	// 자유게시글 조회

@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%-- <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,10 +11,9 @@
     <link href="<c:url value="/a/css/main.css"/>" rel="stylesheet">
     <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
     <script src="<c:url value="/a/js/main.js"/>"></script>
-<!--    <link rel="stylesheet" href="main.css">-->
-    <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
+
 </head>
-<body>
+<body> --%>
 <div class="area">
     
 </div>
@@ -79,11 +78,7 @@
     </ul>
 </nav>
 
-<!-- <section>
-<div class="upper">
-        <div class="info"><h1 class="title">WelCome to Linke-T ! We are Linked!</h1></div>
-    </div>
-</section> -->
-</body>
+<!-- </body>
 
 </html>
+ -->
