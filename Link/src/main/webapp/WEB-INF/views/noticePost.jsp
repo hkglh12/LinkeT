@@ -14,16 +14,17 @@
     <script src="<c:url value="/a/js/noticePost.js"/>"></script>
     <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-  
-<!--     <script src="jquery-3.5.1.js"></script>
-    <script src="postnotice.js"></script>
-    <script src="jquery.MultiFile.js"></script> -->
-    <script>
-        console.log("${t_owner}");
-        console.log("${u_id}");        
-        var ownership = "${t_owner}" == "${u_id}" ? true : false;
-        console.log(ownership);
-    </script>
+    
+    <!-- Summernote Setting -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+	<!-- include summernote css/js -->
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="<c:url value="/a/summernote/summernote-ko-KR.js"/>"></script>
+    
 </head>
 <body>
 <div class="area">
@@ -89,10 +90,10 @@
         </li>  
     </ul>
 </nav> -->
-<%@ include file="root-view.jsp"%>
+<jsp:include page="root-view.jsp"/>
  <section>
  <!--내용부 헤더-->
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
   <!--상단부 로고-->
   <header id="atop">
     <div class="row">
@@ -145,7 +146,7 @@
       </div>
         
         <div id="noticecontent">
-          <textarea name="n_contents" id="content"></textarea>
+          <textarea name="n_contents" id="n_contents"></textarea>
         </div>
         
     <div id="uploadfiles">

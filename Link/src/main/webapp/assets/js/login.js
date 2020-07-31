@@ -1,13 +1,31 @@
 
 $(document).ready(function(){
-	if(result=="failed"){
+/*	if(result=="failed"){
 		alert("ID 혹은 PW를 확인해주세요!");	
 	}else if(result=="sout"){
 		alert("Session이 만료되었습니다. 다시로그인해주세요!");
 	}
+	*/
+	$('#loginbtn').on("click",function(){
+		if( !($('#u_id').val()=="")&& !($('#u_pwraw').val()=="")){
+			var enc = $("<input>");
+			enc.attr("id", "u_pw");
+			enc.attr("name", "u_pw");
+			enc.attr("type", "hidden");
+			enc.val(SHA256($('#u_pwraw').val()));
+			enc.appendTo($("#loginform"));
+			$("#loginform").submit();
+		}else{
+			alert("ID, 비밀번호를 입력해주세요");
+		}
+	});
+	
 	$("#signup").on("click",function(){
 		location.href="http://localhost:80/Link/signup";
 	})
+	
+	
+	
 });
 
 /*

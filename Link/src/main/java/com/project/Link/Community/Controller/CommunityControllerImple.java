@@ -69,7 +69,7 @@ public class CommunityControllerImple implements CommunityController{
 	public String getPostTemplate(Model model, HttpServletRequest reqeust, HttpSession session) {
 		return "communityPost";		
 	}
-	@RequestMapping(value={"/list", ""}, method = RequestMethod.GET)
+	@RequestMapping(value="/list", method = RequestMethod.GET)
 	@Override
 	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
 		//HashMap<String, String> sr = sessionControl(session);
@@ -79,23 +79,37 @@ public class CommunityControllerImple implements CommunityController{
 			//int page = Integer.valueOf(request.getParameter("page"));
 		// 요청이 들어오면 총 게시판 개수를 제공
 		//ArrayList<Community> list = cService.ListCommunities(request);
-		logger.info("Board main, linsting called");
+
 		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
-		/*HashMap<String, String> sr = sc.sessionControl(request, session, redirectAttr);
-		if(sr.get("usrId")==null) {
-			return "/";
-		}else {*/
-			logger.info("elseCallsed");
-			int total = cService.totalCountCommunities();
-			ArrayList<?> list = cService.ListCommunities(targetPage);
-			model.addAttribute("total", total);
-			model.addAttribute("communitylist",list);
-			
-			logger.info("total : " +total);
-			logger.info("communitylist : " + list.toArray().toString());
+		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
+		System.out.println(session.getAttribute("usrId"));
+		System.out.println("category modibefore : " + searchCategory);
+		if(searchCategory != null) {
+			if(searchCategory.equals("title")) {searchCategory = "c_"+searchCategory;
+			}else if(searchCategory.equals("id")) {searchCategory = "u_"+searchCategory;
+			}else {searchCategory = null;}
+		}
+		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
+		System.out.println("category : " + searchCategory);
+		System.out.println("target : " + searchTarget);
+		ArrayList<Community> list = cService.ListCommunities(targetPage, searchCategory, searchTarget);
+		
+		int total = 0;
+		total = cService.totalCountCommunities(searchCategory, searchTarget);
+		model.addAttribute("total", total);
+		model.addAttribute("communitylist",list);
+		
+		logger.info("total : " +total);
+		logger.info("communitylist : " + list.toArray().toString());
 			/* } */
-			System.out.println("왜또안되냐뭐가문제냐");
-			return "communityBoard";
+		// 리턴 동일페이지로하고, flash attr써서 JSP에서 처리
+		if(searchCategory != null) {
+			//Redirect하는 개체가 아닙니다. 따라서 add attr.
+		
+			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
+			model.addAttribute("search_target", searchTarget);
+		}
+		return "communityBoard";
 		//}
 		
 	}
@@ -121,6 +135,7 @@ public class CommunityControllerImple implements CommunityController{
 			cService.createCommunity(usrId, title, contents, uFileList);
 			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
+			
 			return "redirect:/community/list";
 		//}
 	}

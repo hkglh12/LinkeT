@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.Link.HomeController;
 import com.project.Link.SessionControl.SessionControl;
@@ -92,7 +93,7 @@ public class UserControllerImple implements UserController {
 
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	@Override
-	public String RegisterUser(Model model, HttpServletRequest request) {
+	public String RegisterUser(Model model, HttpServletRequest request, RedirectAttributes attributes) {
 		logger.info("/usr/join called");
 
 		String usrId = request.getParameter("u_id");
@@ -104,30 +105,32 @@ public class UserControllerImple implements UserController {
 
 		if (result == true) {
 			// 성공 >> 성공 대상과 성공을 전달
-			model.addAttribute("contents", "join");
-			model.addAttribute("value", "true");
-			return "success";
+			attributes.addFlashAttribute("result", "success");
+			return "redriect:/";
 		} else {
 			// 실패 >> 실패 대상과 실패를 전달
 			model.addAttribute("contents", "join");
 			model.addAttribute("value", "false");
 			return "failed";
 		}
+		
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@Override
-	public String GetUser(Model model, HttpServletRequest request, HttpSession session) {
+	public String GetUser(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes attributes) {
 		logger.info("/usrLogin Called");
 
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
 		User result = uService.userGet(usrId, usrPw);
-		boolean isAdmin = result.getUsrLevel() == 1 ? false : true;
 		if (result == null) {
-			model.addAttribute("result", "failed");
-			return "login";
+			attributes.addFlashAttribute("result", "failed");
+			/* model.addAttribute("result", "failed"); */
+			
+			return "redirect:/";
 		} else {
+			boolean isAdmin = result.getUsrLevel() == 1 ? false : true;
 			session.setAttribute("usrId", result.getUsrId());
 			session.setAttribute("isAdmin", isAdmin);
 			logger.info("Login Succeed!");

@@ -1,7 +1,12 @@
 $(document).ready(function(){
+	var namestd = /^[가-힣]{2,4}$/;
     var idcheck = false;
+	var idstd = /[\w]{6,12}/gi;
     var phonecheck=false;
+	var phonestd = /^\d{3}\d{3,4}\d{4}$/;
+	
     var pw_cfck = false;
+	var pwstd = /[\w\!\@\#]{12,16}/;
     var emailcheck = false;
     var emailstd = /([\w]+)\@([\w]+)\.([\w]+)/gi;
     //계정명 유효성 검사
@@ -11,6 +16,9 @@ $(document).ready(function(){
             alert("휴대전화번호를 먼저 입력하세요");
         }else{
 			var tgr = $("#u_phone").val();
+			if(!(phonestd.test(tgr))){
+				alert("휴대전화번호 형식이 아닙니다. 확인해주세요");
+			}else{
             var param = {"u_phone" : tgr};	
             $.ajax({
                 type:"POST",
@@ -36,6 +44,7 @@ $(document).ready(function(){
                 }
             })
         }
+		}
     });
     
     $("#idcheck").on("click", function(){
@@ -43,6 +52,9 @@ $(document).ready(function(){
             alert("아이디를 입력해주세요");
         }else{
 			var tgr = $("#u_id").val();
+			if(!(idstd.test(tgr))){
+				alert("아이디 입력조건에 부합하지 않습니다.");
+			}else{
             var param = {"u_id" : tgr};
 			console.log(param);
 			
@@ -71,6 +83,7 @@ $(document).ready(function(){
                 }
             })
         }
+	}
     });
     
     $("#emailcheck").on("click", function(){
@@ -160,11 +173,14 @@ $(document).ready(function(){
         //비밀번호 유효성 검사
         console.log($("#u_pw").val());
         console.log($("#pwc").val());
-        if($("#u_pw").val() == $("#pwc").val()){
-            pw_cfck = true;
-        }else{
-			console.log("틀려요")
-		}
+        if($("#u_pwraw").val() == $("#pwc").val()){pw_cfck = true;}
+
+		if($('#u_name').val()==""){
+			alert("이름을 입력해주세요");
+		}else if(!(namestd.test($('#u_name').val()))){
+			alert("입력하신 이름을 다시 확인해주세요");
+		}else{
+			
         // 전송 or 반려 결정
         if(idcheck == false || emailcheck==false || pw_cfck == false || phonecheck == false){      
 			if(idcheck==false){
@@ -173,12 +189,21 @@ $(document).ready(function(){
                 alert("Email 중복검사를 실행해주세요");
             }else if(pw_cfck==false){
                 alert("비밀번호와 비밀번호확인이 일치하지 않습니다");
-            }else if(phonecheck == false){
+            }else if(!(pwstd.test($('#u_pwraw').val()))){
+				alert("비밀번호 조건을 충족하지 않았습니다.");
+			}else if(phonecheck == false){
 				alert("휴대전화번호 유효성 검사를 실시해주세요");
-				}
+			}
         }else{
+			var enc = $("<input>");
+			enc.attr("id", "u_pw");
+			enc.attr("name", "u_pw");
+			enc.attr("type", "hidden");
+			enc.val(SHA256($('#u_pwraw').val()));
+			enc.appendTo($("#signup_form"));
             $("#signup_form").submit();
         }
+}
     });
                   
     
