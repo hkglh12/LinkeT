@@ -106,7 +106,7 @@ public class UserControllerImple implements UserController {
 		if (result == true) {
 			// 성공 >> 성공 대상과 성공을 전달
 			attributes.addFlashAttribute("result", "success");
-			return "redriect:/";
+			return "redirect:/";
 		} else {
 			// 실패 >> 실패 대상과 실패를 전달
 			model.addAttribute("contents", "join");

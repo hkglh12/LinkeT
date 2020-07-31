@@ -29,17 +29,11 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-<!--      <link rel="stylesheet" href="noticeboard.css">
-    <script src="jquery-3.5.1.js"></script>
-    <script src="noticeboard.js"></script> -->
-  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">    
     <link href="<c:url value="/a/css/noticeBoard.css"/>" rel="stylesheet">
     <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
     <script src="<c:url value="/a/js/noticeBoard.js"/>"></script>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">    
 
-<!--    <link rel="stylesheet" href="main.css">-->
-    <!-- 동일폴더가 아니라 서버 상위 디렉토리로 올라갔다올꺼면 c:url 쓰라고 함 (JSTL)-->
-   
 </head>
 <body>
 <div class="area">
@@ -162,7 +156,7 @@ https://m.blog.naver.com/PostView.nhn?blogId=hulint&logNo=80190571641&proxyRefer
           Dashboard
         </div>
         <div class="mpad ar">
-        <button type="btn" id="notice_post"> 글남기기</button>
+        <button type="button" id="notice_post"> 글남기기</button>
          <!--내용물 가리기 말기 버튼-->
           <!-- <a data-connect>
             <i class="icon-collapse-top"></i>

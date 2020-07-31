@@ -138,8 +138,10 @@
           ${community.title}
         </div>
         <div class="mpad ar">
+        <c:if test="${sessionScope.usrId eq community.usrId}">
           <button id="upd"> 수정하기 </button>
           <button id="del">삭제하기</button>
+          </c:if>
         </div>
       </div>
         <div id="noticeinfos">
@@ -200,26 +202,31 @@
      		<div class="ctx_comment_wrapper">
      		<label>${i.usrId}</label>
      		<mark>${i.contents}</mark>
-     		<div class="toglecomm">
-	     		<form action="/Link/community/comment/delete" method="post">
-	     			<input type="hidden" value="${community.serial}" name="c_serial">
-	     			<input type="hidden" value="${i.serial}" name="del_serial">
-	     			<button type="submit">삭제하기</button>
-	     		</form>
-     		<button type="button" class="togleOn">수정</button>
-     		</div>
      		
-     		<div class="toglemodi">
-     			<form action="/Link/community/comment/update" method="post">
-     				<input type="hidden" value="${community.serial}" name="c_serial">
-	     			<input type="hidden" value="${i.serial}" name="cc_serial">
-	     			<input type="checkbox" name="is_secret" value="true"> 비밀로하기
-	     			<button type="submit" class="comm_submit">수정해서보내버리기</button>
-	     			<button type="button" class="togleOff">취소하기</button>
-	     			<textarea name="modi_contents">
-	     			</textarea>
-     			</form>
-     		</div>
+     		<c:if test="${sessionScope.usrId eq i.usrId}">
+     		<!-- 구분선 -->
+	     		<div class="toglecomm">
+		     		<form action="/Link/community/comment/delete" method="post">
+		     			<input type="hidden" value="${community.serial}" name="c_serial">
+		     			<input type="hidden" value="${i.serial}" name="del_serial">
+		     			<button type="submit">삭제하기</button>
+		     		</form>
+	     		<button type="button" class="togleOn">수정</button>
+	     		</div>
+	     		
+	     		<div class="toglemodi">
+	     			<form action="/Link/community/comment/update" method="post">
+	     				<input type="hidden" value="${community.serial}" name="c_serial">
+		     			<input type="hidden" value="${i.serial}" name="cc_serial">
+		     			<input type="checkbox" name="is_secret" value="true"> 비밀로하기
+		     			<button type="submit" class="comm_submit">수정해서보내버리기</button>
+		     			<button type="button" class="togleOff">취소하기</button>
+		     			<textarea name="modi_contents">
+		     			</textarea>
+	     			</form>
+	     		</div>
+     		</c:if>
+     		<!-- 구분선 -->
      		</div>
 
      		</c:forEach>
@@ -241,6 +248,9 @@
     </section>
     </body>
     <script>
+    console.log("${sessionScope.usrId}");
+    console.log("${community.usrId}");
+    console.log("${sessionScope.usrId == community.usrId}");
 	    function commentblockmove(page_num){
 	    	console.log(page_num);
 			var param = {
