@@ -25,9 +25,9 @@ import com.project.Link.Comment.Comment;
 import com.project.Link.Comment.Service.CommentService;
 import com.project.Link.Community.Community;
 import com.project.Link.Community.Dao.CommunityDao;
-import com.project.Link.Noticement.Controller.NoticementControllerImple;
-import com.project.Link.Noticement.Service.NoticementServiceImple;
 import com.project.Link.Posting.Posting;
+import com.project.Link.RegUser.Noticement.NoticementController.NoticementControllerImple;
+import com.project.Link.RegUser.Noticement.NoticementService.NoticementServiceImple;
 import com.project.Link.Ufile.Service.UfileService;
 
 @Service
@@ -59,6 +59,13 @@ public class CommunityServiceImple implements CommunityService{
 	public void setCcService(CommentService ccService) {
 		this.ccService = ccService;
 	}
+	//특정 유저가 작성한 댓글 개수를 가져옵니다.
+	@Override
+	public int userCountCommunities(String usrId) {
+		// TODO Auto-generated method stub
+		return cDao.userCountCommunities(usrId);
+	}
+
 	@Override
 	public int totalCountCommunities(String searchCategory, String searchTarget) {
 		int totalCount = 0;
@@ -245,6 +252,7 @@ public class CommunityServiceImple implements CommunityService{
 		ccService.updateComment(targetSerial, contents, isSecret);
 		return true;
 	}
+
 
 	
 }

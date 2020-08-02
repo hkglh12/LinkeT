@@ -52,4 +52,9 @@ public class UfileServiceImple implements UfileService {
 		fDao.detachFile(targetBoard, targetCode, usrId, disconnDate);
 	}
 
+	@Override
+	public int getUserFileCount(String usrId) {
+		return fDao.getUserFileCount(usrId);
+	}
+
 }

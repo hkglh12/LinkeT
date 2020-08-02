@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.Link.Ufile.UFile;
 
 public interface UfileDao {
-	
+	public int getUserFileCount(String usrId);
 	public int uploadFile(String targetBoard, String modifiedFileName, String usrId, long fileSize, Timestamp createDate, String originalFileName, int serial);
 	public ArrayList<UFile> getFileList(String targetBoard, int relativeSerial);
 	public UFile getFile(String targetBoard, String fileCode);

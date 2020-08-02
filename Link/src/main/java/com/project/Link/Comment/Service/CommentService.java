@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.project.Link.Comment.Comment;
 
 public interface CommentService {
+	public int getUserCommentsCount(String usrId);
 	public int totalCountComments(int communitySerial);
 	public ArrayList<Comment> ListCommunities(int targetSerial, int pageNum);
 	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret);

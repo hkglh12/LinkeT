@@ -19,6 +19,7 @@ import com.project.Link.Community.Community;
 @Service
 public interface CommunityService {
 	// 자유게시글 총 갯수 리턴 (삭제안해썩나, 벤당하지 않은 것만)
+	public int userCountCommunities(String usrId);
 	public int totalCountCommunities(String searchCategory, String searchTarget);
 	// 자유게시글 리스팅
 	public ArrayList<Community> ListCommunities(int targetPage, String searchCategory, String searchTarget);

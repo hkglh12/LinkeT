@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 
 import com.project.Link.Community.Community;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.Noticement.Dao.NoticementDaoImple;
 import com.project.Link.Posting.Posting;
 import com.project.Link.Posting.Dao.PostingDaoImple;
+import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
 
 @Component
 public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
@@ -282,6 +282,29 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
 			rs = pstmt.executeQuery();
 			result = (rs.next()) == true ? rs.getInt("count") : -1;	
  		}catch(ClassNotFoundException e) {e.printStackTrace();
+		}catch(SQLException e) {e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {e.printStackTrace();}
+		}
+ 		return result;
+	}
+
+
+	@Override
+	public int userCountCommunities(String usrId) {
+		int result=0;
+		try {
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			String sql = "select count(*) as count from community where u_id=? and c_deletedate is null";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setNString(1,  usrId);
+			rs = pstmt.executeQuery();
+			result = rs.next() == true ? rs.getInt("count") : -1;
+		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();
 		}finally {
 			try {

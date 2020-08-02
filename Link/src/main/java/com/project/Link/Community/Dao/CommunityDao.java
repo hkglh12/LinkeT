@@ -10,6 +10,7 @@ import com.project.Link.Posting.Dao.PostingDao;
 public interface CommunityDao extends PostingDao {
 	// 조회, 리스팅은 각각 다른 "객체"를 리턴함. 따라서 재선언
 	// 조회
+	public int userCountCommunities(String usrId);
 	public Community getCommunity(int targetSerial);
 	// 리스팅
 	public ArrayList<Community> getListCommunity(int page, int pagePerBlock);

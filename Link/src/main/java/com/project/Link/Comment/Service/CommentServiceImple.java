@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.project.Link.Comment.Comment;
 import com.project.Link.Comment.Dao.CommentDao;
-import com.project.Link.Noticement.Service.NoticementServiceImple;
+import com.project.Link.RegUser.Noticement.NoticementService.NoticementServiceImple;
 
 @Service
 public class CommentServiceImple implements CommentService{
@@ -72,6 +72,10 @@ public class CommentServiceImple implements CommentService{
 		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
 		ccDao.deleteComment(targetSerial, usrId, deleteDate);
 		return false;
+	}
+	@Override
+	public int getUserCommentsCount(String usrId) {
+		return ccDao.getUserCommentCount(usrId);
 	}
 
 }
