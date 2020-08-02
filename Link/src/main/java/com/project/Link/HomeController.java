@@ -40,16 +40,12 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session) {
-		/*
-		 * System.out.println(session.getAttribute("usrId")); HashMap<String, String> sr
-		 * = sc.sessionControl(session); System.out.println(sr.get("usrId"));
-		 */
 		logger.info("///////////////////////////////////////HOMECOMTROLLERCALLED");
-		if(session.getAttribute("usrId")==null) {
-			return "login";
-		}else {
-			return "main";
-		}
+		return "/User/main/main";
+		/*
+		 * if(session.getAttribute("usrId")==null) { return "login"; }else { return
+		 * "main"; }
+		 */
 		/* return main; */
 		
 		

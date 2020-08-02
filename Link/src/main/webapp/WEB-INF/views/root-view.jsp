@@ -1,4 +1,6 @@
-<%-- <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!-- 모든 페이지에서 include방식으로 동작하게 변경하였기에, 상단부를 삭제합니다. -->
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,62 +15,70 @@
     <script src="<c:url value="/a/js/main.js"/>"></script>
 
 </head>
-<body> --%>
-<div class="area">
-    
-</div>
+<body>
+
 <nav class="main-menu">
     <ul>
         <li>
-            <a href="http://localhost:80/Link/">
+            <a href="/Link/">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
-                    Main
+                    메인으로 돌아가기
                 </span>
             </a>
 
         </li>
         <li>
-            <a href="http://localhost:80/Link/usr/me">
+            <a href="/Link/usr/me">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
-                    My Information
+                    내 정보보기
                 </span>
             </a>
 
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/notice/list">
+            <a href="/Link/notice/list">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
-                    Noticement
+                    공지사항 게시판
                     <!--아래에 팀 세개 추가해야함.-->
                 </span>
             </a>
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/community/list">
+            <a href="/Link/community/list?subject=java">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
-                    Community
+                    JAVA 게시판
                 </span>
             </a>
 
         </li>
-       
-        <li>
-            <a href="#">
-               <i class="fa fa-info fa-2x"></i>
+       	<li class="has-subnav">
+            <a href="/Link/community/list?subject=jsp">
+               <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
-                    Documentation
+                    JSP 게시판
                 </span>
             </a>
+
         </li>
+        <li class="has-subnav">
+            <a href="/Link/community/list?subject=spring">
+               <i class="fa fa-list fa-2x"></i>
+                <span class="nav-text">
+                    Spring 게시판
+                </span>
+            </a>
+
+        </li>
+        
     </ul>
 
     <ul class="logout">
         <li>
-           <a href="http://localhost:80/Link/usr/logout">
+           <a href="/Link/usr/logout">
                  <i class="fa fa-power-off fa-2x"></i>
                 <span class="nav-text">
                     Logout

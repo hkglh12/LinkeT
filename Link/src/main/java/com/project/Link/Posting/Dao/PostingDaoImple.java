@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.project.Link.HomeController;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.Noticement.Dao.NoticementDaoImple;
+import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
 
 @Component
 public class PostingDaoImple implements PostingDao{

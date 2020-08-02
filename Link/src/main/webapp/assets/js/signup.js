@@ -7,6 +7,8 @@ $(document).ready(function(){
 	
     var pw_cfck = false;
 	var pwstd = /[\w\!\@\#]{12,16}/;
+	var pwstd_ck = false;
+	
     var emailcheck = false;
     var emailstd = /([\w]+)\@([\w]+)\.([\w]+)/gi;
     //계정명 유효성 검사
@@ -27,7 +29,7 @@ $(document).ready(function(){
                     'Accept': 'application/json',
                     'Content-Type': 'application/json' 
                 },
-                url:"http://localhost:80/Link/usr/validate",
+                url:"/Link/usr/validate",
                 dataType:"json",
             
             	data:JSON.stringify(param),
@@ -65,7 +67,7 @@ $(document).ready(function(){
                     'Accept': 'application/json',
                     'Content-Type': 'application/json' 
                 },
-                url:"http://localhost:80/Link/usr/validate",
+                url:"/Link/usr/validate",
                 dataType:"json",
             
             	data:JSON.stringify(param),
@@ -114,7 +116,7 @@ $(document).ready(function(){
                         'Accept': 'application/json',
                         'Content-Type': 'application/json' 
                     },
-                    url:"http://localhost:80/Link/usr/validate",
+                    url:"/Link/usr/validate",
                     dataType:"json",
                     data : JSON.stringify(param),
                     success:function(data){
@@ -169,12 +171,11 @@ $(document).ready(function(){
     });*/
     
     $("#sign_submit").on("click",function(){
-		console.log("submit_clicked");
-        //비밀번호 유효성 검사
-        console.log($("#u_pw").val());
-        console.log($("#pwc").val());
+		
         if($("#u_pwraw").val() == $("#pwc").val()){pw_cfck = true;}
-
+		if(pwstd.test( $('#u_pwraw').val() )){
+			pwstd_ck=true;
+		}
 		if($('#u_name').val()==""){
 			alert("이름을 입력해주세요");
 		}else if(!(namestd.test($('#u_name').val()))){
@@ -182,14 +183,14 @@ $(document).ready(function(){
 		}else{
 			
         // 전송 or 반려 결정
-        if(idcheck == false || emailcheck==false || pw_cfck == false || phonecheck == false){      
+        if(idcheck == false || emailcheck==false || pw_cfck == false || phonecheck == false || pwstd_ck==false){      
 			if(idcheck==false){
                 alert("ID 중복검사를 실행해주세요");
             }else if(emailcheck==false){
                 alert("Email 중복검사를 실행해주세요");
             }else if(pw_cfck==false){
                 alert("비밀번호와 비밀번호확인이 일치하지 않습니다");
-            }else if(!(pwstd.test($('#u_pwraw').val()))){
+            }else if(pwstd_ck==false){
 				alert("비밀번호 조건을 충족하지 않았습니다.");
 			}else if(phonecheck == false){
 				alert("휴대전화번호 유효성 검사를 실시해주세요");

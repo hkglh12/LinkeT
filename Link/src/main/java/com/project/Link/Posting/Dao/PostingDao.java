@@ -23,6 +23,7 @@ public interface PostingDao {
 	
 	//**************************CRUD************************//
 	// Posting 등록
+	//TODO 공지사항에서는 제외해야하므로, community에서 다시 작성해야합니다. 제외하세dy 
 	public int createPosting(String targetBoard, String prefix, int serial,String usrId,String title, String contents, int fileCount, Timestamp createDate);
 	// Posting GET
 	/* public Posting getPosting(int targetSerial); */

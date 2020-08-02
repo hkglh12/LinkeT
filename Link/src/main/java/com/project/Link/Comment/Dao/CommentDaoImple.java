@@ -172,4 +172,28 @@ public class CommentDaoImple implements CommentDao{
 		return result;
 	}
 
+	@Override
+	public int getUserCommentCount(String usrId) {
+		int result = 0;
+		try {
+			//DB접속
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			//회원가입 시도
+			String sql = "select count(*) as count from communitycomments where u_id=? and cc_deletedate is null ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,usrId);
+			rs = pstmt.executeQuery();
+			result = rs.next() != false ? rs.getInt("count") : -1;
+		}catch(ClassNotFoundException e) {e.printStackTrace();
+		}catch(SQLException e) {e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {e.printStackTrace();}
+		}
+		return result;
+	}
+
 }

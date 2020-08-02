@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.Noticement.Dao.NoticementDaoImple;
+import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
 import com.project.Link.Ufile.UFile;
 
 @Component
@@ -160,6 +160,37 @@ public class UfileDaoImple implements UfileDao{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public int getUserFileCount(String usrId) {
+		int result = 0;
+		try {
+ 			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			
+			String sql = "select count(*) as count from communityfile where u_id = ? and isdisconn IS FALSE";
+			logger.info(sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, usrId);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				result = rs.getInt("count");
+			}
+			
+ 		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	/*

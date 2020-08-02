@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
-import com.project.Link.Noticement.Controller.NoticementControllerImple;
+import com.project.Link.RegUser.Noticement.NoticementController.NoticementControllerImple;
 
 /* Intercepter:
  * 출처: https://rongscodinghistory.tistory.com/2 [악덕고용주의 개발 일기]

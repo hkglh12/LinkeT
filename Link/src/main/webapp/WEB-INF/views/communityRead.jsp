@@ -208,7 +208,7 @@
 	     		<div class="toglecomm">
 		     		<form action="/Link/community/comment/delete" method="post">
 		     			<input type="hidden" value="${community.serial}" name="c_serial">
-		     			<input type="hidden" value="${i.serial}" name="del_serial">
+		     			<input type="hidden" value="${i.serial}" name="del_serial"> 
 		     			<button type="submit">삭제하기</button>
 		     		</form>
 	     		<button type="button" class="togleOn">수정</button>
