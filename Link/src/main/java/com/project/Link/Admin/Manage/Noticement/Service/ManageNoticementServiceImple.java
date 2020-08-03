@@ -71,25 +71,29 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 		boolean result;
 		try {
 			// 파일을 DB에 등록
-			result = mnDao.createPosting(targetBoard, prefix, serial, usrId, title, contents, uFileList.size(), createDate) >=1 ? true : false;
+			result = mnDao.createNoticement(targetBoard, prefix, serial, usrId, title, contents, uFileList.size(), createDate) >=1 ? true : false;
 			File file = new File(nFilePath);
 			if(file.exists() == false){
 				file.mkdirs(); 
 			}
 			// 파일 서버에 저장 후, 등록
-			for(MultipartFile mf : uFileList) {	
-				String originalFileName = mf.getOriginalFilename();
-				long fileSize = mf.getSize();
-				String modifiedFileName = System.currentTimeMillis()+originalFileName;
-				try {
-					mf.transferTo(new File(nFilePath+modifiedFileName));
-					//uFileService는 Notice, Community에서 공통적으로 사용하기때문에, targetboard를 명시해야합니다.
-					result = ufService.uFileUpload(targetBoardFile, modifiedFileName, usrId, fileSize, createDate, originalFileName, serial) >= 1 ? true : false;
-				}catch(RuntimeException e) {
-					throw e;
-				}catch(IOException e) {
-					throw e;
+			if(result==true) {
+				for(MultipartFile mf : uFileList) {	
+					String originalFileName = mf.getOriginalFilename();
+					long fileSize = mf.getSize();
+					String modifiedFileName = System.currentTimeMillis()+originalFileName;
+					try {
+						mf.transferTo(new File(nFilePath+modifiedFileName));
+						//uFileService는 Notice, Community에서 공통적으로 사용하기때문에, targetboard를 명시해야합니다.
+						result = ufService.uFileUpload(targetBoardFile, modifiedFileName, usrId, fileSize, createDate, originalFileName, serial) >= 1 ? true : false;
+					}catch(RuntimeException e) {
+						throw e;
+					}catch(IOException e) {
+						throw e;
+					}
 				}
+			}else {
+				return false;
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block

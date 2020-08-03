@@ -37,17 +37,22 @@ public class AdminControllerImplement implements AdminController{
 		logger.info("/Admin/login called");
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
-		User admin = aService.adminGet(usrId, usrPw);
-		if(admin==null) {
-			System.out.println("왜 널이야");
+		User user = aService.adminGet(usrId, usrPw);
+		if(user==null) {
 			model.addAttribute("result", "failed");
 			return "/Admin/admin/login";
 		}else {
-			boolean isAdmin = admin.getUsrLevel() == 999 ? true : false;
-			session.setAttribute("adminId", admin.getUsrId());
-			session.setAttribute("isAdmin", isAdmin);
+			boolean isAdmin = user.getUsrLevel() == 99 ? true : false;
+			if(isAdmin == true) {
+				session.setAttribute("usrId", user.getUsrId());
+				session.setAttribute("isAdmin", isAdmin);
+				return "/Admin/main";
+			}else {
+				model.addAttribute("result", "denied");
+				return "/Admin/admin/login";
+			}
 		}
-		return "/Admin/main";
+		
 	}
 
 }

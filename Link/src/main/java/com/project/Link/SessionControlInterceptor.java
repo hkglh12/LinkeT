@@ -32,7 +32,7 @@ public class SessionControlInterceptor extends HandlerInterceptorAdapter{
 		logger.info("::Prehandle requested");
 		
 		HttpSession session = request.getSession();
-		HashMap<String, String> sr = new HashMap<String, String>();
+		/* HashMap<String, String> sr = new HashMap<String, String>(); */
 		Map<String, ?> redirectAttrs = RequestContextUtils.getInputFlashMap(request);
 		if(redirectAttrs!=null) {
 			logger.info("/////////////////////////FlashInfos Extracted////////");

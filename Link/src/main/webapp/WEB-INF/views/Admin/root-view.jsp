@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <head>
 <meta charset="UTF-8">
-
+	<link href="${pageContext.request.contextPath}/a/css/Admin/root-view.css" rel="stylesheet">
 </head>
 <div class="area">
    
@@ -29,7 +30,7 @@
 
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/admin/manage/notice/list">
+            <a href="http://localhost:80/Link/admin/manage/notice/list?page=1">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
                     공지게시판 관리
@@ -82,7 +83,7 @@
         </li>  
     </ul>
 </nav>
-
+</html>
 <!-- </body>
 
 </html>

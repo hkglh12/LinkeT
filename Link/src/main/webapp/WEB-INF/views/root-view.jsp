@@ -1,22 +1,11 @@
-
-<!-- 모든 페이지에서 include방식으로 동작하게 변경하였기에, 상단부를 삭제합니다. -->
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Link</title>
-    <meta charset="UTF-8">
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <link href="<c:url value="/a/css/main.css"/>" rel="stylesheet">
-    <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script src="<c:url value="/a/js/main.js"/>"></script>
 
+<head>
+<meta charset="UTF-8">
+	<link href="${pageContext.request.contextPath}/a/css/User/root-view.css" rel="stylesheet">
 </head>
 <body>
-
 <nav class="main-menu">
     <ul>
         <li>
@@ -87,8 +76,5 @@
         </li>  
     </ul>
 </nav>
-
-<!-- </body>
-
-</html>
- -->
+</body>
+</hteml>

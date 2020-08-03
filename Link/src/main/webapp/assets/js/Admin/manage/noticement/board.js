@@ -1,12 +1,15 @@
+
+/*리스트 블록이동*/
 function blockmove(block){
 	console.log("called" + block)
-	location.href="/Link/notice/list?page="+block;
+	location.href="/Link/admin/manage/notice/list?page="+block;
 }
+/*특정 공지사항 호출*/
 function pagecall(serial){
 	console.log("called" + serial)
-	location.href="/Link/notice/get?n_serial="+serial;
+	location.href="/Link/admin/manage/notice/get?n_serial="+serial;
 }
-$(document).ready(function(){
+
 	/*좌측 메인메뉴 애니메이션*/
     $(".main-menu").on("mouseover",function(){
 		$("section").css("width","80%");
@@ -26,4 +29,3 @@ $(document).ready(function(){
 	
 	/*하단 페이지블록 링크*/
 	
-});

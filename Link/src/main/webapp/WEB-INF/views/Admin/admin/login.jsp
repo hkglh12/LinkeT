@@ -14,9 +14,22 @@
     <script type="text/javascript" src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/a/js/Admin/admin/login.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/a/js/encryptor.js"/>"></script>
-
+	<script>
+		$(function(){
+			var response = "${result}";
+			if(response=="failed"){
+				alert("ID, 비밀번호를 확인해주세요");
+			}else if(response=="denied"){
+				alert("접근제한된 페이지입니다.");
+			}
+		})
+	</script>
 </head>
 <body>
+	<%-- 	<c:out value="<script type='text/javascript'>alert('${result});"></c:out>
+	<c:if test="${result eq 'denied'}">
+		<c:out value="<script type='text/javascript'>alert('관리자계정만 접근할 수 있습니다.');</script>"></c:out>
+	</c:if>
 	<c:if test = "${result ne null}">
 		<c:if test = "${result eq 'failed'}">
 			<c:out value="<script type='text/javascript'>alert('ID 혹은 비밀번호를 확인해주세요');</script>"></c:out>
@@ -27,7 +40,7 @@
 		<c:if test = "${result eq 'notvalid'}">
 			<c:out value="<script type='text/javascript'>alert('관리자 계정만 접근 가능합니다.');</script>"></c:out>
 			</c:if>
-	</c:if>
+	</c:if> --%>
     <div class="body"></div>
 		<div class="grad"></div>
 		<div class="innerwrapper"></div>

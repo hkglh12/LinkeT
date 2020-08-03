@@ -18,14 +18,19 @@
 
   <!-- Vendor CSS Files -->
   <link href="<c:url value="/a/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
-  <link href="<c:url value="/a/REGNAassets/vendor/font-awesome/css/font-awesome.min.css"/>" rel="stylesheet">
-			
+  <link href="${pageContext.request.contextPath}/a/REGNAassets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/a/css/User/user/joinSuccess.css">
   <!-- Template Main CSS File -->
-  <link href="<c:url value="/a/css/user/main/joinSuccess.css"/>" rel="stylesheet">
-  <!-- Vendor JS Files -->
-  <script src="<c:url value="/a/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
+  <link href="${pageContext.request.contextPath}/a/css/User/user/joinSuccess.css" rel="stylesheet">
+  
+<!-- Vendor JS Files -->
+  <script src="${pageContext.request.contextPath}/a/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/a/js/User/user/joinSuccess.js"></script>
+  <script src="${pageContext.request.contextPath}/a/bootstrap/jquery-easing/jquery.easing.min.js"></script>
+<%--   <script src="<c:url value="/a/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
+  
   <script src="<c:url value="/a/js/user/main/joinSuccess.js"/>"></script>
-  <script src="<c:url value="/a/bootstrap/jquery-easing/jquery.easing.min.js"/>"></script>
+  <script src="<c:url value="/a/bootstrap/jquery-easing/jquery.easing.min.js"/>"></script> --%>
 
   <!-- =======================================================
   * Template Name: Regna - v2.1.0
