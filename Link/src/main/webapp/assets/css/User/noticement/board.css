@@ -1,13 +1,14 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+/*
 .fa-2x {font-size: 2em;}
 .fa {position: relative; display: table-cell; width: 60px; height: 36px; text-align: center; vertical-align: middle; font-size:20px;}
-/*Global Settings*/
+Global Settings
 html{width:100%; padding:0; margin:0;}
 body{width:95%;}
-/*left-mainmenu*/
-/*left-mainmenu initial setting*/
+left-mainmenu
+left-mainmenu initial setting
 .area {float: left; background: #e2e2e2; width: 100%; height: 100%;}
 .main-menu {background:#212121; border-right:1px solid #e5e5e5; position:absolute; top:0; bottom:0; height:100%; left:0; width:60px; overflow:hidden; -webkit-transition:width .05s  inear; transition:width .05s linear; -webkit-transform:translateZ(0) scale(1,1); z-index:1000;}
 .main-menu>ul {margin:7px 0;}
@@ -17,7 +18,7 @@ body{width:95%;}
 .main-menu .nav-text {position:relative; display:table-cell; vertical-align:middle; width:190px; font-family: 'Titillium Web', sans-serif;}
 .main-menu>ul.logout {position:absolute; left:0; bottom:0;}
 .no-touch .scrollable.hover {overflow-y:hidden;} 
-/*left-mainmenu hover (expand)*/
+left-mainmenu hover (expand)
 .main-menu:hover,nav.main-menu.expanded {width:250px; overflow:visible;}
 .main-menu:hover .upper.info{margin-left:500px;}
 .no-touch .scrollable.hover:hover {overflow-y:auto; overflow:visible;}
@@ -30,8 +31,8 @@ nav ul,nav li {outline:0; margin:0; padding:0;}
   font-style: normal;
   font-weight: 300;
   src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
-}
-section{width:100%; height:56em; margin-left:50px; box-sizing: border-box; margin-top:0; }
+} */
+section{width:95%; height:50em; margin-left:6vw; box-sizing: border-box; margin-top:0;}
 /*여기까지가 메뉴판 아래는 실제 section파트*/
 
 /*Broad Settings*/
@@ -72,38 +73,24 @@ a {display: inline-block; color: inherit; text-decoration: none;}
 .logo span:first-child {font-weight: 400;}
 .logo #main_header_location_t_name{color: hsl(0, 0%, 70%);font-weight: 300;}
 .main.header.submenu{margin-right:15px;}
-nav.menu a {margin: 0 7px; color: hsl(0, 0%, 70%); font-size: 12px; font-weight: 600; text-decoration: none;}
+nav.menu a {margin: 0 7px; color: hsl(0, 0%, 70%); font-size: 12px; font-weight: 600; text-decoration: none; height:2em;}
 nav.menu a:last-child {margin: 7px 0 7px 7px;}
 nav.menu a.current {color: hsl(0, 0%, 100%);}
-.greets {border-bottom: 5px solid hsla(0, 0%, 90%, .3); color: hsl(0, 0%, 40%); font-size: 13px; font-weight: 300;}
-
-/*
-.breadcrumb a {
-  transition: color .5s;
-}
-.breadcrumb a:hover {
-  color: hsl(0, 0%, 20%);
-}
-.breadcrumb a:after {
-  content: '\00a0\00a0\002F\00a0\00a0';
-  color: hsl(0, 0%, 70%);
-}
-.breadcrumb a:last-child:after {
-  content: '\00a0\00a0\002F\00a0\00a0 now you\0027re here';
-  color: hsl(0, 0%, 70%);
-}*/
+.greets {border-bottom: 5px solid hsla(0, 0%, 90%, .3); color: hsl(0, 0%, 40%); font-weight: 500; font-size:15px; margin-bottom:50px;}
+.greets>.underline{font-weight:bold; color:#0073ff;}
 a.primary {color: hsl(0, 0%, 70%);transition: color .5s;}
 a.primary:hover {color: hsl(195, 73%, 58%);}
 a.underline {color: hsl(0, 0%, 70%);}
 a.underline:hover:after {content: ''; display: block; width: inherit; height: 2px; background-color: hsl(195, 73%, 58%); margin-bottom: -2px; animation: link .9s ease;}
 @keyframes link {from { width: 0; } to  { width: 100%;}}
 /* Topic */
-
+.categ{font-size:22px;}
 .forum-head{display:flex; width:100%;}
 .forum-head > .column { background-color: hsl(206, 35%, 13%); border-right: 1px solid hsl(212, 35%, 15%); border-left: 1px solid hsl(212, 28%, 12%); color: hsl(0, 0%, 100%); font-weight: 300; font-size: 12px; text-shadow: 0 1px 1px hsl(0, 0%, 0%); text-align: center;}
 .forum-head > .column:first-child {text-align: left;border-left: none;}
 .forum-head > .column:last-child {border-right: none;}
 .forum-topic{display:flex; flex-direction: row;}
+.forum-topic:hover{cursor:pointer}
 .forum-topic > .column {
   min-height: 50px;
   max-height: 50px;
@@ -118,141 +105,22 @@ a.underline:hover:after {content: ''; display: block; width: inherit; height: 2p
 .forum-topic a {transition: color .5s;color: hsl(195, 73%, 58%); font-weight: 600;}
 .forum-topic a:hover {color: hsl(195, 73%, 48%);}
 .forum-topic span {display: block; margin: 0 0 2px 0;}
-.overflow-control {white-space: nowrap;overflow: hidden;text-overflow:ellipsis;}
+.overflow-control {font-size:14px; white-space: nowrap;/* overflow: hidden; */text-overflow:ellipsis;}
 .forum-topic .column:nth-child(2) span.overflow-control {width: 70%; height: 15px;}
 .forum-topic span.center {padding-top: 10px;}
-.normal {
-  background-color: hsl(0, 0%, 96%);
-  
-  color: hsl(0, 0%, 50%);
-  font-size: 12px;
-}
-.normal h1.inset {
-  background-color: hsl(206, 35%, 13%);  
-  margin: -20px -20px 20px -20px;
-  
-  color: hsl(0, 0%, 100%);
-  padding: 15px 20px 15px 20px;
-  font-size: 12px;
-  font-weight: 300;
-}
-.normal p {
-  margin: 0 0 40px 0;
-  line-height: 20px;
-}
-.normal p:last-child {
-  margin: 0;
-}
-#top-button {
-  display: none;
-  width: 27px;
-  background-color: hsl(206, 35%, 13%);
-  position: fixed;
-  right: 60px;
-  bottom: 20px;
-  border-radius: 3px;
-  cursor: pointer;
-  
-  padding: 5px;
-  text-align: center;
-  color: hsl(0, 0%, 100%);
-}
-#top-button.show {
-  display: block;
-}
-.mainwrapper{display:block; width: 100%; height:47em; overflow:hidden; position:relative;}
-
+.mainwrapper{display:block; width: 100%; height:auto;/*  overflow:hidden; */ position:relative;}
 .dashboard{display:block; width:100%; height:100%; position:absolute; top:50em;}
 .curr{top:0em;}
-
-/*posting*/
-/*
-body{margin-top:20px; background-color: #eeeeee;}*/
+#atop{border-radius:10px; margin-top:5px;}
 .postwrapper{background-color: #d6d6d6;}
-.postingbox{
-    width:80%; 
-    border:1px solid black;
-    height:35em;
-    margin: auto;
-    
-}
-.noti.posting.title{
-    border:1px solid black;
-    width:100%;
-    height:5em;
-}
-.noti.posting.content{
-    border:1px solid red;
-    height:24em;
-    text-align: justify;
-}
-.noti.posting.title input[type="text"]{
-    width:100%;
-    height:100%;
-    font-size:3em;
-    padding: 0 0 0 20px;
-    margin:0;
-    box-sizing: border-box;
-}
-.noti.posting.content textarea{
-    width:100%;
-    height:100%;
-    resize:none;
-    margin:0;
-    padding:20px 0 0 20px;
-    box-sizing: border-box;
-    font-size:1.5em;
-}
-
-
-.well-social-post .list-inline li.active::after {
-  position: absolute;
-  display: block;
-  width: 0;
-  height: 0;
-  content: "";
-  top: 30px;
-  left: 50%;
-  left: -webkit-calc(50% - 5px);
-  left: -moz-calc(50%-5px);
-  left: calc(50% - 5px);
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #dddddd;
-}
-
-.well-social-post .list-inline li.active a {
-  color: #222222;
-  font-weight: bold;
-}
-
-.well-social-post .form-control {
-  width: 100%;
-  min-height: 100px;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.well-social-post .list-inline {
-  padding: 10px;
-}
-
-.well-social-post .list-inline li + li {
-  margin-left: 10px;
-}
-
-.well-social-post .post-actions {
-  margin: 0;
-  background-color: #f6f7f8;
-  border-top-color: #e9eaed;
-}                                                            
-.page_block{
-    width:100%; height:3em; border:2px solid black;
-}
-.blocks{
-    margin:0; padding:0; display:flex; list-style: none; flex-direction: row; justify-content:center; align-items: center;
-}
-.blocks li{
-    padding: 0 10px;
-}
+.postingbox{width:80%; border:1px solid black; height:35em; margin: auto;}
+/* .noti.posting.title{border:1px solid black; width:100%; height:5em;}
+.noti.posting.content{border:1px solid red; height:24em; text-align: justify;} */
+/* .noti.posting.title input[type="text"]{width:100%; height:100%; font-size:3em; padding: 0 0 0 20px; margin:0; box-sizing: border-box;} */
+/* .noti.posting.content textarea{width:100%; height:100%; resize:none; margin:0; padding:20px 0 0 20px; box-sizing: border-box; font-size:1.5em;} */                                              
+       
+.page_block{width:100%; height:3em; margin-top:20px;}
+.blocks{margin:0; padding:0; display:flex; list-style: none; flex-direction: row; justify-content:center; align-items: center;}
+.blocks li{padding: 0 10px; color:#0180fe;}
+.blocks li:hover{cursor:pointer;}
+.blockcurr{color:black;}

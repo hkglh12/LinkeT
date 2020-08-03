@@ -27,7 +27,7 @@ import com.project.Link.RegUser.Noticement.Noticement;
 import com.project.Link.RegUser.Noticement.NoticementController.NoticementControllerImple;
 import com.project.Link.Ufile.Service.UfileService;
 
-@RequestMapping(value="/admin/manage/notice/*")
+@RequestMapping(value={"/admin/manage/notice/*", "/Admin/manage/notice/*"})
 @Controller
 public class ManageNoticementControllerImple extends NoticementControllerImple implements ManageNoticementController {
 	private final String nFilePath = "c:\\temp\\noticement\\";
@@ -52,25 +52,21 @@ public class ManageNoticementControllerImple extends NoticementControllerImple i
 	@Override
 	public String ListNoticements(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
 		logger.info("		Controller Level :: ListNoticements Called");
-		/*HashMap<String, String> sr = sc.sessionControl(request, session, redirectAttr);
-		if(sr.get("usrId")==null) {
-			return "/";
-		}else {*/
 		int total = mnService.totalCountNoticements();
 		int targetPage = request.getParameter("page") == null ? 0 :Integer.parseInt(request.getParameter("page"))-1;
 		ArrayList<Noticement> list = mnService.listNoticements(targetPage);
 		model.addAttribute("total", total);
 		model.addAttribute("noticelist",list);
 		/* } */
-		return "/Admin/manage/notice/noticeBoard";
+		return "/Admin/manage/noticement/board";
 	}
 	
-	// 공지사항 업로드를 위해 "업로드 폼" 요청에 응답하는 Endpoint
+	// 공지사항 작성를 위한 "작성 폼" 요청에 응답하는 Endpoint
 	@RequestMapping(value="/form", method=RequestMethod.GET)
 	@Override
 	public String getPostTemplate(Model model, HttpServletRequest reqeust, HttpSession session) {
 		logger.info("Manage : post form");
-		return "/Admin/manage/notice/noticePost";		
+		return "/Admin/manage/noticement/post";		
 	}
 	// TODO 성공했는지 아닌지 출력해야합니다.
 	// 신규 공지사항 입력 요청에 응답하는 endpoint입니다.
@@ -82,9 +78,10 @@ public class ManageNoticementControllerImple extends NoticementControllerImple i
 		String title = mpRequest.getParameter("n_title");
 		String contents = mpRequest.getParameter("n_contents");
 		List<MultipartFile> uFileList = mpRequest.getFiles("u_files");
-		mnService.createNoticement(usrId, title, contents,uFileList);
+		boolean result = mnService.createNoticement(usrId, title, contents,uFileList);
 		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
+		redirectAttr.addFlashAttribute("result", result);
 		return "redirect:/Admin/manage/notice/list?page=1";
 		/*}*/
 	}
@@ -97,7 +94,7 @@ public class ManageNoticementControllerImple extends NoticementControllerImple i
 		int targetSerial = Integer.valueOf(request.getParameter("n_serial"));
 		Noticement noticement = mnService.getNoticement(targetSerial);
 		model.addAttribute("noticement", noticement);
-		return "/Admin/manage/notice/noticeRead";
+		return "/Admin/manage/noticement/read";
 	}
 	
 	//Update요청을 위해 해당 경로로 접근하여 업데이트폼과 그 입력내용을 전달받음
@@ -107,7 +104,7 @@ public class ManageNoticementControllerImple extends NoticementControllerImple i
 		int targetSerial = Integer.valueOf(request.getParameter("n_serial"));
 		Noticement noticement = mnService.getNoticement(targetSerial);
 		model.addAttribute("noticement",noticement);
-		return "/Admin/manage/notice/noticeUpdateForm";
+		return "/Admin/manage/noticement/updateForm";
 	}
 	
 	
@@ -142,12 +139,9 @@ public class ManageNoticementControllerImple extends NoticementControllerImple i
 		}
 		
 		boolean result = mnService.updateNoticement(usrId, serial, title, contents, previousFileCodes, deleteFileCodes, uFileList);
-			/*
-			 * redirectAttr.addFlashAttribute("usrId", sr.get("usrId"));
-			 * redirectAttr.addFlashAttribute("isAdmin", sr.get("isAdmin"));
-			 */
 		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
+		redirectAttr.addFlashAttribute("result", result);
 		return "redirect:/Admin/manage/notice/list?page=1";
 			/* } */
 	}
@@ -158,15 +152,14 @@ public class ManageNoticementControllerImple extends NoticementControllerImple i
 	@Override
 	public String DeleteNoticement(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
 		logger.info("		Controller Level :: DeleteNoticement Called");
-		
 		int targetSerial = Integer.valueOf(request.getParameter("n_serial"));
 		String usrId = (String)session.getAttribute("usrId");
 		boolean result = mnService.deleteNoticement(targetSerial, usrId);
-		
 		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-		return "redirect:/Admin/manage/notice/list?page=1";
-		/* } */	
+		redirectAttr.addFlashAttribute("result", result);
+		return "redirect:/Admin/manage/notice/list?page=1&result="+result;
+		
 	}
 		/*
 		 * Exception handler

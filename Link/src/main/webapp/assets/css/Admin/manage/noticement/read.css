@@ -1,15 +1,14 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Open+Sans+Condensed:300,700);
-/* 
-.fa-2x {font-size: 2em;}
-.fa {position: relative; display: table-cell; width: 60px; height: 36px; text-align: center; vertical-align: middle; font-size:20px;}
-Global Settings
-html{width:100%; padding:0; margin:0;}
-body{width:95%; font-family: 'Open Sans', sans-serif;}
-left-mainmenu
-left-mainmenu initial setting
-.area {float: left; background: #e2e2e2; width: 100%; height: 100%;}
+/* .fa-2x {font-size: 2em;}
+.fa {position: relative; display: table-cell; width: 60px; height: 36px; text-align: center; vertical-align: middle; font-size:20px;} */
+/*Global Settings*/
+/* html{width:100%; padding:0; margin:0;}
+body{width:95%; font-family: 'Open Sans', sans-serif;} */
+/*left-mainmenu*/
+/*left-mainmenu initial setting*/
+/* .area {float: left; background: #e2e2e2; width: 100%; height: 100%;}
 .main-menu {background:#212121; border-right:1px solid #e5e5e5; position:absolute; top:0; bottom:0; height:100%; left:0; width:60px; overflow:hidden; -webkit-transition:width .05s  inear; transition:width .05s linear; -webkit-transform:translateZ(0) scale(1,1); z-index:1000;}
 .main-menu>ul {margin:7px 0;}
 .main-menu li {position:relative; display:block; width:250px;margin:30px 0;}
@@ -17,9 +16,9 @@ left-mainmenu initial setting
 .main-menu .nav-icon {position:relative; display:table-cell; width:60px; height:36px; text-align:center; vertical-align:middle; font-size:18px; }
 .main-menu .nav-text {position:relative; display:table-cell; vertical-align:middle; width:190px; font-family: 'Titillium Web', sans-serif;}
 .main-menu>ul.logout {position:absolute; left:0; bottom:0;}
-.no-touch .scrollable.hover {overflow-y:hidden;} 
-left-mainmenu hover (expand)
-.main-menu:hover,nav.main-menu.expanded {width:250px; overflow:visible;}
+.no-touch .scrollable.hover {overflow-y:hidden;}  */
+/*left-mainmenu hover (expand)*/
+/* .main-menu:hover,nav.main-menu.expanded {width:250px; overflow:visible;}
 .main-menu:hover .upper.info{margin-left:500px;}
 .no-touch .scrollable.hover:hover {overflow-y:auto; overflow:visible;}
 a:hover,a:focus {text-decoration:none;}
@@ -43,7 +42,6 @@ body {font-family: 'Open Sans', sans-serif;}
 header {background-image: url('https://subtlepatterns.com/patterns/use_your_illusion.png'); margin: 0; border-bottom: 3px solid hsl(195, 73%, 58%);}
 a {display: inline-block; color: inherit; text-decoration: none;}
 /*BroadSetting fin*/
-
 /*common settings*/
 .pad { padding: 15px; }
 .spad { padding: 5px; }
@@ -71,7 +69,6 @@ a {display: inline-block; color: inherit; text-decoration: none;}
 .forum-category {background-color: hsl(195, 73%, 58%); color: hsl(0, 0%, 100%); font-weight: 600; font-size: 13px; text-shadow: 0 1px 1px hsl(195, 73%, 40%);}
 /*common setting fin
 */
-#lbtitle{font-size:14px; padding:20px 0px 20px 30px;}
 .logo {color: hsl(0, 0%, 100%);font-size: 18px; text-transform: lowercase; padding-left:15px; border-radius:5px;}
 .logo span:first-child {font-weight: 400;}
 .logo #main_header_location_t_name{color: hsl(0, 0%, 70%);font-weight: 300;}
@@ -81,14 +78,20 @@ nav.menu a:last-child {margin: 7px 0 7px 7px;}
 nav.menu a.current {color: hsl(0, 0%, 100%);}
 .greets {border-bottom: 5px solid hsla(0, 0%, 90%, .3); color: hsl(0, 0%, 40%); font-weight: 500; font-size:15px;}
 .greets>.underline{font-weight:bold; color:#0073ff;}
+.filelist{width:100%; height:auto; overflow:auto; border:1px solid #b2b2b2; border-radius:10px; margin-top:20px;}
+.filelist ul{font-size:15px;}
+.filelist label{padding:20px;}
+#upd, #del{width:100px; height:30px; border:2px solid white; color:white; background:transparent; border-radius:10px;}
 .mainwrapper{display:block; width: 100%; height:auto; position:relative; margin-top:10px;}
 #noticetitle{width:100%; height:2em; padding:10px 0px 10px 30px; font-size:20px; box-sizing: border-box;}
-/* #notiwrapper{display:block; width:90%; height:100%; position:absolute; top:1em; left:5%; right:5%;} */
+#lbtitle{font-size:14px; padding:20px 0px 20px 30px;}
 #noticecontent{margin-top:2em;}
 #content{width:100%; height: auto; border:1px solid #a5a5a5; border-radius:10px; box-sizing: border-box; padding:20px; overflow:auto;}
-#uploadfiles{width:100%; height:auto; overflow:auto; border:1px solid #b2b2b2; border-radius:10px; margin-top:20px; padding:20px;}
-#noticeinfos{width:100%; height:3em; border:1px solid #acacac; padding-left:20px font-size:0.8em; border-radius:5px; margin: 20px auto 0px auto;}
-#noticeinfos ul{
-    list-style: none; display:flex;margin:0; padding:0; justify-content: center; align-items: center;
-}
-#noticeinfos li{ padding:10px 60px};
+#noticeinfos{width:70em; height:6em; border:1px solid #acacac; padding-left:20px font-size:0.8em; border-radius:5px; margin: 20px auto 0px auto;}
+.bb{color:#00a6ff;}
+.br{color:#ff0000;}
+#modilog{border-top:2px solid gray;}
+#modilog li{width:20em; padding:10px 0;}
+#modilog #modifirst{padding-left:10em;}
+#noticeinfos ul{list-style: none; display:flex;margin:0; padding:0; justify-content: center; align-items: center;}
+.origin{ padding:10px 40px};

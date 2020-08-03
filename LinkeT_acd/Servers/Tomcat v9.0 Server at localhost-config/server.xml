@@ -154,7 +154,7 @@
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
         
         <!-- 원본으로 돌아갈꺼면 Context구문만 삭제-->
-      <Context docBase="Link" path="/Link" reloadable="true" source="org.eclipse.jst.jee.server:Link"/><Context docBase="myTest" path="/myTest" reloadable="true" source="org.eclipse.jst.jee.server:myTest"/></Host>
+      <Context docBase="myTest" path="/myTest" reloadable="true" source="org.eclipse.jst.jee.server:myTest"/><Context docBase="Link" path="/Link" reloadable="true" source="org.eclipse.jst.jee.server:Link"/></Host>
     </Engine>
   </Service>
 </Server>

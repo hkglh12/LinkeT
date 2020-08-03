@@ -32,9 +32,7 @@ public class AdminDaoImple implements AdminDao{
 			
 			pstmt.setString(1,adminId);
 			pstmt.setString(2,adminPw);
-			System.out.println(adminId);
-			System.out.println(adminPw);
-			System.out.println(sql);
+
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				admin = new User();

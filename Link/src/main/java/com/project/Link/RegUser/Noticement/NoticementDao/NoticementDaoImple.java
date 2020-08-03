@@ -117,6 +117,7 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
 				noticement.setCreateDate(rs.getTimestamp("n_createdate"));
 				noticement.setModifyDate(rs.getTimestamp("n_modifydate"));
 				noticement.setReadCount(rs.getInt("n_count"));
+				noticement.setModifiedUsr(rs.getString("u_modified"));
 				list.add(noticement);
 			}
 		}catch(ClassNotFoundException e) {e.printStackTrace();
@@ -149,6 +150,8 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
 				noticement.setFileCount(rs.getInt("f_count"));
 				noticement.setCreateDate(rs.getTimestamp("n_createdate"));
 				noticement.setReadCount(rs.getInt("n_count"));
+				noticement.setModifiedUsr(rs.getNString("u_modified"));
+				noticement.setModifyDate(rs.getTimestamp("n_modifydate"));
 			}
 		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();
