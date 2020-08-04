@@ -167,6 +167,7 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
 				community.setFileCount(rs.getInt("f_count"));
 				community.setCreateDate(rs.getTimestamp("c_createdate"));
 				community.setReadCount(rs.getInt("c_count"));
+				community.setSubject(rs.getString("c_subject"));
 			}
 		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();
