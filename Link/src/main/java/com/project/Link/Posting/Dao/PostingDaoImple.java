@@ -34,15 +34,16 @@ public class PostingDaoImple implements PostingDao{
  	
  	// 유효한 포스팅의 갯수를 가져옴
 	@Override
-	public int getTotalCount(String targetBoard, String prefix) {
+	public int getTotalCount(String targetBoard, String prefix, String subject) {
 		logger.info("				DaoLevel : PostingDaoImple///// getTotalCount /////For : " + targetBoard + "table\n");
 		
 		int result = 0;
  		try {
  			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select count(*) as count from " + targetBoard +" where "+prefix+"deletedate IS NULL";
+			String sql = "select count(*) as count from " + targetBoard +" where "+prefix+"deletedate IS NULL and c_subject = ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setNString(1, subject);
 			rs = pstmt.executeQuery();
 			result = (rs.next()) == true ? rs.getInt("count") : -1;	
  		}catch(ClassNotFoundException e) {e.printStackTrace();
@@ -108,7 +109,7 @@ public class PostingDaoImple implements PostingDao{
 	//게시글 생성
 	@Override
 	public int createPosting(String targetBoard, String prefix, int serial, String usrId, String title, String contents, int fileCount,
-			Timestamp createDate) {
+			Timestamp createDate, String subject) {
 		logger.info("				DaoLevel : PostingDaoImple /////CreatePosting///// : " + targetBoard + "table\n");
  		int result = 0;
 		String[] psql= {prefix+"serial", prefix+"title", prefix+"contents", prefix+"createdate"};
@@ -117,7 +118,7 @@ public class PostingDaoImple implements PostingDao{
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			// 멤버변수 prefix 를 사용하려 했으나 쿼리문이 지나치게 난잡해지므로 사용포기
-			String sql = "insert into "+targetBoard+" ("+psql[0]+", u_id, "+psql[1]+", "+psql[2]+", f_count, "+psql[3]+") values(?,?,?,?,?,?)";
+			String sql = "insert into "+targetBoard+" ("+psql[0]+", u_id, "+psql[1]+", "+psql[2]+", f_count, "+psql[3]+", c_subject) values(?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,serial);
 			pstmt.setString(2, usrId);
@@ -125,6 +126,7 @@ public class PostingDaoImple implements PostingDao{
 			pstmt.setString(4,contents);
 			pstmt.setInt(5,fileCount);
 			pstmt.setTimestamp(6,createDate);
+			pstmt.setNString(7, subject);
 			result = pstmt.executeUpdate();
 		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();

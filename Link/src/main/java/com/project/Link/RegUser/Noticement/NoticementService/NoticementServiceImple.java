@@ -52,7 +52,7 @@ public class NoticementServiceImple implements NoticementService{
 	// JSP 파일 중 하단 page block에 사용됩니다.
 	@Override
 	public int totalCountNoticements() {
-		int totalCount = nDao.getTotalCount(targetBoard, prefix);
+		int totalCount = nDao.getNoticementCount(targetBoard, prefix);
 		return totalCount;
 	}
 	// 공지사항중 해당 페이지, 블록개수에 맞춰서 리턴합니다.

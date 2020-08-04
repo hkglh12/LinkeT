@@ -164,4 +164,29 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
 		}
 		return noticement;
 	}
+
+	@Override
+	public int getNoticementCount(String targetBoard, String prefix) {
+		logger.info("				DaoLevel : PostingDaoImple///// getTotalCount /////For : " + targetBoard + "table\n");
+		
+		int result = 0;
+ 		try {
+ 			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			String sql = "select count(*) as count from " + targetBoard +" where "+prefix+"deletedate IS NULL";
+			pstmt = conn.prepareStatement(sql);
+			System.out.println(sql);
+			rs = pstmt.executeQuery();
+			result = (rs.next()) == true ? rs.getInt("count") : -1;	
+ 		}catch(ClassNotFoundException e) {e.printStackTrace();
+		}catch(SQLException e) {e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {e.printStackTrace();}
+		}
+ 		return result;
+	}
+	
 }

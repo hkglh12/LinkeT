@@ -1,6 +1,6 @@
 @charset "utf-8"
 *{padding:0;margin:0;}
-body{background: #eaeaea;}
+body{background: #99d1ff;}
 .outter-wrapper{width:45em;height:50em;background: white;margin: auto;margin-top:5em;}
 .inner-wrapper{width:100%; margin:0 auto;}
 .inner-wrapper p{width:9em; margin:0 auto; padding-top:2em;text-align: center; font-size:2em; font-family: "d2coding"; text-shadow: 5px 2px 5px gray;}
@@ -14,6 +14,7 @@ form{clear:both;}
 .textinfo em{font-style:normal;}
 .main{width:80%;margin:2em auto 0 auto; border-top:2px solid #404040; border-bottom:2px solid #404040; margin-bottom:2em;}
 .main tr{border-bottom:1px solid gray;}
+.main td{height:4em;}
 .head{width:30%; height:3em; background: #c7c7c7; padding-left:0.5em; font-weight:bold;}
 .body{padding-left:1em;}
 .main input{width:17em; height:2em;}
