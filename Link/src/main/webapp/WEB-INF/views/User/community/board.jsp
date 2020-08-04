@@ -18,6 +18,7 @@
 </head>
 <script>
 	console.log("${param.subject}");
+	console.log("${param.page}");
 </script>
 <body>
 <jsp:include page="../../root-view.jsp"/>
@@ -114,22 +115,22 @@
         	</c:if>
 			<c:if test="${not empty communitylist}">	
          		<c:forEach items="${communitylist}" var="community" varStatus = "number">
-        			<div class="large-12 forum-topic">
+        			<div class="large-12 forum-topic" onclick="pagecall('${community.serial}')">
           				<div class="large-1 column lpad">
             				<c:if test="${comunity.subject == 'java'}">
             					<i class="fab fa-java"></i>
             				</c:if>
             				<c:if test="${community.subject == 'jsp'}">
             				</c:if>
-            				<c:if test="${community.subject == 'spring'}"   >
+            				<c:if test="${community.subject == 'spring'}" >
             				</c:if>
           				</div>
           				<div class="large-70 small-8 column lpad">
             				<span class="overflow-control">
-              					<a href="javascript:pagecall(${community.serial})"> #<c:out value="${total - (param.page * 8) - number.count+1}"/></a>
+              					 #<c:out value="${total - ((param.page-1) * 8) - number.count+1}"/>
             				</span>
             				<span class="overflow-control">
-              				<c:out value="${community.title}"/>
+              				<a><c:out value="${community.title}"/></a>
             				</span>
           				</div>
           				<div class="large-5 column ltpad">
