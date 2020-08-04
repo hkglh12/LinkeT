@@ -51,3 +51,4 @@ input[type="file"]{color:transparent; margin:0; padding:0; background:transparen
 #previous_upload ul{list-style:none; padding:0; maring-left:10px;}
 .del_files{background:transparent; border:none;}
 .file_name{border:none;}
+.note-editable { font-size: 20px; }
