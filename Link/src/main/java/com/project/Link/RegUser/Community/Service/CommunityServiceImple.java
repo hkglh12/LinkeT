@@ -69,7 +69,7 @@ public class CommunityServiceImple implements CommunityService{
 	@Override
 	public int totalCountCommunities(String searchCategory, String searchTarget, String subject) {
 		int totalCount = 0;
-		if(searchTarget == null) {
+		if(searchTarget == null || searchCategory == null) {
 			totalCount = cDao.getTotalCount(targetBoard, prefix, subject);
 		}else {
 			totalCount = cDao.getSearchCount(targetBoard, prefix, searchCategory, searchTarget, subject);

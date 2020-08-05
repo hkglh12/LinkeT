@@ -27,7 +27,7 @@
 
         </li>
         <li class="has-subnav">
-            <a href="/Link/notice/list">
+            <a href="/Link/notice/list?page=1">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
                     공지사항 게시판
@@ -36,7 +36,7 @@
             </a>
         </li>
         <li class="has-subnav">
-            <a href="/Link/community/list?subject=java">
+            <a href="/Link/community/list?subject=java&page=1">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
                     JAVA 게시판
@@ -45,7 +45,7 @@
 
         </li>
        	<li class="has-subnav">
-            <a href="/Link/community/list?subject=jsp">
+            <a href="/Link/community/list?subject=jsp&page=1">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
                     JSP 게시판
@@ -54,7 +54,7 @@
 
         </li>
         <li class="has-subnav">
-            <a href="/Link/community/list?subject=spring">
+            <a href="/Link/community/list?subject=spring&page=1">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
                     Spring 게시판

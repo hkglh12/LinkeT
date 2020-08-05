@@ -73,16 +73,16 @@ public class CommunityControllerImple implements CommunityController{
 			}else if(searchCategory.equals("id")) {searchCategory = "u_"+searchCategory;
 			}else {searchCategory = null;}
 		}
-		
+		System.out.println(targetPage);
 		System.out.println(searchCategory);
-		System.out.println(searchCategory);
+		System.out.println(searchTarget);
 		System.out.println(subject);
 		ArrayList<Community> list = cService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
 		int total = 0;
 		total = cService.totalCountCommunities(searchCategory, searchTarget, subject);
 		model.addAttribute("total", total);
 		model.addAttribute("communitylist",list);
-		
+		System.out.println(total);
 		logger.info("total : " +total);
 		logger.info("communitylist : " + list.toArray().toString());
 			/* } */
@@ -120,8 +120,8 @@ public class CommunityControllerImple implements CommunityController{
 			cService.createCommunity(usrId, title, contents, uFileList, subject);
 			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-			
-			return "redirect:/community/list";
+			//TODO 성공시 메시지출력준비!
+			return "redirect:/community/list?subject="+subject+"&page=1";
 		//}
 	}
 	@RequestMapping(value="/get", method=RequestMethod.GET)
