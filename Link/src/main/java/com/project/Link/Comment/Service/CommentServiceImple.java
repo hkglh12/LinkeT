@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.project.Link.Comment.Comment;
 import com.project.Link.Comment.Dao.CommentDao;
+import com.project.Link.RegUser.Community.Community;
 import com.project.Link.RegUser.Noticement.NoticementService.NoticementServiceImple;
 
 @Service
@@ -39,7 +40,14 @@ public class CommentServiceImple implements CommentService{
 		
 		return totalCount;
 	}
-
+	@Override
+	public ArrayList<Community> totalCountComments(ArrayList<Community> list) {
+		for(Community cm : list) {
+			cm.setCommentsCount(ccDao.getTotalCount(cm.getSerial()));
+		}
+		return list;
+		
+	}
 	@Override
 	public ArrayList<Comment> ListCommunities(int targetSerial, int pageNum) {
 		logger.info("listCommunities called");
@@ -68,7 +76,7 @@ public class CommentServiceImple implements CommentService{
 	}
 
 	@Override
-	public boolean deleteCommunity(String usrId, int targetSerial) {
+	public boolean deleteComment(String usrId, int targetSerial) {
 		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
 		ccDao.deleteComment(targetSerial, usrId, deleteDate);
 		return false;

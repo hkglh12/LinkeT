@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -53,21 +54,20 @@ public class CommunityServiceImple implements CommunityService{
 	public void setcDao(CommunityDao cDao) {this.cDao = cDao;}
 	public UfileService getUfService() {return ufService;}
 	public void setUfService(UfileService ufService) {this.ufService = ufService;}
-	public CommentService getCcService() {
-		return ccService;
-	}
-	public void setCcService(CommentService ccService) {
-		this.ccService = ccService;
-	}
-	//특정 유저가 작성한 댓글 개수를 가져옵니다.
+	public CommentService getCcService() {return ccService;}
+	public void setCcService(CommentService ccService) {this.ccService = ccService;}
+	
+
 	@Override
 	public int userCountCommunities(String usrId) {
-		// TODO Auto-generated method stub
+		//특정 유저가 작성한 댓글 개수를 가져옵니다.
 		return cDao.userCountCommunities(usrId);
 	}
 
+
 	@Override
 	public int totalCountCommunities(String searchCategory, String searchTarget, String subject) {
+		// 전체 게시글의 개수를 가져옵니다.
 		int totalCount = 0;
 		if(searchTarget == null || searchCategory == null) {
 			totalCount = cDao.getTotalCount(targetBoard, prefix, subject);
@@ -79,30 +79,21 @@ public class CommunityServiceImple implements CommunityService{
 	
 	@Override
 	public ArrayList<Community> ListCommunities(int targetPage, String searchCategory, String searchTarget, String communitySubject) {
-		logger.info("			ServiceLevelCalled ::::::: ListCommunities");
+		// 게시글을 페이지단위로 DB로부터 추출합니다.
 		ArrayList<Community> list = null;
-		System.out.println(searchTarget);
 		if(searchTarget == null || searchTarget == "") {
+			// 검색 대상이 없을경우, 일반적인 추출을 시작합니다.
 			list = cDao.getListCommunity(targetPage, pagePerBlock, communitySubject); 
-			System.out.println("nontargetcalled");
 		}else {
-			System.out.println("Yestargetcalled");
+			// 검색 대상이 있을경우, 특정 타겟을 대상으로 추출합니다.
 			list = cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory, searchTarget, communitySubject);
 		}
-		/*
-		 * if(searchCategory == null) { list = cDao.getListCommunity(targetPage,
-		 * pagePerBlock); }else { if(searchTarget != null){ list =
-		 * cDao.getListCommunity(targetPage, pagePerBlock); }else { list =
-		 * cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory,
-		 * searchTarget); } }
-		 */
 		return list;
 	}
-	//TODO 이아이는 Transactional이어야 합니다.
 	
+	@Transactional
 	@Override
 	public boolean createCommunity(String usrId, String title, String contents, List<MultipartFile> uFileList, String subject) throws Exception {
-		logger.info("			ServiceLevelCalled ::::::: CreateCommunity");
 		Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
 		Iterator<MultipartFile> iterator = uFileList.iterator();
 		while(iterator.hasNext()) {
@@ -134,7 +125,6 @@ public class CommunityServiceImple implements CommunityService{
 				}
 			}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			throw e1;
 		}
@@ -143,15 +133,10 @@ public class CommunityServiceImple implements CommunityService{
 
 	@Override
 	public Community getCommunity(int targetSerial) {
-		logger.info("			ServiceLevelCalled ::::::: getCommunity");
 		Community targetCommunity = cDao.getCommunity(targetSerial);
 		cDao.countUp(targetBoard, prefix, targetSerial, targetCommunity.getReadCount()+1);
 		targetCommunity.setuFileList(ufService.uFileGet(targetBoardFile, targetSerial));
-		// 댓글가져오는부분 점검하세요
-		int pageNum = 0;
-		targetCommunity.setComments(ccService.ListCommunities(targetSerial, pageNum));
-		System.out.println("in getcomm : " + targetSerial);
-		targetCommunity.setReadCount( targetCommunity.getReadCount() +1);
+		targetCommunity.setReadCount(targetCommunity.getReadCount() +1);
 		return targetCommunity;
 	}
 
@@ -229,35 +214,34 @@ public class CommunityServiceImple implements CommunityService{
 		boolean result = cDao.deleteCommunity(targetSerial, deleteDate) >= 1 ? true : false;
 		return result;
 	}
-	@Override
-	public int getCommentTotalCount(int communitySerial) {
-		int result = ccService.totalCountComments(communitySerial);
-		System.out.println("communityserbvice commentservice totalcaoutn : " + result);
-		return result;
-	}
-	@Override
-	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret) {
-		ccService.createComment(usrId, targetSerial, contents, isSecret);
-		return true;
-	}
-	@Override
-	public boolean deleteComment(String usrId, int targetSerial) {
-		ccService.deleteCommunity(usrId, targetSerial);
-		return true;
-	}
-	@Override
-	public  ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum){
-		ArrayList<Comment> list = ccService.ListCommunities(targetSerial, pageNum);
-		return list;
-	}
-	@Override
-	public boolean updateComment(int targetSerial, String contents, boolean isSecret) {
-		ccService.updateComment(targetSerial, contents, isSecret);
-		return true;
-	}
 
-
-	
+	/*
+	 * @Override public int getCommentTotalCount(int communitySerial) { int result =
+	 * ccService.totalCountComments(communitySerial);
+	 * System.out.println("communityserbvice commentservice totalcaoutn : " +
+	 * result); return result; }
+	 */
+	/*
+	 * @Override public boolean createComment(String usrId, int targetSerial, String
+	 * contents, boolean isSecret) { ccService.createComment(usrId, targetSerial,
+	 * contents, isSecret); return true; }
+	 */
+	/*
+	 * @Override public boolean deleteComment(String usrId, int targetSerial) {
+	 * ccService.deleteCommunity(usrId, targetSerial); return true; }
+	 */
+	/*
+	 * @Override public ArrayList<Comment> ListCommentsAjax(int targetSerial, int
+	 * pageNum){ ArrayList<Comment> list = ccService.ListCommunities(targetSerial,
+	 * pageNum); return list; }
+	 */
+	/*
+	 * @Override public boolean updateComment(int targetSerial, String contents,
+	 * boolean isSecret) { ccService.updateComment(targetSerial, contents,
+	 * isSecret); return true; }
+	 * 
+	 * 
+	 */
 }
 
 
