@@ -18,8 +18,14 @@ public class Community extends Posting{
 	// 유저의 "자유게시글"을 삭제한 "관리자" 계정
 	private String usrBannedId;
 	private String subject;
+	private int commentsCount;
 	
-	
+	public int getCommentsCount() {
+		return commentsCount;
+	}
+	public void setCommentsCount(int commentsCount) {
+		this.commentsCount = commentsCount;
+	}
 	public String getSubject() {
 		return subject;
 	}

@@ -1,19 +1,14 @@
 $(document).ready(function() {
 	$('.togleOn').on("click",function(){
 		var root = $(this).parent().parent().parent().parent();
-			if(root.find('.toglemodi').css("display")=="none"){
-				root.find('.toglemodi').css("display", "block");
-				console.log(root.find('.comment_contents').text());
-				root.find('.modi_contents').summernote("code",root.find('.comment_contents').text());
-				root.find('.comment_contents').css("display","none");
-			}
+			root.find('.toglemodi').css("display", "block");
+			root.find('.modi_contents').summernote("code",root.find('.comment_contents').text());
+			root.find('.comment_contents').css("display","none");
 		});
 		
 	$('.togleOff').on("click",function(){
-		if($(this).parent().parent().parent().children('.toglecomm').css("display")=="none"){ 
 			$(this).parent().parent().css("display","none");
-			$(this).parent().parent().parent().children('.toglecomm').css("display","block");
-			}	
+			$(this).parent().parent().parent().find('.comment_contents').css("display","block");
 		});
 		
 	$('#cc_contents').summernote({
@@ -67,6 +62,9 @@ $(document).ready(function() {
 	    		inputl.setAttribute("name", "c_serial");
 	    		inputl.setAttribute("value",$('#c_serial').val());
 	    		f.appendChild(inputl);
+				var subj = $("<input>").attr("type", "hidden").attr("name", "subject");
+				subj.attr("value", $("#subject").val());
+				subj.appendTo(f);
 	    		f.action="/Link/community/delete";
 	    		f.method="post";
 	    		document.body.appendChild(f);
@@ -80,6 +78,12 @@ $(document).ready(function() {
 			console.log('true');
 			console.log($(this).parent());
 			$(this).parent().submit();
+		}
+	});
+	$('.comm_submit').on("click", function(){
+		var result = confirm("정말 수정할까요?");
+		if(result == true){
+			$(this).parent().submit();			
 		}
 	})
     	
@@ -102,111 +106,59 @@ function commentblockmove(page_num){
 				dataType:"json",
 				data:JSON.stringify(param),
 				success:function(data){
-					console.log(data);
-					$('.registered.comment').html("");
-
 					
+					$('.registered.comment').html("");
 
 					if(data.list.length==0){
 						var non = $("<div>");
 						non.attr('class', 'ctx_commnet_wrapper');
 						non.html('<label> 아직 등록된 댓글이 없습니다.</label>');
 						$('.registered.comment').append(non);
-					}
-					
-					var regcomm = $('.registered.comment');
-					for(var i=0; i<data.list.length; i++){
-						var ci = data.list[i];
-						console.log("ci : " + ci.serial);
+					}else{
+						var regcomm = $('.registered.comment');
+						var cur_user = $("#current_userid").val();
+						var comm_user = $("community_userid").val();
 						
-						var comm = $("<div>");
-						comm.attr('class', 'ctx_comment_wrapper');
+						for(var i=0; i<data.list.length; i++){
+							var ci = data.list[i];
 						
-						var idlbl = $("<label>");
-						idlbl.text("작성자 : " + ci.usrId);
-						idlbl.appendTo(comm);
-						
-						var contmark = $("<mark>");
-						contmark.text(ci.contents);
-						contmark.appendTo(comm);
-						
-						var tgcomm = $("<div>");
-						tgcomm.attr("class", "toglecomm");
-						tgcomm.appendTo(comm);
-						
-							var tgcommdelform = $("<form>");
-							tgcommdelform.attr("action", "/Link/community/comment/delete");
-							tgcommdelform.attr("method", "POST");
-							tgcommdelform.appendTo(tgcomm);
+							var comm = $("<div>").attr('class', 'ctx_comment_wrapper').appendTo(regcomm);
+							/*var comm = $("<div>");
+							comm.attr('class', 'ctx_comment_wrapper');*/
+							// 댓글이 공개 || 현재 유저가 글작성자이거나 댓글작성자이면 출력
+							if((ci.checkSecret != true) || cur_user == comm_user || cur_user == ci.usrId){ 
+								var commenter = $("<div>");
+								commenter.attr('class', 'commenter');
+								commenter.appendTo(comm);
 							
-								var ctyserialin = $("<input>");
-								ctyserialin.attr("type", "hidden");
-								ctyserialin.attr("value", ci.communitySerial);
-								ctyserialin.attr("name", "c_serial");
-								ctyserialin.appendTo(tgcommdelform);
-								
-								var commin = $("<input>");
-								commin.attr("type","hidden");
-								commin.attr("value",ci.serial);
-								commin.attr("name","del_serial");
-								commin.appendTo(tgcommdelform);
-								
-								var sbmitbtn = $("<button>");
-								sbmitbtn.attr("type","submit");
-								sbmitbtn.text("삭제하기");
-								sbmitbtn.appendTo(tgcommdelform);
-							
-						var modibtn = $("<button>");
-						modibtn.attr("type", "button");
-						modibtn.attr("class", "togleOn");
-						modibtn.text("수정하기");
-						modibtn.appendTo(comm);
-						
-						var tgmodi = $("<div>");
-						tgmodi.attr("class", "toglemodi");
-						tgmodi.appendTo(comm);
-						
-							var tgcommmodiform = $("<form>");
-							tgcommmodiform.attr("action", "/Link/community/comment/update");
-							tgcommmodiform.attr("method", "POST");
-							tgcommmodiform.appendTo(tgmodi);
-								
-								var cmtyserialin = $("<input>");
-								cmtyserialin.attr("type", "hidden");
-								cmtyserialin.attr("value", ci.communitySerial);
-								cmtyserialin.attr("name", "c_serial");
-								cmtyserialin.appendTo(tgcommmodiform);
-								
-								var commserial = $("<input>");
-								commserial.attr("type", "hidden");
-								commserial.attr("value", ci.serial);
-								commserial.attr("name", "cc_serial");
-								commserial.appendTo(tgcommmodiform);
-								
-								var issecretin = $("<input>");
-								issecretin.attr("type", "checkbox");
-								issecretin.attr("name", "is_secret");
-								issecretin.attr("value", "true");
-								issecretin.appendTo(tgcommmodiform);
-								
-								var textara = $("<textarea>");
-								textara.attr("name", "modi_contents");
-								textara.appendTo(tgcommmodiform);
-								
-								var sbbtn = $("<button>");
-								sbbtn.attr("type", "submit");
-								sbbtn.attr("class", "comm_submit");
-								sbbtn.text("수정해서 보내버리기");
-								sbbtn.appendTo(tgcommmodiform);
-								
-								
-								var cancelbtn = $("<button>");
-								cancelbtn.attr("type", "button");
-								cancelbtn.attr("class", "togleOff");
-								cancelbtn.attr("text", "취소하기");
-								cancelbtn.appendTo(tgcommmodiform);
-	
-							comm.appendTo(regcomm);
+								var image_div=$("<div>").attr('class','image-wrapper').appendTo(commenter);						
+								var idlbl = $("<label>").text("유저아이디 : " + ci.usrId).attr('class','comm usrlbl').appendTo(commenter);
+								var datelbl = $("<label>").text("게시날짜 : " + moment(ci.createDate).format('YYYY-MM-DD HH:mm:ss')).attr('class','comm usrlbl').appendTo(commenter);
+								// 댓글작성자 일때만 삭제, 수정버튼 제공
+								if(cur_user == ci.usrId){
+									var toglecomm = $("<div>").attr('class', 'toglecomm').appendTo(commenter);
+									var togleform = $("<form>").attr('action',"/Link/community/comment/delete").attr('method', 'post').attr('class','delform').appendTo(toglecomm);
+									var togle_cserial = $('<input>').attr('type','hidden').attr('value',c_serial).attr('name','c_serial').appendTo(togleform);
+									var togle_delserial = $('<input>').attr('type','hidden').attr('value',ci.serial).attr('name','del_serial').appendTo(togleform);
+									var comm_delbtn = $("<button>").attr('type','button').attr('class','comment_del').text("댓글 삭제").appendTo(togleform);
+									var comm_modifybtn = $("<button>").attr('type','button').attr('class','togleOn').text("댓글 수정").appendTo(togleform);
+									if(ci.checkSecret == true){
+										var lblred = $("<label>").attr('class', 'col red').text("비밀게시글입니다.");
+									}
+									var toglemodi = $("<div>").attr('class','toglemodi').appendTo(comm);
+									var toglemodiform = $("<form>").attr('action', '/Link/community/comment/update').attr('method','post').appendTo(toglemodi);
+									var modi_cserial = $("<input>").attr('type','hidden').attr('value',c_serial).attr('name','c_serial').appendTo(toglemodiform);
+									var modi_ccserial = $("<input>").attr('type', 'hidden').attr('value',ci.serial).attr('name','cc_serial').appendTo(toglemodiform);
+									var modi_contents = $("<textarea>").attr('class','modi_contents').appendTo(toglemodiform);
+									var secretcheck = $("<input>").attr('type','checkbox').attr('name','is_secret').attr('value','true').appendTo(toglemodi);
+									var submitbtn = $('<button>').attr('type','button').attr('class','comm_submit').appendTo(toglemodi)
+									var modi_cancel = $('<button>').attr('type','button').attr('class','togleOff').appendTo(toglemodi);
+								}
+								var com_contents = $("<div>").attr('class','comment_contents').html(ci.contents).appendTo(comm);	
+							}else{
+								var secretcomm = $("<div>").attr('class','toglecomm').text("비밀댓글 : 댓글 작성자와 글 작성자만 볼 수 있습니다.").appendTo(comm);
+							}
+						}
 					}
 				},error:function(data){
 					console.log(data);

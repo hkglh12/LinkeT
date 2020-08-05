@@ -1,8 +1,20 @@
 $(document).ready(function(){
-$("#community_post").on("click",function(){
-    	location.href="http://localhost:80/Link/community/form";
-    });
+	/*좌측 메인메뉴 애니메이션*/
+	$(".main-menu").on("mouseover",function(){
+		$("section").css("width","80%");
+		$("section").css("margin-left","18%"); 
+	});    
+	$(".main-menu").on("mouseout",function(){
+		$("section").css("width","95%");
+	    $("section").css("margin-left","6vw"); 
+	});
+	
+	$("#community_post").on("click",function(){
+		var sbj = $("#subject").val();
+	    location.href="http://localhost:80/Link/community/form?subject="+sbj;
+	});
 });
+
 function blockmove(block){
 	console.log("called");
 	var stc=$('#search_category_hd').val();

@@ -15,6 +15,7 @@
     <script src="${pageContext.request.contextPath}/a/js/User/community/post.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/User/community/post.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/a/css/Commons/posting_structure.css" rel="stylesheet">
 	 <!-- Summernote Setting -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -33,17 +34,13 @@
 	   <div class="row">
 	     <div class="main lpad header location">
 	       <div class="logo">
-	         <span>CurrentLocation : </span>
-	         <span id="main_header_location_t_name">/community/posting</span>
+	         <span>${subject} : </span>
+	         <span id="main_header_location_t_name"> 글 작성</span>
 	       </div>
 	     </div>
 	     <div class="main header submenu ar">
 	       <nav class="menu">
-	         <a href="#" class="current" id="dashboard">Dashboard</a>
-	         <a href="#" id="teaminfo">Team information</a>
-	         <a href="#" id="noticement">Noticement</a>
-	         <a href="#" id="community">Community</a>
-	         <a href="#" id="shareboard">Share board</a>
+	         <a href="#" class="current" id="dashboard"></a>
 	       </nav>     
 	     </div>
 	   </div>
@@ -57,29 +54,33 @@
 	</div>
 	
 	<div class="mainwrapper">
-  	<div id="notiwrapper">
-    	<form action="/Link/community/post" method="post" enctype="multipart/form-data">
-      		<div class="forum-category rounded top mgx">
-        	<div id="noticetitle">
-          		<input type="text" placeholder="제목 입력" name="c_title" id="c_title">
-        	</div>
-        	<div class="mpad ar">
-          		<button id="txsubmit" type="submit"> 게시하기 </button>
-        	</div>
-	       		<div id="noticecontent">
-	          		<textarea name="c_contents" id="c_contents"></textarea>
+  		<div id="notiwrapper">
+    		<form action="/Link/community/post" method="post" enctype="multipart/form-data" id="communityform">
+    			<input type="hidden" name="c_subject" value="${subject}"> 
+      			<div class="forum-category rounded top">
+        		<div id="noticetitle">
+        			<label> 제목 </label>
+	          		<input type="text" placeholder="" name="c_title" id="c_title">
+        		</div>
+        		<div class="mpad ar">
+        			<button id="txsubmit" type="button" onclick="community_submit();"> 게시하기 </button>
+        		</div>
+        		</div>
+        		<div id="noticecontent_wrapper">
+       			<label>게시글 내용 입력</label>
+       			<div id="noticecontent">
+          			<textarea name="c_contents" id="c_contents"></textarea>
 	        	</div>
-			</div>
-    	<div id="uploadfiles">
-    		<input type="file" class="multi" name="u_files"/>
-      	</div>
-    	</form>
-
+	        	</div>		
+	        	<div id="upload_info">
+        			<label>최대 업로드 크기는 5MB입니다.</label>
+        		</div>
+	    		<div id="uploadfiles">
+    				<input type="file" class="multi" name="u_files"/>
+	      		</div>
+    		</form>
+  		</div>
   	</div>
-  </div>
 </section>
 </body>
-<script>
-
-</script>
 </html>

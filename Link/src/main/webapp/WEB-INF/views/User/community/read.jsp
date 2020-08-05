@@ -17,18 +17,28 @@
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/User/community/read.js"></script>
    	<link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">  
+   	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
    	<link href="${pageContext.request.contextPath}/a/css/User/community/read.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        
         <!-- Summernote Setting -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	
 	<!-- include summernote css/js -->
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 	<script src="${pageContext.request.contextPath}/a/summernote/summernote-ko-KR.js"></script>
-	
+	<!-- AJAX Read Timestamp 관리 -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+	<script>
+	console.log(${result});
+	if("${result}" == "true"){
+		alert("댓글 등록에 성공했습니다!");
+	}else("${request.getParameter('result')}" =="true"){
+		alert("댓글 등록에 성공했습니다!");
+	} 
+	</script>
 </head>
 <body>
 <jsp:include page="../../root-view.jsp"/>
@@ -57,9 +67,11 @@
   			<div id="notiwrapper">
       			<div class="forum-category rounded top">
         			<div id="noticetitle">
-        			<label>제목</label><br>
-          				${community.title}
+
+        			<label class="title_upper">제목</label><br>
+          			<label class="title_lower">${community.title}</label>
         			</div>
+        			<input type="hidden" id="subject" value="${community.subject}">
 	        		<div class="mmpad ar">
 	        			<c:if test="${sessionScope.usrId eq community.usrId}">
 	          				<button id="upd">게시글 수정</button>
@@ -80,37 +92,49 @@
         			<label>게시글 내용</label>
           			<div id="content">${community.contents}</div>
         		</div>
-    			<div id="uploadfiles">
+
+    			<div id="uploadfiles_wrapper">
+    			<label>첨부된 파일</label>
      <%-- <c:if test="${fn:length(list) eq 0}"> --%>
      <!-- 올림의 쉬운 이해 -->
      <%-- <fmt:parSeNumber var="pageCount" value="${count/pageSize + (count%pageSize==0 ? 0 : 1)}" intergerOnly="true"/> --%>
      <!-- https://okky.kr/article/187379  -->
+     			<div id="uploadfiles">
+     				<ul>
      				<c:if test="${empty community.uFileList}">
-     					<label>등록된 파일이 없습니다!</label>
-     				</c:if>		
+     					<label>첨부된 파일이 없습니다!</label>
+     				</c:if>
+     						
      				<c:if test="${not empty community.uFileList}">
      					<c:forEach items="${community.uFileList}" var="i">
      						<li><a href="http://localhost:80/Link/community/download?fileCode=${i.uFileCode}">${i.uFileOriginName}</a></li>
     <%-- <label class="uFileCode">${i.uFileCode}</label> --%>
      					</c:forEach>
      				</c:if>
+     				</ul>
+      			</div>
       			</div>
   			</div>
   		</div>
-  		<div id="uploadtext">
-  			<label>댓글 작성하기</label>
-  		</div>
-  		<div id="uploadcomment">
-   			<form action="/Link/community/comment/post" method="post">
-   				<input name="c_serial" type="hidden" value="${community.serial}">
-   				<textarea name="cc_contents" id="cc_contents"></textarea>
-   				<input type="checkbox" name="is_secret" value="true"> 비밀로하기
-   				<button type="submit">댓글 전송</button>
-   			</form>
+<!--   		<div id="uploadtext">
+  			
+  		</div> -->
+		<div class="uploadcomment_wrapper">
+	  		<label>댓글 작성하기</label>
+	  		<div id="uploadcomment">
+	   			<form action="/Link/community/comment/post" method="post">
+	   				<input name="c_serial" type="hidden" value="${community.serial}">
+	   				<textarea name="cc_contents" id="cc_contents"></textarea>
+	   				<input type="checkbox" name="is_secret" value="true"> 비밀로하기
+	   				<button type="submit" id="comment_submit">댓글 전송</button>
+	   			</form>
+	   		</div>
    		</div>
 	<c:set var="commentlength" value="${total_comment}"></c:set>
 	<div id="comment_start">
 		댓글목록
+		<input type="hidden" id="current_userid" value="${sessionScope.usrId}">
+		<input type="hidden" id="community_userid" value="${community.usrId}">
 	</div>
     	<div class="comment part">
     		
@@ -127,8 +151,9 @@
 	     					<div class="ctx_comment_wrapper">
 	     						<div class="commenter">
           							<div class="image-wrapper"></div>
-	     						<label>유저아이디 : ${i.usrId}</label>
-	     						<label>게시날짜 : ${i.createDate}</label>
+		     						<label class="comm usrlbl">유저아이디 : ${i.usrId}</label>
+		     						<label class="comm usrlbl">게시날짜 : ${i.createDate}</label>
+	     							<c:if test="${sessionScope.usrId eq i.usrId}">
 	     							<div class="toglecomm">
 			     						<form action="/Link/community/comment/delete" method="post" class="delform">
 			     							<input type="hidden" value="${community.serial}" name="c_serial">
@@ -137,23 +162,27 @@
 			     							<button type="button" class="togleOn">댓글 수정</button>
 			     						</form>
 		     						</div>
+		     						</c:if>
+		     						<c:if test="${i.checkSecret eq true}">
+	     							<label class="col red usrlbl">비밀게시글입니다.</label>
+	     							</c:if>
 	     						</div>
 	     						
-	     						<c:if test="${sessionScope.usrId eq i.usrId}">
+									<c:if test="${sessionScope.usrId eq i.usrId}">
 		     						<div class="toglemodi">
-		     							<form action="/Link/community/comment/update" method="post">
+		     							<form action="/Link/community/comment/update" method="post" class="comm_modi_form">
 		     								<input type="hidden" value="${community.serial}" name="c_serial">
 			     							<input type="hidden" value="${i.serial}" name="cc_serial">
 			     							<textarea name="modi_contents" class="modi_contents"></textarea>
 			     							<input type="checkbox" name="is_secret" value="true"> 비밀로하기
-			     							<button type="submit" class="comm_submit">적용</button>
+			     							<button type="button" class="comm_submit">적용</button>
 			     							<button type="button" class="togleOff">취소하기</button>
 		     							</form>
 		     						</div>
-			     					<div class="comment_contents">
+									</c:if>
+	     						<div class="comment_contents">
 		     							${i.contents}
-		     						</div>
-	     						</c:if>
+		     					</div>
 	     					</div>
      					</c:if>
      					<c:if test="${i.checkSecret eq true}">

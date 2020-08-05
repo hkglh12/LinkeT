@@ -33,10 +33,13 @@ public interface CommunityService {
 	// 자유게시글 삭제
 	public boolean deleteCommunity(int targetSerial);
 	
-	public int getCommentTotalCount(int communitySerial);
-	public ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum);
-	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret);
-	public boolean deleteComment(String usrId, int targetSerial);
-	public boolean updateComment(int targetSerial, String contents, boolean isSecret);
+	/*
+	 * public int getCommentTotalCount(int communitySerial); public
+	 * ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum); public
+	 * boolean createComment(String usrId, int targetSerial, String contents,
+	 * boolean isSecret); public boolean deleteComment(String usrId, int
+	 * targetSerial); public boolean updateComment(int targetSerial, String
+	 * contents, boolean isSecret);
+	 */
 
 }
