@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.Link.Comment.Service.CommentService;
-import com.project.Link.Community.Service.CommunityService;
+import com.project.Link.RegUser.Community.Service.CommunityService;
 import com.project.Link.RegUser.Noticement.NoticementService.NoticementService;
 import com.project.Link.RegUser.User.User;
 import com.project.Link.RegUser.User.UserDao.UserDao;

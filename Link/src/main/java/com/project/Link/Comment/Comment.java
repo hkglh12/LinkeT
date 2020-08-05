@@ -10,8 +10,8 @@ public class Comment {
 	private Timestamp createDate;
 	private Timestamp modifyDate;
 	private Timestamp deleteDate;
-	private boolean isSecret;
-	private boolean isBanned;
+	private boolean checkSecret;
+	private boolean checkBanned;
 	private String usrBannedId;
 	
 	public int getSerial() {
@@ -56,17 +56,17 @@ public class Comment {
 	public void setDeleteDate(Timestamp deleteDate) {
 		this.deleteDate = deleteDate;
 	}
-	public boolean isSecret() {
-		return isSecret;
+	public boolean getCheckSecret() {
+		return checkSecret;
 	}
-	public void setSecret(boolean isSecret) {
-		this.isSecret = isSecret;
+	public void setCheckSecret(boolean isSecret) {
+		this.checkSecret = isSecret;
 	}
-	public boolean isBanned() {
-		return isBanned;
+	public boolean getCheckBanned() {
+		return checkBanned;
 	}
-	public void setBanned(boolean isBanned) {
-		this.isBanned = isBanned;
+	public void setCheckBanned(boolean isBanned) {
+		this.checkBanned = isBanned;
 	}
 	public String getUsrBannedId() {
 		return usrBannedId;

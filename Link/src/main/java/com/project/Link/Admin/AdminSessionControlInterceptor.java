@@ -31,7 +31,7 @@ public class AdminSessionControlInterceptor extends HandlerInterceptorAdapter {
 			session.setAttribute("usrId", (String)redirectAttrs.get("usrId"));
 			session.setAttribute("isAdmin",String.valueOf(redirectAttrs.get("isAdmin")));
 			return true;
-		}else if(session.getAttribute("usrId") != null && (Boolean)session.getAttribute("isAdmin") != false) {
+		}else if(session.getAttribute("usrId") != null && session.getAttribute("isAdmin") != "false") {
 			logger.info("///////////////////////sessioninfo Confirmed////////////");
 			logger.info("//At regular Access///SessionControlIntercepter got this :::: // ID : " + session.getAttribute("usrId") + "isAdmin : " +session.getAttribute("isAdmin"));
 			return true;

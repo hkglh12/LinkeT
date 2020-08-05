@@ -15,10 +15,10 @@
 <body>
 <div class="outter-wrapper">
    <div class="inner-wrapper">
-   <p>Linke-t</p>
+   <p>Link</p>
    <div class="textinfo">
        <strong>안녕하세요!</strong><br>
-       모임, 정보공유공간 Linke-t입니다<br>
+       Java, JSP, Spring community Link입니다<br>
         <em>회원정보를 입력해주세요.</em>
    </div>
     <form id="signup_form" action="/Link/usr/join" method="post">

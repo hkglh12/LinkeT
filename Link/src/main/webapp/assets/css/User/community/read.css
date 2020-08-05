@@ -1,0 +1,55 @@
+/* custom common css*/
+section{width:95%; height:auto; margin-left:6vw; box-sizing: border-box; margin-top:0;}
+body {font-family: 'Open Sans', sans-serif;}
+header {background-image: url('https://subtlepatterns.com/patterns/use_your_illusion.png'); margin: 0; border-bottom: 3px solid hsl(195, 73%, 58%);}
+a {display: inline-block; color: inherit; text-decoration: none;}
+nav.menu{height:3em;}
+.categ{font-size:22px;}
+.categ label{padding-top:50px;}
+.greets {border-bottom: 5px solid hsla(0, 0%, 90%, .3); color: hsl(0, 0%, 40%); font-weight: 500; font-size:15px; margin-bottom:50px;}
+.greets>.underline{font-weight:bold; color:#0073ff;}
+.mainwrapper{display:block; width: 100%; height:auto;/*  overflow:hidden; */ position:relative;}
+#atop{border-radius:10px; margin-top:20px;}
+/*Common set fin*/
+.forum-category {background-color: hsl(195, 73%, 58%); color: hsl(0, 0%, 100%); font-weight: 600; font-size: 13px; text-shadow: 0 1px 1px hsl(195, 73%, 40%);}
+.logo{font-size:15px; font-weight:bold; padding:15px;}
+
+/*common setting fin
+*/
+
+.mmpad{padding:10px 10px 20px 10px;}
+.logo {color: hsl(0, 0%, 100%);font-size: 18px; text-transform: lowercase;}
+.logo span:first-child {font-weight: 400;}
+.logo #main_header_location_t_name{color: hsl(0, 0%, 70%);font-weight: 300;}
+.main.header.submenu{margin-right:15px;}
+nav.menu a {margin: 0 7px; color: hsl(0, 0%, 70%); font-size: 12px; font-weight: 600; text-decoration: none;}
+nav.menu a:last-child {margin: 7px 0 7px 7px;}
+nav.menu a.current {color: hsl(0, 0%, 100%);}
+
+#notiwrapper{display:block; width:100%; height:auto; /* position:absolute; */ top:1em; left:5%; right:5%;}
+#noticetitle{width:100%; height:4em; padding:10px 0px 10px 30px; font-size:20px; box-sizing: border-box;}
+/* #notiwrapper{display:block; width:90%; height:100%; position:absolute; top:1em; left:5%; right:5%;} */
+#noticecontent{margin-top:2em;}
+#content{width:100%; height: auto; border:1px solid #a5a5a5; border-radius:10px; box-sizing: border-box; padding:20px; overflow:auto;}
+#uploadfiles{width:100%; height:auto; overflow:auto; border:1px solid #b2b2b2; border-radius:10px; margin-top:20px; padding:20px 0 20px 20px; box-sizing:border-box;}
+#noticeinfos{width:100%; height:3em; border:1px solid #acacac; padding-left:20px; font-size:0.8em; border-radius:5px; margin: 20px auto 0px auto;}
+#noticeinfos ul{
+    list-style: none; display:flex;margin:0; padding:0; justify-content: center; align-items: center;
+}
+#noticeinfos li{ padding:10px 60px};
+.ctx_comment_wrapper{display:block;}
+.toglemodi{display:none;}
+#upd, #del{width:100px; height:30px; border:2px solid white; color:white; background:transparent; border-radius:10px;}
+/* 댓글부분 시작 */
+#uploadtext{width:100%; height:40px; border:2px solid #c6c6c6; border-radius:5px; font-weight:bold; box-sizing:border-box; padding:10px; margin-top:100px;}
+#uploadcomment{width:100%; height:auto; border:2px solid #c6c6c6; border-radius:5px; box-sizing:border-box; padding:10px; margin-top:10px; }
+#cc_contents{width:98%; height:15em; overflow:auto; font-size:50px;}
+.modi_contents{width:98%; height:15em; overflow:auto; font-size:50px;}
+#comment_start{width:100%; height:40px; border:2px solid #c6c6c6; border-radius:5px; box-sizing:border-box; padding:10px 10px; text-align:center; margin-top:100px; background:rgba(11, 109, 244, 0.8); color:white; font-weight:bold;}
+.ctx_comment_wrapper{width:100%; height:auto; border:1px solid #acacac; padding-left:20px; font-size:0.8em; border-radius:5px; margin:20px 0; display:flex; padding:20px;}
+.commenter{width:300px; height: 100%; padding:20px;}
+.comment_contents{width:calc(100% - 300px); height:auto; border-left:1px solid hsla(0, 0%, 72%, 0.53); padding:20px;font-size:1.5em;}
+.toglecomm{width:100%;}
+.note-editable { font-size: 20px; }
+.image-wrapper{width:100px;height: 100px;margin: 20px auto; border-radius: 100%; background-image: url("https://static.pexels.com/photos/7096/people-woman-coffee-meeting.jpg"); background-size: cover; background-repeat: no-repeat;}
+.togleOn, .comment_del, .comm_submit, .togleOff{width:100px; height:30px; background:transparent; font-weight:bold; font-size:16px; border-radius:10px;}

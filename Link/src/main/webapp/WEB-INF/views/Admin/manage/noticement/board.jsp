@@ -9,9 +9,10 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="${pageContext.request.contextPath}/a/css/Admin/manage/noticement/board.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     
+    <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+    <link href="${pageContext.request.contextPath}/a/css/Admin/manage/noticement/board.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> 
 	<script>
 

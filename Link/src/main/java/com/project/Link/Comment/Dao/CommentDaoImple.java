@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.project.Link.Comment.Comment;
-import com.project.Link.Community.Dao.CommunityDaoImple;
 import com.project.Link.Dbinfo.DBinfo;
 import com.project.Link.Posting.Posting;
+import com.project.Link.RegUser.Community.Dao.CommunityDaoImple;
 
 @Component
 public class CommentDaoImple implements CommentDao{
@@ -109,9 +109,11 @@ public class CommentDaoImple implements CommentDao{
 				comment.setCommunitySerial(rs.getInt("c_serial"));
 				comment.setContents(rs.getNString("cc_contents"));
 				comment.setCreateDate(rs.getTimestamp("cc_createdate"));
-				comment.setSecret(rs.getBoolean("issecret"));
+				comment.setCheckSecret(rs.getBoolean("issecret"));
+				System.out.println(comment.getCheckSecret());
 				list.add(comment);
 			}
+			
 		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();
 		}finally {	
