@@ -157,12 +157,13 @@
 	     					</div>
      					</c:if>
      					<c:if test="${i.checkSecret eq true}">
+
      						<%-- <c:if test="${sessionScope.usrId eq i.usrId or sessionScope.usrId eq community.usrId}">
      						</c:if> --%>
      						<c:if test="${sessionScope.usrId ne i.usrId and sessionScope.usrId ne community.usrId}">
      						<div class="ctx_comment_wrapper">
      							<div class="toglecomm">
-     								댓글 작성자와 글 작성자만 볼 수 있습니다.
+     								비밀댓글 : 댓글 작성자와 글 작성자만 볼 수 있습니다.
      							</div>
      						</div>
      						</c:if>

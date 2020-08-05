@@ -11,6 +11,7 @@
 <title>Link - ${param.subject} 게시판</title>
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/User/community/board.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/User/community/board.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
 

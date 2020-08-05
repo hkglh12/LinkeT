@@ -282,7 +282,7 @@ public class CommunityControllerImple implements CommunityController{
 			String usrId = (String)session.getAttribute("usrId");
 			int targetSerial = Integer.valueOf((String)request.getParameter("c_serial"));
 			String contents = request.getParameter("cc_contents");
-			boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("issecret")) : false;
+			boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("is_secret")) : false;
 			logger.info("		RequestURICHECK " + request.getRequestURI());
 			cService.createComment(usrId, targetSerial, contents, isSecret);
 			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
