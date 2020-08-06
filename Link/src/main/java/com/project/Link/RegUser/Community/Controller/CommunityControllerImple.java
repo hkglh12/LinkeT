@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,11 +29,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.project.Link.Comment.Comment;
-import com.project.Link.Comment.Service.CommentService;
-import com.project.Link.Posting.Posting;
+import com.project.Link.RegUser.Comment.Comment;
+import com.project.Link.RegUser.Comment.Service.CommentService;
 import com.project.Link.RegUser.Community.Community;
 import com.project.Link.RegUser.Community.Service.CommunityService;
+import com.project.Link.RegUser.Posting.Posting;
 import com.project.Link.Ufile.Service.UfileService;
 
 
@@ -43,89 +44,75 @@ public class CommunityControllerImple implements CommunityController{
 	private final String cFilePath = "c:\\temp\\community\\";
 	private static final Logger logger = LoggerFactory.getLogger(CommunityControllerImple.class);
 
-	 @Autowired
-	 private CommunityService cService;
-	 @Autowired
-	 private UfileService ufService;
-	 @Autowired
-	 CommentService ccService;
+	@Autowired
+	@Qualifier("UserCommunityService")
+	private CommunityService cService;
+	@Autowired
+	private UfileService ufService;
+
 	 
-	 public CommunityControllerImple() {} 
-	 public CommunityService getcService() {return cService; }
-	 
+	public CommunityControllerImple() {} 
+	
+	public CommunityService getcService() {return cService; } 
 	public void setcService(CommunityService cService) { this.cService = cService; }
+	
 	public UfileService getUfService() {return ufService;}
 	public void setUfService(UfileService ufService) {this.ufService = ufService;}
 	
+	// 신규 등록을 위해, 입력 폼 요청에 대한 응답
 	@RequestMapping(value= "/form", method=RequestMethod.GET)
 	@Override
 	public String getPostTemplate(Model model, HttpServletRequest request, HttpSession session) {
-		String subject = request.getParameter("subject") == null ? "" : request.getParameter("subject");
-		System.out.println(subject);
+		
+		String subject = request.getParameter("subject") == null ? "java" : request.getParameter("subject");
+		if(subject == null) {
+			return "failed";
+		}
 		model.addAttribute("subject", subject);
 		return "/User/community/post";		
 	}
 	// Service의 축출 시작
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	@Override
-	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
+	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session) {
 		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
 		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
 		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
 		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
-		if(searchCategory != null) {
-			if(searchCategory.equals("title")) {searchCategory = "c_"+searchCategory;
-			}else if(searchCategory.equals("id")) {searchCategory = "u_"+searchCategory;
+		if(searchCategory != null) {			//검색 대상이 있다면 DB 퀄럼에 맞게 변형
+			if(searchCategory.equals("title")) {
+				searchCategory = "c_"+searchCategory;
+			}else if(searchCategory.equals("id")) {
+				searchCategory = "u_"+searchCategory;
 			}else {searchCategory = null;}
 		}
 		ArrayList<Community> list = cService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
 		int total = 0;
 		total = cService.totalCountCommunities(searchCategory, searchTarget, subject);
-		list = ccService.totalCountComments(list);
 		model.addAttribute("total", total);
 		model.addAttribute("communitylist",list);
-		System.out.println(total);
-		logger.info("total : " +total);
-		logger.info("communitylist : " + list.toArray().toString());
-			/* } */
-		// 리턴 동일페이지로하고, flash attr써서 JSP에서 처리
 		if(searchCategory != null) {
-			//Redirect하는 개체가 아닙니다. 따라서 add attr.
-		
 			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
 			model.addAttribute("search_target", searchTarget);
 			model.addAttribute("subject", subject);
 		}
 		return "/User/community/board";
-		//}
-		
 	}
 	@RequestMapping(value="/post", method = RequestMethod.POST)
 	@Override
 	public String PostCommunity(Model model, MultipartHttpServletRequest mpRequest, HttpSession session, RedirectAttributes redirectAttr) throws Exception {
-		//HashMap<String, String> sr = sessionControl(session);
-		//if(sr.get("usrId")=="") {
-		//	return "main";
-		//}else {
-		/*
-		 * String usrId = (String)session.getAttribute("usrId"); String cmtyTitle =
-		 * request.getParameter("c_title"); String cmtyContents =
-		 * request.getParameter("c_contents"); int fileCount =
-		 * Integer.valueOf((String)request.getParameter("f_count"));
-		 */
-			logger.info(":POST Upload start");
 			
 			String usrId = (String)session.getAttribute("usrId");
 			String title = mpRequest.getParameter("c_title");
 			String contents = mpRequest.getParameter("c_contents");
 			String subject = mpRequest.getParameter("c_subject");
-			System.out.println("usrId : " + usrId);
-			System.out.println(subject);
 			List<MultipartFile> uFileList = mpRequest.getFiles("u_files");
-			cService.createCommunity(usrId, title, contents, uFileList, subject);
+			boolean result = cService.createCommunity(usrId, title, contents, uFileList, subject);
+			if(result == true) {
+				redirectAttr.addFlashAttribute("result", "true");
+			}
 			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-			//TODO 성공시 메시지출력준비!
 			return "redirect:/community/list?subject="+subject+"&page=1";
 		//}
 	}
@@ -136,11 +123,9 @@ public class CommunityControllerImple implements CommunityController{
 		System.out.println("targetSerial in controller : " + targetSerial);
 		Community community = cService.getCommunity(targetSerial);
 		int pageNum = 0;
-		community.setComments(ccService.ListCommunities(community.getSerial(), pageNum));
-		model.addAttribute("total_comment", ccService.totalCountComments(targetSerial));
+		model.addAttribute("total_comment", cService.getCommentTotalCount(targetSerial));
 		model.addAttribute("community",community);
 		return "/User/community/read";
-		//}
 	}
 	
 	@RequestMapping(value="/update", method = RequestMethod.GET)
@@ -214,32 +199,16 @@ public class CommunityControllerImple implements CommunityController{
 	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	@Override
 	public String DeleteCommunity(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
-		//HashMap<String, String> sr = sessionControl(session);
-		//if(sr.get("usrId")=="" || sr.get("isAdmin") == "false") {
-		//	return "main";
-		//}else {
-		/*
-		 * int targetSerial = Integer.valueOf(request.getParameter("serial")); int
-		 * ntcSerial = Integer.valueOf((String)request.getParameter("n_serial"));
-		 * boolean result = cService.deleteNoticement(targetSerial) >= 1 ? true : false;
-		 * return "/community";
-		 */int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
-			String subject = request.getParameter("subject");
-			boolean result = cService.deleteCommunity(targetSerial);
-
-			System.out.println("subbbbbbbbbbbbbbbbbbbbbb:"+subject);
-			/*
-			 * redirectAttr.addFlashAttribute("usrId", sr.get("usrId"));
-			 * redirectAttr.addFlashAttribute("isAdmin", sr.get("isAdmin"));
-			 */
-			if(result == true) {
-				redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
-				redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-				redirectAttr.addFlashAttribute("subject", subject);
-				redirectAttr.addFlashAttribute("result", "true");
-			}
-			return "redirect:/community/list?page=1&subject="+subject;
-		//}
+		int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
+		String subject = request.getParameter("subject");
+		boolean result = cService.deleteCommunity(targetSerial);
+		if(result == true) {
+			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
+			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
+			redirectAttr.addFlashAttribute("subject", subject);
+			redirectAttr.addFlashAttribute("result", "true");
+		}
+		return "redirect:/community/list?page=1&subject="+subject;
 	}
 
 	/* 개별적 댓글 List get */
@@ -259,7 +228,7 @@ public class CommunityControllerImple implements CommunityController{
 		}
 		//int pageNum = request.getParameter("page_num") != null ? Integer.valueOf((String)request.getParameter("page_num"))-1 : 0;
 		int pageNum = ajaxRequest.containsKey("page_num") == true ? Integer.valueOf(ajaxRequest.get("page_num"))-1: 0;
-		ArrayList<Comment> list = ccService.ListCommunities(targetSerial, pageNum);
+		ArrayList<Comment> list = cService.ListCommentsAjax(targetSerial, pageNum);
 		/*
 		 * ArrayList<Comment> list = cService.ListCommentsAjax(targetSerial, pageNum);
 		 */
@@ -282,7 +251,7 @@ public class CommunityControllerImple implements CommunityController{
 			String contents = request.getParameter("cc_contents");
 			boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("is_secret")) : false;
 			logger.info("		RequestURICHECK " + request.getRequestURI());
-			boolean result = ccService.createComment(usrId, targetSerial, contents, isSecret);
+			boolean result = cService.createComment(usrId, targetSerial, contents, isSecret);
 			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
 			if(result == true) {
@@ -298,7 +267,7 @@ public class CommunityControllerImple implements CommunityController{
 		int targetSerial = Integer.valueOf((String)request.getParameter("cc_serial"));
 		String contents = request.getParameter("modi_contents");
 		boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("is_secret")) : false;
-		boolean result = ccService.updateComment(targetSerial, contents, isSecret);
+		boolean result = cService.updateComment(targetSerial, contents, isSecret);
 		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
 		if(result == true) {
@@ -312,7 +281,7 @@ public class CommunityControllerImple implements CommunityController{
 			RedirectAttributes redirectAttr) {
 		String usrId = (String)session.getAttribute("usrId");
 		int targetSerial = Integer.valueOf((String)request.getParameter("del_serial"));
-		boolean result = ccService.deleteComment(usrId, targetSerial);
+		boolean result = cService.deleteComment(usrId, targetSerial);
 		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
 		if(result == true) {

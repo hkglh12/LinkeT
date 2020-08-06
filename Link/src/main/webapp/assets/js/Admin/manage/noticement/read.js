@@ -24,3 +24,6 @@ function deleterequest(target){
     	f.submit();
 }
 
+function golist(){
+	location.href="/Link/admin/manage/notice/list?page=1"
+}

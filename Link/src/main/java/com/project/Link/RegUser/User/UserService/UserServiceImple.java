@@ -4,9 +4,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.project.Link.Comment.Service.CommentService;
+import com.project.Link.RegUser.Comment.Service.CommentService;
 import com.project.Link.RegUser.Community.Service.CommunityService;
 import com.project.Link.RegUser.Noticement.NoticementService.NoticementService;
 import com.project.Link.RegUser.User.User;
@@ -20,6 +21,7 @@ public class UserServiceImple implements UserService{
 	@Autowired
 	private UfileService ufService;
 	@Autowired
+	@Qualifier("UserCommunityService")
 	private CommunityService cService;
 	@Autowired
 	private CommentService ccService;

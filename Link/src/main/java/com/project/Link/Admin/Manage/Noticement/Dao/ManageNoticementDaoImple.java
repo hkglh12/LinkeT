@@ -40,7 +40,7 @@ public class ManageNoticementDaoImple extends NoticementDaoImple implements Mana
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			//회원가입 시도
-			String sql = "update "+ntargetBoard+" set n_title = ?, n_contents = ?, f_count = ?, n_modifyDate = ?, u_modified = ? where n_serial = ? ";
+			String sql = "update "+ntargetBoard+" set n_title = ?, n_contents = ?, f_count = ?, n_modifyDate = ?, u_modified_id = ? where n_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,title);
 			pstmt.setString(2,contents);
@@ -74,7 +74,7 @@ public class ManageNoticementDaoImple extends NoticementDaoImple implements Mana
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			//회원가입 시도
-			String sql = "update "+ntargetBoard+" set n_deletedate = ?, u_modified = ? where n_serial = ? ";
+			String sql = "update "+ntargetBoard+" set n_deletedate = ?, u_modified_id = ? where n_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setTimestamp(1,deleteDate);
 			pstmt.setString(2, usrId);

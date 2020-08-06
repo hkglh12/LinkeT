@@ -2,7 +2,7 @@ package com.project.Link.RegUser.Noticement;
 
 import java.sql.Timestamp;
 
-import com.project.Link.Posting.Posting;
+import com.project.Link.RegUser.Posting.Posting;
 
 public class Noticement extends Posting{
 	/* Noticement POJO가 Posting의 원형을 그대로 가져가며 

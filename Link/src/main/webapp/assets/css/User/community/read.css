@@ -10,7 +10,9 @@
 /* contents */
 
 /* comment writerinfo */
-.usrlbl{width:100%; display:block; font-size:1.2em;}
+.usrlbl{width:100%; display:block; font-size:16px;}
+.show_red{font-size:16px; color:red;}
+.ac{text-align:center;}
 /* comment writerinfo fin */
 #uploadfiles ul{padding:0 0 0 10px; margin:0;}
 .mmpad{padding:10px 10px 20px 10px;}

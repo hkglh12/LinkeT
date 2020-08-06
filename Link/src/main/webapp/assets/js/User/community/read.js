@@ -17,7 +17,7 @@ $(document).ready(function() {
 		placeholder:"댓글 내용을 입력해주세요.",
 		focus:true,
 		toolbar: [
-	       	['style', ['bold', 'italic', 'underline']],
+	       	['style', ['style']],
 	       	['fontsize', ['fontsize']],
 	       	['color', ['color']],
 	       	['para', ['ul', 'ol', 'paragraph']]
@@ -32,7 +32,7 @@ $(document).ready(function() {
 		placeholder:"댓글 내용을 입력해주세요.",
 		focus:true,
 		toolbar: [
-	       	['style', ['bold', 'italic', 'underline']],
+	       	['style', ['style']],
 	       	['fontsize', ['fontsize']],
 	       	['color', ['color']],
 	       	['para', ['ul', 'ol', 'paragraph']]
@@ -143,7 +143,7 @@ function commentblockmove(page_num){
 									var comm_delbtn = $("<button>").attr('type','button').attr('class','comment_del').text("댓글 삭제").appendTo(togleform);
 									var comm_modifybtn = $("<button>").attr('type','button').attr('class','togleOn').text("댓글 수정").appendTo(togleform);
 									if(ci.checkSecret == true){
-										var lblred = $("<label>").attr('class', 'col red').text("비밀게시글입니다.");
+										var lblred = $("<label>").attr('class', 'col red').text("비밀게시글입니다.").appendTo(toglecomm);
 									}
 									var toglemodi = $("<div>").attr('class','toglemodi').appendTo(comm);
 									var toglemodiform = $("<form>").attr('action', '/Link/community/comment/update').attr('method','post').appendTo(toglemodi);

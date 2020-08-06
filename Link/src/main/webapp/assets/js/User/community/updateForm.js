@@ -21,7 +21,7 @@ $(document).ready(function(){
 		focus:true,
 		fontSize:20,
 		toolbar: [
-	       	['style', ['bold', 'italic', 'underline']],
+	       	['style', ['style']],
 	       	['fontsize', ['fontsize']],
 	       	['color', ['color']],
 	       	['para', ['ul', 'ol', 'paragraph']]

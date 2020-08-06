@@ -22,9 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.project.Link.Posting.Posting;
 import com.project.Link.RegUser.Noticement.Noticement;
 import com.project.Link.RegUser.Noticement.NoticementService.NoticementService;
+import com.project.Link.RegUser.Posting.Posting;
 import com.project.Link.RegUser.User.UserController.UserControllerImple;
 import com.project.Link.SessionControl.SessionControl;
 import com.project.Link.Ufile.Service.UfileService;

@@ -7,12 +7,13 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="<c:url value="/a/css/signup.css"/>" rel="stylesheet">
-    <script type="text/javascript" src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/a/js/signup.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/a/js/encryptor.js"/>"></script>
+    <link href="${pageContext.request.contextPath}/a/css/signup.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/signup.js"/></script>
+    <script src="${pageContext.request.contextPath}/a/js/encryptor.js"></script>
 </head>
 <body>
+<div id="blur">
 <div class="outter-wrapper">
    <div class="inner-wrapper">
    <p>Link</p>
@@ -58,6 +59,7 @@
     <button type="button" id="sign_submit">회원가입</button>
     </div>
     </form>
+</div>
 </div>
 </div>
 </body>

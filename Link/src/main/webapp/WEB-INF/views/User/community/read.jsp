@@ -32,12 +32,9 @@
 	<!-- AJAX Read Timestamp 관리 -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	<script>
-	console.log(${result});
 	if("${result}" == "true"){
-		alert("댓글 등록에 성공했습니다!");
-	}else("${request.getParameter('result')}" =="true"){
-		alert("댓글 등록에 성공했습니다!");
-	} 
+		alert("작업에 성공했습니다!");
+	}
 	</script>
 </head>
 <body>
@@ -83,7 +80,7 @@
             		<ul>
 		                <li>게시글번호 : ${community.serial}</li>
 		                <li>작성자 : ${community.usrId}</li>
-		                <li>작성일 : ${community.createDate}</li>
+		                <li>작성일 : <fmt:formatDate value="${community.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></li>
 		                <li>조회수 : ${community.readCount}</li>
 		            </ul>
         		</div>
@@ -152,7 +149,7 @@
 	     						<div class="commenter">
           							<div class="image-wrapper"></div>
 		     						<label class="comm usrlbl">유저아이디 : ${i.usrId}</label>
-		     						<label class="comm usrlbl">게시날짜 : ${i.createDate}</label>
+		     						<label class="comm usrlbl">게시날짜 : <fmt:formatDate value="${i.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></label>
 	     							<c:if test="${sessionScope.usrId eq i.usrId}">
 	     							<div class="toglecomm">
 			     						<form action="/Link/community/comment/delete" method="post" class="delform">
@@ -191,8 +188,8 @@
      						</c:if> --%>
      						<c:if test="${sessionScope.usrId ne i.usrId and sessionScope.usrId ne community.usrId}">
      						<div class="ctx_comment_wrapper">
-     							<div class="toglecomm">
-     								비밀댓글 : 댓글 작성자와 글 작성자만 볼 수 있습니다.
+     							<div class="toglecomm ac">
+     								<label class="show_red">이 댓글은 댓글 작성자와 글 작성자만 볼 수 있습니다.</label>
      							</div>
      						</div>
      						</c:if>

@@ -9,6 +9,9 @@
     <meta name="keywords" content="">
     
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/noticement/post.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/a/css/Commons/posting_structure.css" rel="stylesheet">
+    
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
    	<script src="${pageContext.request.contextPath}/a/js/jquery.MultiFile.js"></script>
    	<script src="${pageContext.request.contextPath}/a/js/jquery.MultiFile.min.js"></script>

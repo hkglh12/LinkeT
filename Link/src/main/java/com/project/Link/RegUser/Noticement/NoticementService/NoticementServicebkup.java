@@ -10,8 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.project.Link.Posting.Posting;
 import com.project.Link.RegUser.Noticement.Noticement;
+import com.project.Link.RegUser.Posting.Posting;
 
 public interface NoticementServicebkup {
 	

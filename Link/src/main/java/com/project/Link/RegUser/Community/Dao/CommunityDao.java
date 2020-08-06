@@ -3,9 +3,9 @@ package com.project.Link.RegUser.Community.Dao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import com.project.Link.Posting.Posting;
-import com.project.Link.Posting.Dao.PostingDao;
 import com.project.Link.RegUser.Community.Community;
+import com.project.Link.RegUser.Posting.Posting;
+import com.project.Link.RegUser.Posting.Dao.PostingDao;
 
 public interface CommunityDao extends PostingDao {
 	// 조회, 리스팅은 각각 다른 "객체"를 리턴함. 따라서 재선언

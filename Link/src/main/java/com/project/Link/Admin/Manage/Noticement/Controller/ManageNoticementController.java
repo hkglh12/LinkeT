@@ -19,6 +19,4 @@ public interface ManageNoticementController extends NoticementController{
 	public String DeleteNoticement(Model model, HttpServletRequest reqeust, HttpSession session, RedirectAttributes redirectAttr);
 	/* 공지사항업데이트 */
 	public String UpdateNoticement(Model model, MultipartHttpServletRequest reqeust, HttpSession session, RedirectAttributes redirectAttr)throws Exception;
-	
-	public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception;
 }

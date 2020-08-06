@@ -11,17 +11,16 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-<!--     <link rel="stylesheet" href="Login.css"> -->
-    <!--<script src ="Login.js"></script>-->
     <link href="<c:url value="/a/css/User/user/login.css"/>" rel="stylesheet">
     <script type="text/javascript" src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/a/js/User/user/login.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/a/js/encryptor.js"/>"></script>
-    <!-- <script src="login.js"></script> -->
-<!-- 	<script>
-		var result = "${result}";
-		console.log(result);
-	</script> -->
+    <script>
+    	var result = "${result}"
+    	if(result == "false"){
+    		alert("ID와 비밀번호를 확인해주세요!");
+    	}
+    </script>
 </head>
 <body>
 	<c:if test = "${result ne null}">

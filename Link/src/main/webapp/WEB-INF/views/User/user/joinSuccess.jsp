@@ -12,25 +12,23 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Welcome-Link</title>
+  <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+  <script src="${pageContext.request.contextPath}/a/bootstrap/jquery-easing/jquery.easing.min.js"></script>
+  <script src="${pageContext.request.contextPath}/a/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="${pageContext.request.contextPath}/a/js/User/user/joinSuccess.js"></script>
+
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="<c:url value="/a/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/a/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="${pageContext.request.contextPath}/a/REGNAassets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/a/css/User/user/joinSuccess.css">
   <!-- Template Main CSS File -->
   <link href="${pageContext.request.contextPath}/a/css/User/user/joinSuccess.css" rel="stylesheet">
   
 <!-- Vendor JS Files -->
-  <script src="${pageContext.request.contextPath}/a/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="${pageContext.request.contextPath}/a/js/User/user/joinSuccess.js"></script>
-  <script src="${pageContext.request.contextPath}/a/bootstrap/jquery-easing/jquery.easing.min.js"></script>
-<%--   <script src="<c:url value="/a/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
-  
-  <script src="<c:url value="/a/js/user/main/joinSuccess.js"/>"></script>
-  <script src="<c:url value="/a/bootstrap/jquery-easing/jquery.easing.min.js"/>"></script> --%>
 
   <!-- =======================================================
   * Template Name: Regna - v2.1.0
@@ -41,37 +39,17 @@
 </head>
 
 <body>
-
+	<div id="blur">
   <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div class="hero-container" data-aos="zoom-in" data-aos-delay="100">
       <h1>Welcome to LINK</h1>
-      <h2>JAVA, JSP, Spring의 폭넓은 질의공간에 어서오세요!</h2>
+      <h2>JAVA, JSP, Spring 커뮤니티에 어서오세요!</h2>
       <a href="/Link/" class="btn-get-started">Get Started</a>
     </div>
   </section><!-- End Hero Section -->
-
+</div>
   <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="footer-top">
-      <div class="container">
-
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong>Regna</strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-  </footer><!-- End Footer -->
-
-  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-
 </body>
 
 </html>

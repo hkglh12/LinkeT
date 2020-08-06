@@ -121,7 +121,7 @@
         			<div class="large-12 forum-topic cal" onclick="pagecall('${community.serial}')">
           				<div class="large-1 column lpad">
             				<span class="overflow-upper">
-              					 #<c:out value="${total - ((param.page-1) * 8) - number.count+1}"/>
+              					 #<c:out value="${total - ((param.page-1) * 10) - number.count+1}"/>
             				</span>
             				
           				</div>
@@ -140,7 +140,7 @@
             				<span class="center" id="counts">${community.readCount}</span>
           				</div>
           				<div class="large-15 small-4 column lpad">
-            				<span>${community.createDate}</span>
+            				<span><fmt:formatDate value="${community.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
             				<span>by <!-- <a href="#"> -->${community.usrId}<!-- </a> --></span>
           				</div>
         		</div>
@@ -149,7 +149,7 @@
 	</div>
     <div class="page_block">
 		<ul class="blocks">
-    	<fmt:parseNumber var="block" value = "${(total/8)+ (total%8 == 0 ? 0 : 1)}" integerOnly="true"/>
+    	<fmt:parseNumber var="block" value = "${(total/10)+ (total%10 == 0 ? 0 : 1)}" integerOnly="true"/>
         	<c:if test="${block gt 0}">
     	      		<c:forEach begin="1" end="${block}" var="i" step="1">
         	  			<c:if test="${i eq param.page}">

@@ -101,14 +101,12 @@ public class UserControllerImple implements UserController {
 		String usrPw = request.getParameter("u_pw");
 		User result = uService.userGet(usrId, usrPw);
 		if (result == null) {
-			System.out.println("왜 널포인터냐새꺄");
-			model.addAttribute("result", "404");
-			return "/User/main";
+			model.addAttribute("result", "false");
+			return "/User/user/login";
 		} else {
 			boolean isAdmin = result.getUsrLevel() == 1 ? false : true;
 			session.setAttribute("usrId", result.getUsrId());
 			session.setAttribute("isAdmin", isAdmin);
-			logger.info("Login Succeed!");
 			return "/User/main/main"; // 이거 메인컨트롤러로 다시 돌리자
 		}
 	}

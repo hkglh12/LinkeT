@@ -10,15 +10,17 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.Posting.Posting;
-import com.project.Link.Posting.Dao.PostingDaoImple;
 import com.project.Link.RegUser.Community.Community;
 import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
+import com.project.Link.RegUser.Posting.Posting;
+import com.project.Link.RegUser.Posting.Dao.PostingDaoImple;
 
 @Component
+@Qualifier("UserCommunityDao")
 public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
 	private static final Logger logger = LoggerFactory.getLogger(CommunityDaoImple.class);
 	public final String ctargetBoard = "community";
@@ -36,62 +38,6 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
  	public CommunityDaoImple() {
  		logger.info("				DaoLvel : CommunityDamImple Constructor Called");
  	}
- 	
- 	
-	/*
-	 * @Override public int getTotalCount() { logger.
-	 * info("                                           // getTotal Count called");
-	 * int result = 0; try { Class.forName(dbDriver); conn =
-	 * DriverManager.getConnection(dbUrl, dbUserId, dbUserPw); String sql =
-	 * "select count(*) as count from " + targetBoard
-	 * +" where c_deletedate IS NULL"; pstmt = conn.prepareStatement(sql); rs =
-	 * pstmt.executeQuery(); result = (rs.next()) == true ? rs.getInt("count") : -1;
-	 * }catch(ClassNotFoundException e) {e.printStackTrace(); }catch(SQLException e)
-	 * {e.printStackTrace(); }finally { try { if (pstmt!=null) pstmt.close(); if
-	 * (conn!=null) conn.close(); }catch(SQLException e) {e.printStackTrace();} }
-	 * return result; }
-	 */
-	/*
-	 * @Override public int countUp(int targetSerial, int count) {
-	 * logger.info("::                                countup Called"); int result =
-	 * 0; try { Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl,
-	 * dbUserId, dbUserPw); String sql =
-	 * "update "+targetBoard+" set c_count = "+count+" where c_serial = "
-	 * +targetSerial; pstmt = conn.prepareStatement(sql); result =
-	 * pstmt.executeUpdate(); }catch(ClassNotFoundException e) {e.printStackTrace();
-	 * }catch(SQLException e) {e.printStackTrace(); }finally { try { if
-	 * (pstmt!=null) pstmt.close(); if (conn!=null) conn.close();
-	 * }catch(SQLException e) {e.printStackTrace();} } return result; }
-	 */
-	/*
-	 * @Override public int getLastSerial() { // 마지막 게시글의 PK를 가져옴. >> FileDao 연계고려
-	 * logger.info("::getLastSerial called"); int result = 0; try {
-	 * Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl, dbUserId,
-	 * dbUserPw); String target = prefix+"serial"; String sql =
-	 * "select "+target+" from "+targetBoard+" order by " + target +" desc limit 1";
-	 * pstmt = conn.prepareStatement(sql); rs = pstmt.executeQuery(); result =
-	 * (rs.next()) == true ? rs.getInt(target) : -1; }catch(ClassNotFoundException
-	 * e) {e.printStackTrace(); }catch(SQLException e) {e.printStackTrace();
-	 * }finally { try { if (pstmt!=null) pstmt.close(); if (conn!=null)
-	 * conn.close(); }catch(SQLException e) {e.printStackTrace();} } return result;
-	 * }
-	 */
-	/*
-	 * @Override public int createPosting(int serial, String usrId, String title,
-	 * String contents, int fileCount, Timestamp createDate) { int result = 0; try {
-	 * //DB접속 Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl,
-	 * dbUserId, dbUserPw); //create community // 멤버변수 prefix 를 사용하려 했으나 쿼리문이 지나치게
-	 * 난잡해지므로 사용포기 String sql = "insert into "
-	 * +targetBoard+" (c_serial, u_id, c_title, c_contents, f_count, c_createdate) values(?,?,?,?,?,?)"
-	 * ; pstmt = conn.prepareStatement(sql); pstmt.setInt(1,serial);
-	 * pstmt.setString(2, usrId); pstmt.setString(3,title);
-	 * pstmt.setString(4,contents); pstmt.setInt(5,fileCount);
-	 * pstmt.setTimestamp(6,createDate); result = pstmt.executeUpdate();
-	 * }catch(ClassNotFoundException e) {e.printStackTrace(); }catch(SQLException e)
-	 * {e.printStackTrace(); }finally { try { if (pstmt!=null) pstmt.close(); if
-	 * (conn!=null) conn.close(); }catch(SQLException e) {e.printStackTrace();} }
-	 * return result; }
-	 */
 	@Override
 	public ArrayList<Community> getListCommunity(int page, int pagePerBlock, String communitySubject) {
 		logger.info("				DaoLvel : CommunityDamImple //////GetListCommunity////// Called");
@@ -129,26 +75,6 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
 		}
 		return list;
 	}
-	/*
-	 * @Override public Community getCommunity(int targetSerial) { Posting posting =
-	 * null; try { Class.forName(dbDriver); conn =
-	 * DriverManager.getConnection(dbUrl, dbUserId, dbUserPw); String sql =
-	 * "select * from "+targetBoard+" where c_serial = ? and c_deletedate IS NULL";
-	 * pstmt = conn.prepareStatement(sql); pstmt.setInt(1,targetSerial); rs =
-	 * pstmt.executeQuery(); while(rs.next()) { posting = new Posting();
-	 * posting.setSerial(rs.getInt("c_serial"));
-	 * posting.setUsrId(rs.getString("u_id"));
-	 * posting.setTitle(rs.getString("c_title"));
-	 * posting.setContents((rs.getString("c_contents")));
-	 * posting.setFileCount(rs.getInt("f_count"));
-	 * posting.setCreateDate(rs.getTimestamp("c_createdate"));
-	 * posting.setNoticeCount(rs.getInt("c_count")); } }catch(ClassNotFoundException
-	 * e) {e.printStackTrace(); }catch(SQLException e) {e.printStackTrace();
-	 * }finally { try { if (pstmt!=null) pstmt.close(); if (conn!=null)
-	 * conn.close(); }catch(SQLException e) {e.printStackTrace(); } } return
-	 * posting; }
-	 */
-
 	public Community getCommunity(int targetSerial) {
 		logger.info("				DaoLvel : CommunityDamImple //////GetTargetCommunity////// Called");
 		Community community = new Community();
