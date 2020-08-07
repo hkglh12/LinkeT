@@ -72,6 +72,9 @@ $(document).ready(function() {
 		}
 	});
 });
+function gobacklist(){
+	location.href="/Link/admin/manage/community/list?subject="+$("#subject").val();
+}
 function commentblockmove(page_num){
 	var c_serial = $('#c_serial').val();
 	var param = {

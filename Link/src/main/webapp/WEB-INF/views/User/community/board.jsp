@@ -51,7 +51,12 @@
 	<div class="dashboard mt curr">
       	<div class="large-12 forum-category rounded top">
         	<div class="column lta categ">
+        	<c:if test="${(search_category eq null) and (search_target eq null)}">
           		<label>${param.subject} 게시판</label>
+          	</c:if>
+          	<c:if test="${(search_category ne null) and (search_category ne null)}">
+          		<label>검색결과</label>
+          	</c:if>
         	</div>
         	<div id ="search_comm">
         		<form action="/Link/community/list" method="GET">
@@ -85,8 +90,8 @@
             		Posting Information
           		</div>
         	</div>
-	        <input type="hidden" id="search_category_hd" value="${request.getParameter('search_category')}">
-	        <input type="hidden" id="search_target_hd" value="${request.getParameter('search_target')}">
+	        <input type="hidden" id="search_category_hd" value="${search_category}">
+	        <input type="hidden" id="search_target_hd" value="${search_target}">
 
        		<c:if test="${empty communitylist}">
 	        	<div class="large-12 forum-topic">

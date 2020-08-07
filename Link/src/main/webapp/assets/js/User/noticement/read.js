@@ -9,3 +9,6 @@ $(document).ready( function() {
 	    $("section").css("margin-left","6vw"); 
 });
 });
+function gobacklist(){
+	location.href="/Link/notice/list";
+}

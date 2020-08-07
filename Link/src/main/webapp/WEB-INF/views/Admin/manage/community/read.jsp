@@ -71,6 +71,7 @@
         			</div>
         			<input type="hidden" id="subject" value="${community.subject}">
 	        		<div class="mmpad ar">
+	        			<button id="goback" onclick="gobacklist();">목록으로 돌아가기</button>
 	          			<button id="del">게시글 강제삭제</button>
 	        		</div>
       			</div>

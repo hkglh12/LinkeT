@@ -70,6 +70,7 @@
         			</div>
         			<input type="hidden" id="subject" value="${community.subject}">
 	        		<div class="mmpad ar">
+	        			<button id="goback" onclick="gobacklist();">목록으로 돌아가기</button>
 	        			<c:if test="${sessionScope.usrId eq community.usrId}">
 	          				<button id="upd">게시글 수정</button>
 	          				<button id="del">게시글 삭제</button>

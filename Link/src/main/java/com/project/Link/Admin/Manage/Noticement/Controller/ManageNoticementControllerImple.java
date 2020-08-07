@@ -52,7 +52,7 @@ public class ManageNoticementControllerImple implements ManageNoticementControll
 
 	// 관리자용 List페이지를 적용한 jsp입니다.
 	// 공지사항의 목록출력 요청에 대응하는 페이지입니다. 
-	@RequestMapping(value="/list", method = RequestMethod.GET)
+	@RequestMapping(value={"/list", "/"}, method = RequestMethod.GET)
 	@Override
 	public String ListNoticements(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
 		logger.info("		Controller Level :: ListNoticements Called");
