@@ -8,6 +8,10 @@ $(document).ready(function(){
 		$("section").css("width","95%");
 	    $("section").css("margin-left","6vw"); 
 	});
+	$("#community_post").on("click",function(){
+		location.href="/Link/community/form?subject="+$("#subject").val();
+	});
+
 });
 
 function blockmove(block){

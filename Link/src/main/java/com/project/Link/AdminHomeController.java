@@ -18,17 +18,19 @@ public class AdminHomeController {
 	public static final Logger logger = LoggerFactory.getLogger(AdminHomeController.class);
 	
 	@RequestMapping(value = {"/admin", "/Admin"}, method = RequestMethod.GET)
-	public String home(Locale locale, Model model, HttpSession session) {
+	public String adminHome(Locale locale, Model model, HttpSession session) {
 		logger.info("///////////////////////////////////////ADMIN ACCESS TRIED");
 		if(session.getAttribute("usrId")==null) {
 			return "/Admin/admin/login";
 		}else {
-			if(session.getAttribute("isAdmin") == "false") {
+			if(session.getAttribute("isAdmin").toString() == "false") {
 				session.invalidate();
-				model.addAttribute("result", "notvalid");
+				model.addAttribute("result", "denied");
 				return "/Admin/admin/login";
+			}else {
+				System.out.println(session.getAttribute("isAdmin"));
+				return "/Admin/main";
 			}
-			return "/Admin/main";
 		}
 		/* return main; */
 		

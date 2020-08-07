@@ -1,4 +1,3 @@
-
 /*리스트 블록이동*/
 function blockmove(block){
 	console.log("called" + block)

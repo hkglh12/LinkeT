@@ -65,9 +65,6 @@ public class CommunityControllerImple implements CommunityController{
 	public String getPostTemplate(Model model, HttpServletRequest request, HttpSession session) {
 		
 		String subject = request.getParameter("subject") == null ? "java" : request.getParameter("subject");
-		if(subject == null) {
-			return "failed";
-		}
 		model.addAttribute("subject", subject);
 		return "/User/community/post";		
 	}
