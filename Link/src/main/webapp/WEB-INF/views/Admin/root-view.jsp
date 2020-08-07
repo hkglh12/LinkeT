@@ -12,7 +12,7 @@
 <nav class="main-menu">
     <ul>
         <li>
-            <a href="http://localhost:80/Link/Admin">
+            <a href="http://localhost:80/Link/admin">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
 					DASHBOARD
@@ -21,7 +21,7 @@
 
         </li>
         <li>
-            <a href="http://localhost:80/Link/Admin">
+            <a href="http://localhost:80/Link/admin/manage/user/list?page=1&subject=java">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
                 	사용자 관리
@@ -62,14 +62,7 @@
                 </span>
             </a>
         </li> -->
-        <li>
-            <a href="#">
-               <i class="fa fa-info fa-2x"></i>
-                <span class="nav-text">
-                    Documentation
-                </span>
-            </a>
-        </li>
+        
     </ul>
 
     <ul class="logout">

@@ -38,6 +38,10 @@
     <beans:bean id="AdminSessionControlInterceptor" class="com.project.Link.Admin.AdminSessionControlInterceptor"></beans:bean>
     <!-- Interceptor 설정 -->
     <interceptors>
+     	<interceptor>
+        	<mapping path="/admin/manage/**"></mapping>
+        	<beans:ref bean="AdminSessionControlInterceptor"/>
+        </interceptor>
         <interceptor>
         	<mapping path="/notice/**"></mapping>
         	<mapping path="/community/**"></mapping>
@@ -56,10 +60,7 @@
             <beans:ref bean="SessionControlIntercetpor"/>
         </interceptor>
         
-        <interceptor>
-        	<mapping path="/admin/manage/**"></mapping>
-        	<beans:ref bean="AdminSessionControlInterceptor"/>
-        </interceptor>
+       
     </interceptors>
     
 

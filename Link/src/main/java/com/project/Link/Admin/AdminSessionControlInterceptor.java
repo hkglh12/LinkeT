@@ -26,7 +26,7 @@ public class AdminSessionControlInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession();
 		/* HashMap<String, String> adminSr = new HashMap<String, String>(); */
 		Map<String, ?> redirectAttrs = RequestContextUtils.getInputFlashMap(request);
-		
+		System.out.println(session.getAttribute("isAdmin"));
 		if(redirectAttrs!=null) {
 			session.setAttribute("usrId", (String)redirectAttrs.get("usrId"));
 			session.setAttribute("isAdmin",String.valueOf(redirectAttrs.get("isAdmin")));
@@ -36,7 +36,7 @@ public class AdminSessionControlInterceptor extends HandlerInterceptorAdapter {
 			logger.info("//At regular Access///SessionControlIntercepter got this :::: // ID : " + session.getAttribute("usrId") + "isAdmin : " +session.getAttribute("isAdmin"));
 			return true;
 		}else {
-			response.sendRedirect("/Link/admin");
+			response.sendRedirect("/Link/admin/login");
 			return true;
 		}
 	}
