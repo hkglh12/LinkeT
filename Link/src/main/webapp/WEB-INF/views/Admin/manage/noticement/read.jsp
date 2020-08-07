@@ -11,9 +11,10 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/noticement/read.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/a/css/Commons/posting_structure.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
 	<script src="${pageContext.request.contextPath}/a/js/Admin/manage/noticement/read.js"></script>
-	
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
   <!-- Summernote Setting -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -56,9 +57,15 @@
         		<div id="noticetitle">
 					${noticement.title}
         		</div>
-        		<div class="mpad ar">
-          			<button id="upd" onclick="updaterequest('${noticement.serial}');"> 수정하기 </button>
-          			<button id="del" onclick="deleterequest('${noticement.serial}');">삭제하기</button>
+        		<div class="mpad">
+        			<div class="al">
+        				
+        			</div>
+	        		<div class="ar">
+	        			<button id="goback" onclick="golist();">목록으로 돌아가기</button>
+	          			<button id="upd" onclick="updaterequest('${noticement.serial}');"> 수정하기 </button>
+	          			<button id="del" onclick="deleterequest('${noticement.serial}');">삭제하기</button>
+	        		</div>
         		</div>
       		</div>
         	<div id="noticeinfos">

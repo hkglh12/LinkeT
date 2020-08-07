@@ -39,15 +39,15 @@
             </a>
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/admin/community/list">
+            <a href="http://localhost:80/Link/admin/manage/community/list?page=1&subject=java">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
-                    JAVA 게시판 관리
+                    게시판 관리
                 </span>
             </a>
         </li>
-       <li class="has-subnav">
-            <a href="http://localhost:80/Link/admin/community/list">
+<!--        <li class="has-subnav">
+            <a href="http://localhost:80/Link/admin/manage/community/list?page=1&subject=jsp">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
                      JSP 게시판 관리
@@ -55,13 +55,13 @@
             </a>
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/admin/community/list">
+            <a href="http://localhost:80/Link/admin/manage/community/list?page=1&subject=spring">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
                     Spring 게시판 관리
                 </span>
             </a>
-        </li>
+        </li> -->
         <li>
             <a href="#">
                <i class="fa fa-info fa-2x"></i>

@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.Posting.Posting;
-import com.project.Link.Posting.Dao.PostingDaoImple;
 import com.project.Link.RegUser.Noticement.Noticement;
+import com.project.Link.RegUser.Posting.Posting;
+import com.project.Link.RegUser.Posting.Dao.PostingDaoImple;
 import com.project.Link.RegUser.User.User;
 
 @Component
@@ -117,7 +117,7 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
 				noticement.setCreateDate(rs.getTimestamp("n_createdate"));
 				noticement.setModifyDate(rs.getTimestamp("n_modifydate"));
 				noticement.setReadCount(rs.getInt("n_count"));
-				noticement.setModifiedUsr(rs.getString("u_modified"));
+				noticement.setModifiedUsr(rs.getString("u_modified_id"));
 				list.add(noticement);
 			}
 		}catch(ClassNotFoundException e) {e.printStackTrace();
@@ -150,7 +150,7 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
 				noticement.setFileCount(rs.getInt("f_count"));
 				noticement.setCreateDate(rs.getTimestamp("n_createdate"));
 				noticement.setReadCount(rs.getInt("n_count"));
-				noticement.setModifiedUsr(rs.getNString("u_modified"));
+				noticement.setModifiedUsr(rs.getNString("u_modified_id"));
 				noticement.setModifyDate(rs.getTimestamp("n_modifydate"));
 			}
 		}catch(ClassNotFoundException e) {e.printStackTrace();

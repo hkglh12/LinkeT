@@ -12,5 +12,8 @@
 #uploadfiles{width:100%; height:auto; font-size:0.8em;}
 #upload_info{margin-top:10px;}
 #previousuploaded{border:2px solid hsla(0, 0%, 51%, 0.62); height:auto; width:100%; font-size:14px; border-radius:10px; padding:10px;}
+#previousuploaded ul{list-style:none;}
 input[type="file"]{color:transparent; margin:0; padding:0; background:transparent;}
 #newlyuploaded{font-size:14px; border:2px solid hsla(0, 0%, 51%, 0.62); height:auto; width:100%; border-radius:10px; padding:10px;}
+.delfile{background:transparent; border:none;}
+#previousuploaded input{border:none; background:transparent;}

@@ -1,10 +1,9 @@
 package com.project.Link.RegUser.Community;
 
-import com.project.Link.Posting.Posting;
-
 import java.util.ArrayList;
 
-import com.project.Link.Comment.Comment;
+import com.project.Link.RegUser.Comment.Comment;
+import com.project.Link.RegUser.Posting.Posting;
 
 public class Community extends Posting{
 	/* Community POJO는 Posting 객체에 "댓글"기능을 추가한것 

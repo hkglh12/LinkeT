@@ -14,8 +14,15 @@ $(document).ready(function() {
 	$('#n_contents').summernote({
 		lang : 'ko-KR',
 		height:450,
-		placeholder:"공지사항 내용을 입력해주세요.",
-		focus:true
+		placeholder:"게시글 본문을 입력해주세요",
+		focus:true,
+		toolbar: [
+	       	['style', ['bold', 'italic', 'underline']],
+	       	['fontsize', ['fontsize']],
+	       	['color', ['color']],
+	       	['para', ['ul', 'ol', 'paragraph']]
+	   	],
+		fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48' , '64', '82', '150']
 	});
 	$('#u_files').Multifile
 		/*좌측 메인메뉴 애니메이션*/

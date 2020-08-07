@@ -9,36 +9,18 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-	<link href="<c:url value="/a/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
-		<!-- Custom styles for this template -->
-	<link href="<c:url value="/a/css/User/main/scrolling-nav.css"/>" rel="stylesheet">
 	
-    <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-      <!-- Custom JavaScript for this theme -->
-  	<script src="<c:url value="/a/js/User/main/scrolling-nav.js"/>"></script>
-    <script src="<c:url value="/a/js/User/main/main.js"/>"></script>
-  	
-  
-			
-
-  	<!-- Bootstrap core JavaScript -->
-  	<script src="<c:url value="/a/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
-  	<!-- Plugin JavaScript -->
-  	<script src="<c:url value="/a/bootstrap/jquery-easing/jquery.easing.min.js"/>"></script>
-
-
-  <script>
-  	if("${result}" == "404"){
-  		alert("아이디 혹은 비밀번호가 유효하지 않아요") 
-  	}
-  </script>
+	<script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+	<%-- <script src="${pageContext.request.contextPath}/js/User/main/scrolling-nav.js"></script> --%>
+	<script src="${pageContext.request.contextPath}/a/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="${pageContext.request.contextPath}/a/bootstrap/jquery-easing/jquery.easing.min.js"></script>
+	<%-- <script src="${pageContext.request.contextPath}/js/User/main/main.js"></script> --%>
+	<link href="${pageContext.request.contextPath}/a/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/a/css/User/main/scrolling-nav.css" rel="stylesheet">
+	
 </head>
 
 <body id="page-top">
-<%-- <c:if test="${result eq 'failed'}">
-	<c:out value="<script type='text/javascript'>alert('ID, 비밀번호를 확인해주세요!);</script>"></c:out>
-</c:if> --%>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
     <div class="container">
@@ -99,12 +81,13 @@
       <div class="row">
         <div class="col-lg-8 mx-auto">
           <h2>About Link</h2>
-          <p class="lead"><strong>프로그래밍</strong>은 어렵죠.<br> 못찾는에러도 한두가지가 아니구요! <br>트러블슈팅이 힘들땐 Link에 물어보세요!</p>
+          <p class="lead"><h3>Together we can "Program"</h3>
+          <br>트러블슈팅이 힘들땐 Link에 물어보세요!</p>
           <ul>
             <li>Link는 Java, JSP, Spring을 사용하는 사람들의 커뮤니티입니다</li>
             <li>프로그래밍 지식을 공유할수도, 꽤 괜찮은 Plugin에 대해 공유할수도 있어요!</li>
-            <li>프로그래밍중 막힌부분이 있다면 Link에 올려보세요! 이미 같은 에러를 경험한사람, <br>혹은 그 문제를 알고있는 사람들이 답을 올려주실거에요!</li>
-            <li>이제 망설이지말고, 상단 메뉴를 눌러서 Link를 시작해보세요!</li>
+            <li>프로그래밍중 막힌부분이 있다면 Link에 올려보세요!</li>
+            <li>망설이지말고, 상단 메뉴를 눌러서 Link를 시작해보세요!</li>
      <!--        <li>Minimal custom CSS so you are free to explore your own unique design options</li> -->
           </ul>
         </div>
@@ -116,12 +99,16 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 mx-auto">
-          <h2>Link에서는 무슨일을 할수있나요?</h2>
+          <h2>What can we do on Link?</h2>
+          <h3>"Link" 서비스에서는 이런 일을 할 수 있어요.</h3>
           <!-- <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut velit dignissimos.</p> -->
           <ul>
             <li>Java, Jsp, Spring 지식을 공유할 수 있습니다.</li>
             <li>Plug-in 추천을 받을수도 있어요</li>
+            <li>기술 동향에 대해 의논할 수 있어요</li>
+            <li>전공 기초지식에 대해 이야기 할 수도 있어요</li>
             <li>어려움을 느낀 부분을 질문하시면, 다른 사용자들이 답변드릴거에요</li>
+            <li>"Link" 서비스는 사용자가 만들어가는 커뮤니티입니다. 자유로워요</li>
           </ul>
         </div>
       </div>
@@ -133,7 +120,8 @@
       <div class="row">
         <div class="col-lg-8 mx-auto">
           <h2>Contact us</h2>
-          <p class="lead">우리 서비스에서 불편한점을 찾으셨다구요? 저희는 연락받는걸 좋아해요! <br> 어느정도로 좋아하냐면, 저희는 이런 수정건의 <strong>티켓</strong>이라고 부르고있어요. <br> 더 나은 내일로의 <strong>티겟</strong> 이요! 그러니 망설이지말고 저희에게 "티켓"을 보내주세요!</p>
+          <h3>Hey, check this out!</h3>
+          <p class="lead">저희는 불편 문의사항을 받는 것을 좋아합니다.<br> 더 나은 내일로의 <b>티켓</b> 이라고 부르고있어요 <br> 불편한점을 겪으셨다면 저희 관리자에게 <b>티켓</b> 을 보내주세요!</p>
           <p class="lead"><br> <strong> hkglh12@gmail.com </strong></p>
         </div>
       </div>

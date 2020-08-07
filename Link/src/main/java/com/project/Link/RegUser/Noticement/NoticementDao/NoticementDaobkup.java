@@ -3,8 +3,8 @@ package com.project.Link.RegUser.Noticement.NoticementDao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import com.project.Link.Posting.Dao.PostingDao;
 import com.project.Link.RegUser.Noticement.Noticement;
+import com.project.Link.RegUser.Posting.Dao.PostingDao;
 
 public interface NoticementDaobkup extends PostingDao {
 	// 조회, 리스팅은 다른 "객체"가 리턴되므로 재선언

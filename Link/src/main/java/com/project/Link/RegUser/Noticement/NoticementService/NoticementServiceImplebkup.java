@@ -20,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.project.Link.Posting.Posting;
 import com.project.Link.RegUser.Noticement.Noticement;
 import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDao;
 import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
+import com.project.Link.RegUser.Posting.Posting;
 import com.project.Link.Ufile.Dao.UfileDao;
 import com.project.Link.Ufile.Service.UfileService;
 

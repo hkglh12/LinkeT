@@ -14,7 +14,7 @@ $(document).ready(function() {
 		placeholder:"게시글 본문을 입력해주세요",
 		focus:true,
 		toolbar: [
-	       	['style', ['bold', 'italic', 'underline']],
+	       	['style', ['style']],
 	       	['fontsize', ['fontsize']],
 	       	['color', ['color']],
 	       	['para', ['ul', 'ol', 'paragraph']]

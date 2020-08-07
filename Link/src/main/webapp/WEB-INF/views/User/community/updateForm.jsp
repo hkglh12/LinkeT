@@ -13,7 +13,7 @@
     <link href="${pageContext.request.contextPath}/a/css/Commons/posting_structure.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
    	<link href="${pageContext.request.contextPath}/a/css/User/community/updateForm.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/User/community/updateForm.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/jquery.MultiFile.js"></script>
@@ -82,7 +82,7 @@
      						<c:if test="${not empty community.uFileList}">
      						<ul>
      							<c:forEach items="${community.uFileList}" var="i">
-     								<li><button type="button" class="test" onclick="delthiscode(this);"></button><input type="text" name="previous" value="${i.uFileOriginName}" readonly>
+     								<li><button type="button" class="delfile" onclick="delthiscode(this);"><i class="fas fa-times"></i></button><input type="text" name="previous" value="${i.uFileOriginName}" readonly>
      								<input type="hidden" class ="tgf_code" value="${i.uFileCode}"></li>
      							</c:forEach>
      							</ul>

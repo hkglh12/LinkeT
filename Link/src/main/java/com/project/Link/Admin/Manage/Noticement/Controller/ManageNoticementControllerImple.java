@@ -1,5 +1,9 @@
 package com.project.Link.Admin.Manage.Noticement.Controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +33,7 @@ import com.project.Link.Ufile.Service.UfileService;
 
 @RequestMapping(value={"/admin/manage/notice/*", "/Admin/manage/notice/*"})
 @Controller
-public class ManageNoticementControllerImple extends NoticementControllerImple implements ManageNoticementController {
+public class ManageNoticementControllerImple implements ManageNoticementController {
 	private final String nFilePath = "c:\\temp\\noticement\\";
 	private static final Logger logger = LoggerFactory.getLogger(NoticementControllerImple.class);
 	
@@ -174,4 +178,36 @@ public class ManageNoticementControllerImple extends NoticementControllerImple i
 		 e.printStackTrace();
 		 return "/error/404"; 
 	}
+	 @Override
+		@RequestMapping(value="/download", method=RequestMethod.GET)
+		public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response)
+				throws Exception {	
+			// TODO File 유효성검증 해야합니다.
+			try {
+				File file = new File(nFilePath+request.getParameter("fileCode"));
+				if(file.exists()) {
+					String mimeType = Files.probeContentType(file.toPath());
+					if(mimeType==null) {
+						mimeType="application/octet-stream";
+					}
+					response.setContentType(mimeType);
+					response.addHeader("Content-Disposition","attachment; filename=" + request.getParameter("fileCode"));
+					response.setContentLength((int)file.length());
+					OutputStream os = response.getOutputStream();
+					FileInputStream fis = new FileInputStream(file);
+					byte[] buffer = new byte[4096];
+					int b=-1;
+					while((b=fis.read(buffer)) != -1) {
+						os.write(buffer, 0, b);
+					}
+					fis.close();
+					os.close();
+				}else {
+					
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 }

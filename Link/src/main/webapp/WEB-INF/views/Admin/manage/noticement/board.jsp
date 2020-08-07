@@ -10,18 +10,18 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     
-    <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Admin/manage/noticement/board.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/noticement/board.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> 
 	<script>
-
-	var result = "${result}";
-	console.log(result);
+		var result = "${result}";
 		if(result == "true"){
 			alert("반영을 완료했습니다.");
 		}
-	
+		result = "";
 	</script>   
 </head>
 <body>
@@ -82,23 +82,16 @@
         	</div>
 <!----------------------------------------------Contents -------------------------------------->
 		<c:if test="${empty noticelist}">
-        <c:forEach var='i' begin='0' end='7'>
        		<div class="large-12 forum-topic">
           		<div class="large-1 column lpad">
-           			<c:if test="${i eq 0}">
             			<i class="icon-file"></i>
-            		</c:if>
           		</div>
           		<div class="large-70 small-8 column lpad">
-            		<span class="overflow-control">
-            			<c:if test="${i eq 0}">
-              				<c:out value="공지사항 없음!"/>
-            			</c:if>
+            		<span class="overflow-upper">
+              				
             		</span>
             		<span class="overflow-control">
-            			<c:if test="${i eq 0}">
-              				<c:out value="아직 아무 공지사항도 입력된적이 없어요!"/>
-              			</c:if>
+              				<c:out value="아직 아무 공지사항도 입력된적이 없어요!"></c:out>
             		</span>
           		</div>
           		<div class="large-5 column ltpad">
@@ -115,17 +108,15 @@
             		<span><a href="#"></a></span>
           		</div>
         	</div>
-        </c:forEach>
         </c:if>
-<!-------------------------------------- 결과로 받아온 리스트가 비어있지 않을경우 ---------------->
 		<c:if test="${not empty noticelist}">
         	<c:forEach items="${noticelist}" var="notice"> 
-        		<div class="large-12 forum-topic" onclick="pagecall(${notice.serial})">
+        		<div class="large-12 forum-topic" onclick="pagecall(${notice.serial});">
           			<div class="large-1 column lpad">
             			<i class="icon-file"></i>
           			</div>
 	          		<div class="large-70 small-8 column lpad">
-	            		<span class="overflow-control">
+	            		<span class="overflow-upper">
 	              			 #<c:out value="${notice.serial}"/>
 	            		</span>
 	            		<span class="overflow-control">
