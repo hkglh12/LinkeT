@@ -51,6 +51,7 @@
 				${noticement.title}
         	</div>
         	<div class="mpad ar">
+        		<button id="goback" onclick="gobacklist();">목록으로 돌아가기</button>
         	</div>
       	</div>
         <div id="noticeinfos">

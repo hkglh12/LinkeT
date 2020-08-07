@@ -61,7 +61,7 @@ public class ManageCommunityControllerImple extends CommunityControllerImple imp
 		return "redirect:/admin/manage/community/list?page=1&subject="+request.getParameter("subject");
 	}
 
-	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@RequestMapping(value={"/list", "/"}, method=RequestMethod.GET)
 	@Override
 	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session) {
 		System.out.println("called");

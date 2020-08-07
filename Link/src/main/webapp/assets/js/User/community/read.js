@@ -48,6 +48,7 @@ $(document).ready(function() {
             alert("제목, 혹은 내용이 없습니다.");
         }
     });
+
 	/* 본문 수정 버튼*/	
 	$('#upd').on("click",function(){
 		var community_serial = $('#c_serial').val();
@@ -88,7 +89,9 @@ $(document).ready(function() {
 	})
     	
 });
-
+function gobacklist(){
+	location.href="/Link/community/list?subject="+$("#subject").val();
+}
 function commentblockmove(page_num){
 	var c_serial = $('#c_serial').val();
 			var param = {

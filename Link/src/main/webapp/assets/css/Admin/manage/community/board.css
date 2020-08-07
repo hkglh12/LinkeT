@@ -17,7 +17,7 @@
 .forum-topic span.center {padding-top: 10px;}
 .lta{padding:20px 40px;}
 #search_comm{height:5em; width:100%-40px; text-align:right; display:flex; align-items:center; flex-direction:row; justify-content: flex-end; border-top:2px solid hsla(0, 0%, 100%, 0.43); padding:10px;  box-sizing:border-box; margin-left:20px; margin-right:20px;  border-bottom:2px solid hsla(0, 0%, 100%, 0.43); }
-#search_comm select{width:100px; height:30px;}
+#search_comm select{width:130px; height:30px; margin-right:20px;}
 #search_comm input[type="text"]{width:300px; height:30px; vertical-align:center; border:none; margin-right:20px; margin-left:20px;}
 #search_comm button[type="submit"]{width:150px; height:30px; vertical-align:cetner; border:2px solid white; border-radius:10px; background:transparent; color:white; font-size:16px; font-weight:bold;}
 #community_post{width:150px; height:30px; border:2px solid white; background:transparent; border-radius:10px; color:white; font-weight:bold; margin-right:20px;}

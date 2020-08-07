@@ -8,11 +8,6 @@ $(document).ready(function(){
 		$("section").css("width","95%");
 	    $("section").css("margin-left","6vw"); 
 	});
-	
-	$("#community_post").on("click",function(){
-		var sbj = $("#subject").val();
-	    location.href="http://localhost:80/Link/community/form?subject="+sbj;
-	});
 });
 
 function blockmove(block){
