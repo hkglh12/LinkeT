@@ -13,18 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.project.Link.Commons.Community.Community;
+import com.project.Link.Commons.Community.Dao.CommonsCommunityDaoImple;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.RegUser.Community.Community;
 import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
 import com.project.Link.RegUser.Posting.Posting;
 import com.project.Link.RegUser.Posting.Dao.PostingDaoImple;
 
 @Component
 @Qualifier("UserCommunityDao")
-public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
-	private static final Logger logger = LoggerFactory.getLogger(CommunityDaoImple.class);
-	public final String ctargetBoard = "community";
-	public final String cprefix = "c_";
+public class CommunityDaoImple extends CommonsCommunityDaoImple implements CommunityDao{
 	
 	String dbDriver = DBinfo.getDriver();
 	String dbUrl = DBinfo.getUrl();
@@ -35,87 +33,72 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
  	private PreparedStatement pstmt = null;
  	private ResultSet rs = null;
  	
- 	public CommunityDaoImple() {
- 		logger.info("				DaoLvel : CommunityDamImple Constructor Called");
- 	}
+ 	public CommunityDaoImple() {}
+
 	@Override
-	public ArrayList<Community> getListCommunity(int page, int pagePerBlock, String communitySubject) {
-		logger.info("				DaoLvel : CommunityDamImple //////GetListCommunity////// Called");
- 		ArrayList<Community> list = new ArrayList<Community>();
-		try {
+	public int getLastSerial(String targetBoard, String prefix) {
+		// 게시판의 마지막 Serial number를 리턴
+		int result = 0;
+ 		try {
+ 			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			String target = prefix+"serial";
+			String sql = "select "+target+" from "+targetBoard+" order by " + target +" desc limit 1";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			result = (rs.next()) == true ? rs.getInt(target) : 0;	
+ 		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+ 		return result;
+	}
+	
+	@Override
+	public int createPosting(String targetBoard, String prefix, int serial, String usrId, String title, String contents, int fileCount,	Timestamp createDate, String subject) {
+		//게시판에 새로운 글을 등록
+		int result = 0;
+		String[] psql= {prefix+"serial", prefix+"title", prefix+"contents", prefix+"createdate"};
+ 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from "+ctargetBoard+" where c_deletedate IS NULL and c_subject = ?Order by c_serial desc Limit " + (page*pagePerBlock) +", "+pagePerBlock;
-
+			String sql = "insert into "+targetBoard+" ("+psql[0]+", u_id, "+psql[1]+", "+psql[2]+", f_count, "+psql[3]+", c_subject) values(?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, communitySubject);
-			rs = pstmt.executeQuery();
-			
-			System.out.println(sql);
-			while(rs.next()) {
-				Community community = new Community();
-				community.setSerial(rs.getInt("c_serial"));
-				community.setUsrId(rs.getString("u_id"));
-				community.setTitle(rs.getString("c_title"));
-				community.setContents(rs.getString("c_contents"));
-				community.setFileCount(rs.getInt("f_count"));
-				community.setCreateDate(rs.getTimestamp("c_createdate"));
-				community.setModifyDate(rs.getTimestamp("c_modifydate"));
-				community.setReadCount(rs.getInt("c_count"));
-				community.setSubject(rs.getNString("c_subject"));
-				list.add(community);
-			}
+			pstmt.setInt(1,serial);
+			pstmt.setString(2, usrId);
+			pstmt.setString(3,title);
+			pstmt.setString(4,contents);
+			pstmt.setInt(5,fileCount);
+			pstmt.setTimestamp(6,createDate);
+			pstmt.setNString(7, subject);
+			result = pstmt.executeUpdate();
 		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();
-		}finally {	
+		}finally {
 			try {
 				if (pstmt!=null) pstmt.close();
 				if (conn!=null) conn.close();
 			}catch(SQLException e) {e.printStackTrace();}
 		}
-		return list;
+ 		return result;
 	}
-	public Community getCommunity(int targetSerial) {
-		logger.info("				DaoLvel : CommunityDamImple //////GetTargetCommunity////// Called");
-		Community community = new Community();
-		try {
-			Class.forName(dbDriver);
-			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from "+ctargetBoard+" where c_serial = ? and c_deletedate IS NULL";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,targetSerial);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				community.setSerial(rs.getInt("c_serial"));
-				community.setUsrId(rs.getString("u_id"));
-				community.setTitle(rs.getString("c_title"));
-				community.setContents((rs.getString("c_contents")));
-				community.setFileCount(rs.getInt("f_count"));
-				community.setCreateDate(rs.getTimestamp("c_createdate"));
-				community.setReadCount(rs.getInt("c_count"));
-				community.setSubject(rs.getString("c_subject"));
-			}
-		}catch(ClassNotFoundException e) {e.printStackTrace();
-		}catch(SQLException e) {e.printStackTrace();
-		}finally {	
-			try {
-				if (pstmt!=null) pstmt.close();
-				if (conn!=null) conn.close();
-			}catch(SQLException e) {e.printStackTrace();
-			}
-		}
-		return community;
-	}
+	
 	@Override
 	public int updateCommunity(int targetSerial,  String title, String contents, int fileCount, Timestamp modifyDate) {
-		logger.info("				DaoLvel : CommunityDamImple //////TargetUpdateCommunity////// Called");
+		// 특정 게시글 수정
 		int result = 0;
 		try {
-			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
-			String sql = "update "+ctargetBoard+" set c_title = ?, c_contents = ?, f_count = ?, c_modifyDate = ? where c_serial = ? ";
+			String sql = "update community set c_title = ?, c_contents = ?, f_count = ?, c_modifyDate = ? where c_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,title);
 			pstmt.setString(2,contents);
@@ -136,14 +119,12 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
 
 	@Override
 	public int deleteCommunity(int targetSerial, Timestamp deleteDate) {
-		logger.info("				DaoLvel : CommunityDamImple //////TargetDeleteCommunity////// Called");
+		// 특정 게시글 삭제
 		int result = 0;
 		try {
-			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
-			String sql = "update "+ctargetBoard+" set c_deletedate = ? where c_serial = ? ";
+			String sql = "update community set c_deletedate = ? where c_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setTimestamp(1,deleteDate);
 			pstmt.setInt(2,targetSerial);
@@ -158,97 +139,5 @@ public class CommunityDaoImple extends PostingDaoImple implements CommunityDao{
 		}
 		return result;
 	}
-
-
-	@Override
-	public ArrayList<Community> searchListCommunity(int targetPage, int pagePerBlock, String searchCategory,
-			String searchTarget, String communitySubject) {
-		logger.info("				DaoLvel : CommunityDamImple //////GetListCommunity////// Called");
- 		ArrayList<Community> list = new ArrayList<Community>();
-		try {
-			Class.forName(dbDriver);
-			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from "+ctargetBoard+" where c_deletedate IS NULL and "+searchCategory+" like ? and c_subject = ? Order by c_serial desc Limit " + (targetPage*pagePerBlock) +", "+pagePerBlock;
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%"+searchTarget+"%");
-			pstmt.setString(2, communitySubject);
-			rs = pstmt.executeQuery();
-			System.out.println(sql);
-			while(rs.next()) {
-				Community community = new Community();
-				community.setSerial(rs.getInt("c_serial"));
-				community.setUsrId(rs.getString("u_id"));
-				community.setTitle(rs.getString("c_title"));
-				community.setContents(rs.getString("c_contents"));
-				community.setFileCount(rs.getInt("f_count"));
-				community.setCreateDate(rs.getTimestamp("c_createdate"));
-				community.setModifyDate(rs.getTimestamp("c_modifydate"));
-				community.setReadCount(rs.getInt("c_count"));
-				community.setSubject(rs.getNString("c_subject"));
-				list.add(community);
-			}
-		}catch(ClassNotFoundException e) {e.printStackTrace();
-		}catch(SQLException e) {e.printStackTrace();
-		}finally {	
-			try {
-				if (pstmt!=null) pstmt.close();
-				if (conn!=null) conn.close();
-			}catch(SQLException e) {e.printStackTrace();}
-		}
-		return list;
-	}
-
-
-	@Override
-	public int getSearchCount(String targetBoard, String prefix, String searchCategory, String searchTarget, String subject) {
-		logger.info("				DaoLevel : PostingDaoImple///// getTotalCount /////For : " + targetBoard + "table\n");
-		
-		int result = 0;
- 		try {
- 			Class.forName(dbDriver);
-			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select count(*) as count from " + targetBoard +" where "+prefix+"deletedate IS NULL and "+searchCategory+" like ? and c_subject = ?";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%"+searchTarget+"%");
-			pstmt.setNString(2, subject);
-			rs = pstmt.executeQuery();
-			result = (rs.next()) == true ? rs.getInt("count") : -1;	
- 		}catch(ClassNotFoundException e) {e.printStackTrace();
-		}catch(SQLException e) {e.printStackTrace();
-		}finally {
-			try {
-				if (pstmt!=null) pstmt.close();
-				if (conn!=null) conn.close();
-			}catch(SQLException e) {e.printStackTrace();}
-		}
- 		return result;
-	}
-
-
-	@Override
-	public int userCountCommunities(String usrId) {
-		int result=0;
-		try {
-			Class.forName(dbDriver);
-			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select count(*) as count from community where u_id=? and c_deletedate is null";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setNString(1,  usrId);
-			rs = pstmt.executeQuery();
-			result = rs.next() == true ? rs.getInt("count") : -1;
-		}catch(ClassNotFoundException e) {e.printStackTrace();
-		}catch(SQLException e) {e.printStackTrace();
-		}finally {
-			try {
-				if (pstmt!=null) pstmt.close();
-				if (conn!=null) conn.close();
-			}catch(SQLException e) {e.printStackTrace();}
-		}
- 		return result;
-	}
-
-
-
-	}
+}
 

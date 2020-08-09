@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
-public class AdminHomeController {
+public class AdminHomeController implements AdminHomeContollerIntf {
 	public static final Logger logger = LoggerFactory.getLogger(AdminHomeController.class);
 	
 	@RequestMapping(value = {"/admin", "/Admin"}, method = RequestMethod.GET)

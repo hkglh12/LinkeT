@@ -21,40 +21,16 @@ import com.project.Link.SessionControl.SessionControl;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	@Autowired
-	private SessionControl sc;
+public class HomeController implements HomeControllerIntf{
 	public HomeController(){}
 	
-	public SessionControl getSc() {
-		return sc;
-	}
-	public void setSc(SessionControl sc) {
-		this.sc = sc;
-	}
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session) {
-		logger.info("///////////////////////////////////////HOMECOMTROLLERCALLED");
 		return "/User/main/main";
-		/*
-		 * if(session.getAttribute("usrId")==null) { return "login"; }else { return
-		 * "main"; }
-		 */
-		/* return main; */
-		
-		
-		
 	}
+	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Locale locale, Model model) {
-		logger.info("signup Called");
-		
 		return "signup";
 	}
 	

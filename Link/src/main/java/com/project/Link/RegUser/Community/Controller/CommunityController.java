@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.project.Link.RegUser.Comment.Comment;
+import com.project.Link.Commons.Comment.Comment;
 
 public interface CommunityController {
 	//Session컨트롤 필요없음.

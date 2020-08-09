@@ -24,6 +24,7 @@ public class UserServiceImple implements UserService{
 	@Qualifier("UserCommunityService")
 	private CommunityService cService;
 	@Autowired
+	@Qualifier("UserCommentService")
 	private CommentService ccService;
 	public UserServiceImple() {}
 	public UserDao getuDao() {

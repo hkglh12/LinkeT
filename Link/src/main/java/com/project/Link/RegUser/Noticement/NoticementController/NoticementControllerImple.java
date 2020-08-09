@@ -37,7 +37,6 @@ import com.project.Link.Ufile.Service.UfileService;
 @Controller
 public class NoticementControllerImple implements NoticementController {
 	private final String nFilePath = "c:\\temp\\noticement\\";
-	private static final Logger logger = LoggerFactory.getLogger(NoticementControllerImple.class);
 	
 	@Autowired 
 	@Qualifier("noticeservice")
@@ -45,39 +44,39 @@ public class NoticementControllerImple implements NoticementController {
 	@Autowired
 	private UfileService ufService;
 	
+	public UfileService getUfService() {return ufService;}
+	public void setUfService(UfileService ufService) {this.ufService = ufService;}
 	public NoticementControllerImple() {}
 	public NoticementService getnService() {return nService;}
 	public void setnService(NoticementService nService) {this.nService = nService;}
 
 
-	// 공지사항 목록출력 요청에 대응하는 endpoint입니다.
+	
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	@Override
+	// 공지사항 리스팅에 응답하는 endpoint
 	public String ListNoticements(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
-		logger.info("		Controller Level :: ListNoticements Called");
-		int total = nService.totalCountNoticements();
-		int targetPage = request.getParameter("page") == null ? 0 :Integer.parseInt(request.getParameter("page"))-1;
+		int total = nService.totalCountNoticements();	// 삭제처리 되지 않은 공지사항 개수를 출력 
+		int targetPage = request.getParameter("page") == null ? 0 :Integer.parseInt(request.getParameter("page"))-1; // 페이징처리
 		ArrayList<Noticement> list = nService.listNoticements(targetPage);
 		model.addAttribute("total", total);
 		model.addAttribute("noticelist",list);
 		return "/User/noticement/board";
 	}
-	// 특정 공지사항 조회요청에 응답하는 endpoint입니다.
+
 	@RequestMapping(value="/get", method = RequestMethod.GET)
 	@Override
+	// 특정 공지사항 조회요청에 응답하는 endpoint
 	public String GetNoticement(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirecAttr) {
-		logger.info("		Controller Level :: GetNoticement Called");
-		int targetSerial = Integer.valueOf(request.getParameter("n_serial"));
+		int targetSerial = Integer.valueOf(request.getParameter("n_serial"));	// serial로 동작
 		Noticement noticement = nService.getNoticement(targetSerial);
 		model.addAttribute("noticement", noticement);
 		return "/User/noticement/read";
 	}
-	// 공지사항에 올라와있는 파일 다운로드 요청에 응답하는 endpoint입니다.
 	@Override
 	@RequestMapping(value="/download", method=RequestMethod.GET)
-	public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response)
-			throws Exception {	
-		// TODO File 유효성검증 해야합니다.
+	// 공지사항에 올라와있는 파일 다운로드 요청에 응답하는 endpoint입니다.
+	public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {	
 		try {
 			File file = new File(nFilePath+request.getParameter("fileCode"));
 			if(file.exists()) {

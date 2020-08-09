@@ -31,12 +31,11 @@ import com.project.Link.Ufile.Service.UfileService;
 @Service
 @Qualifier("noticeservice")
 public class NoticementServiceImple implements NoticementService{
-	private static final Logger logger = LoggerFactory.getLogger(NoticementServiceImple.class);
-	private int pagePerBlock = 8;
-	private static final String targetBoard = "noticement";
-	private static final String targetBoardFile = targetBoard+"file";
-	private static final String nFilePath = "C:\\temp\\" + targetBoard + "\\";
-	private String prefix = "n_";
+	//private였었음
+	protected int pagePerBlock = 8;
+	protected static final String targetBoard = "noticement";
+	protected static final String targetBoardFile = targetBoard+"file";
+	protected String prefix = "n_";
 	
 	@Autowired
 	@Qualifier("noticeDao")
@@ -48,29 +47,28 @@ public class NoticementServiceImple implements NoticementService{
 	public NoticementDao getnDao() {return nDao;}
 	public void setnDao(NoticementDao nDao) {this.nDao = nDao;}
 
-	// 전체 공지사항 개수를 리턴합니다.
-	// JSP 파일 중 하단 page block에 사용됩니다.
+
 	@Override
+	// 삭제처리 되지 않은 공지사항 전체 개수를 가져옵니다.
 	public int totalCountNoticements() {
-		int totalCount = nDao.getNoticementCount(targetBoard, prefix);
+		int totalCount = nDao.getNoticementCount();
 		return totalCount;
 	}
 	// 공지사항중 해당 페이지, 블록개수에 맞춰서 리턴합니다.
 	@Override
 	public ArrayList<Noticement> listNoticements(int targetPage) {
-		logger.info("			ServiceLevelCalled ::::::: listNoticements");
-		ArrayList<Noticement> list = nDao.getListNoticement(targetPage,pagePerBlock);
+		ArrayList<Noticement> list = nDao.getListNoticement(targetPage, pagePerBlock);
 		return list;
 	}
 	// 공지사항을 가져오며, 이때 연결된 파일정보도 같이 제공합니다.
 	@Override
 	public Noticement getNoticement(int targetSerial) {
-		logger.info("			ServiceLevelCalled ::::::: getNoticement called");
 		Noticement targetNoticement = nDao.getNoticement(targetSerial);
+		// 이미 데이터베이스에서 가져왔으므로, 개별적으로 조회수 증가
 		nDao.countUp(targetBoard, prefix, targetSerial, targetNoticement.getReadCount()+1);
+		// 사용자에게 전달할때, 증가시킨상태로 전달
 		targetNoticement.setReadCount(targetNoticement.getReadCount() +1);
 		targetNoticement.setuFileList(ufService.uFileGet(targetBoardFile, targetSerial));
-		
 		return targetNoticement;
 	}
 

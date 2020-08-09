@@ -1,4 +1,4 @@
-package com.project.Link.RegUser.Comment;
+package com.project.Link.Commons.Comment;
 
 import java.sql.Timestamp;
 

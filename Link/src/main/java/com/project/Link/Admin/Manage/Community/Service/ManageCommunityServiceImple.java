@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.project.Link.Admin.Manage.Comment.Service.ManageCommentService;
 import com.project.Link.Admin.Manage.Community.Dao.ManageCommunityDao;
+import com.project.Link.Commons.Community.Dao.CommonsCommunityDaoImple;
+import com.project.Link.Commons.Community.Service.CommonsCommunityServiceImple;
 import com.project.Link.RegUser.Comment.Service.CommentService;
 import com.project.Link.RegUser.Community.Dao.CommunityDao;
 import com.project.Link.RegUser.Community.Service.CommunityServiceImple;
@@ -17,11 +20,15 @@ import com.project.Link.RegUser.Noticement.NoticementService.NoticementServiceIm
 import com.project.Link.Ufile.Service.UfileService;
 
 @Service
-@Qualifier("AdminCommunityService")
-public class ManageCommunityServiceImple extends CommunityServiceImple implements ManageCommunityService{
+@Qualifier("ManageCommunityService")
+public class ManageCommunityServiceImple extends CommonsCommunityServiceImple implements ManageCommunityService{
 	@Autowired
-	@Qualifier("AdminCommunityDao")
+	@Qualifier("ManageCommunityDao")
 	private ManageCommunityDao mcDao;
+	
+	@Autowired
+	@Qualifier("ManageCommentService")
+	private ManageCommentService mccService;
 	
 	@Override
 	public boolean banCommunity(int targetSerial, String usrId) {
@@ -43,7 +50,7 @@ public class ManageCommunityServiceImple extends CommunityServiceImple implement
 	@Override
 	public boolean banComment(int targetSerial, String usrId) {
 		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
-		return mcDao.banComment(targetSerial, usrId, deleteDate);
+		return mccService.banComment(targetSerial, usrId, deleteDate);
 	}
 
 }
