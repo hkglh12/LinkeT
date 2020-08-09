@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import com.project.Link.Commons.Comment.Comment;
 import com.project.Link.Commons.Comment.Service.CommonsCommentService;
@@ -11,6 +12,8 @@ import com.project.Link.Commons.Community.Community;
 import com.project.Link.Commons.Community.Dao.CommonsCommunityDao;
 import com.project.Link.Ufile.Service.UfileService;
 
+@Service
+@Qualifier("CommonsCommunityService")
 public class CommonsCommunityServiceImple implements CommonsCommunityService{
 	protected int pagePerBlock = 10;
 	protected static final String targetBoard = "community";
@@ -31,7 +34,7 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 	
 	@Override
 	public int userCountCommunities(String usrId) {
-		// 특정 유저가 작성한 댓글 개수를 가져옵니다.
+		// 특정 유저가 작성한 게시글 개수를 가져옵니다.
 		return cDao.userCountCommunities(usrId);
 	}
 	
@@ -87,4 +90,14 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 		 ArrayList<Comment> list = ccService.ListCommunities(targetSerial,pageNum);
 		 return list; 
 	 }
+
+	@Override
+	public Community getLastUserCommunity(String usrId) {
+		//특정 유저의 마지막 게시글을 가져옵니다
+		Community result = cDao.getLastUserCommunity(usrId);
+		if(result != null && result.getTitle().length() >= 6) {
+			result.setTitle(result.getTitle().substring(0, 5)+"...");
+		}
+		return result;
+	}
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.project.Link.Commons.User.Service.CommonsUserServiceImple;
 import com.project.Link.RegUser.Comment.Service.CommentService;
 import com.project.Link.RegUser.Community.Service.CommunityService;
 import com.project.Link.RegUser.Noticement.NoticementService.NoticementService;
@@ -15,8 +16,10 @@ import com.project.Link.RegUser.User.UserDao.UserDao;
 import com.project.Link.Ufile.Service.UfileService;
 
 @Service
-public class UserServiceImple implements UserService{
+@Qualifier("UserService")
+public class UserServiceImple extends CommonsUserServiceImple implements UserService{
 	@Autowired
+	@Qualifier("UserDao")
 	private UserDao uDao;
 	@Autowired
 	private UfileService ufService;
@@ -55,16 +58,6 @@ public class UserServiceImple implements UserService{
 	/* 로그인으로 쓰임 */
 	public User userGet(String usrId, String usrPw) {
 		User user = uDao.get(usrId, usrPw);
-		return user;
-	}
-
-	@Override
-	/* 회원정보가져오기로 쓰임 */
-	public User userGet(String usrId) {
-		User user = uDao.get(usrId);
-		user.setFileCount(ufService.getUserFileCount(usrId));
-		user.setCommunityCount(cService.userCountCommunities(usrId));
-		user.setCommentCount(ccService.getUserCommentsCount(usrId));
 		return user;
 	}
 

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,7 @@ public class UserControllerImple implements UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserControllerImple.class);
 
 	@Autowired
+	@Qualifier("UserService")
 	private UserService uService;
 	@Autowired
 	private SessionControl sc;
@@ -115,7 +117,7 @@ public class UserControllerImple implements UserController {
 	@RequestMapping(value = "/me", method = RequestMethod.GET)
 	@Override
 	public String GetMe(Model model, HttpServletRequest request, HttpSession session) {
-		User result = uService.userGet((String) session.getAttribute("usrId"));
+		User result = uService.getUserDetail((String) session.getAttribute("usrId"));
 		model.addAttribute("user", result);
 		return "/User/user/profile";
 	}

@@ -113,7 +113,7 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
 			pstmt = conn.prepareStatement(sql);
 			System.out.println(sql);
 			rs = pstmt.executeQuery();
-			result = rs.getInt("count");	
+			result = rs.next() == true ? rs.getInt("count") : 0;	
  		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();
 		}finally {

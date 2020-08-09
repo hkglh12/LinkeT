@@ -12,4 +12,6 @@ public interface CommonsCommentDao {
 	public int getUserCommentCount(String usrId);
 	// 댓글 리스트를 리턴
 	public ArrayList<Comment> getListComment(int communitySerial, int page, int pagePerBlock);
+	// 마지막 유저의 댓글을 리턴
+	public Comment getLastUserComment(String usrId);
 }

@@ -14,5 +14,6 @@ public interface CommonsCommentService {
 	public ArrayList<Community> totalCountComments(ArrayList<Community> list);
 	// 최초 게시글 로드시에 1번 페이지에 대한 댓글 제공
 	public ArrayList<Comment> ListCommunities(int targetSerial, int pageNum);
-	
+	// 특정 유저의 마지막 댓글을 리턴
+	public Comment getLastUserComment(String usrId);
 }

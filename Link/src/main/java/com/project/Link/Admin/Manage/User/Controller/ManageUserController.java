@@ -14,4 +14,5 @@ import com.project.Link.RegUser.User.User;
 public interface ManageUserController {
 	public String getUserList(Model model, HttpServletRequest request, HttpSession session);
 	public String banUser(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr);
+	public String getUserDetail(Model model, HttpServletRequest request, HttpSession session);
 }

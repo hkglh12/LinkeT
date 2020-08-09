@@ -19,4 +19,7 @@ public interface CommonsCommunityDao extends PostingDao {
 	public ArrayList<Community> getListCommunity(int page, int pagePerBlock, String communitySubject);
 	// 특정 조건 하 검색결과 게시글 리스팅
 	public ArrayList<Community> searchListCommunity(int targetpage, int pageperBlock, String searchCategory, String searchTarget, String communitySubject);
+	
+	// 특정 유저의 마지막 게시글을 리턴
+	public Community getLastUserCommunity(String usrId);
 }
