@@ -24,13 +24,14 @@ import com.project.Link.Ufile.Service.UfileService;
 @Service
 @Qualifier("manageNoticeService")
 public class ManageNoticementServiceImple extends NoticementServiceImple implements ManageNoticementService{
-	private static final Logger logger = LoggerFactory.getLogger(NoticementServiceImple.class);
-	private int pagePerBlock = 8;
-	private static final String targetBoard = "noticement";
-	private static final String targetBoardFile = targetBoard+"file";
+	// 공지사항 read, list, count는 user의 service와 동일하므로, 상속으로 처리
+	// 또한, pagePerblock, targetBoard, targetBoardFile, prefix는 protected 처리했음
+	//private int pagePerBlock = 8;
+	//private static final String targetBoard = "noticement";
+	//private static final String targetBoardFile = targetBoard+"file";
 	private static final String nFilePath = "C:\\temp\\" + targetBoard + "\\";
-	private String prefix = "n_";
-
+	//private String prefix = "n_";
+	
 
 	@Autowired
 	@Qualifier("manageNoticeDao")
@@ -38,27 +39,16 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 	@Autowired
 	private UfileService ufService;
 	
-	public ManageNoticementDao getMnDao() {
-		return mnDao;
-	}
+	public ManageNoticementDao getMnDao() {return mnDao;}
+	public void setMnDao(ManageNoticementDao mnDao) {this.mnDao = mnDao;}
+	public UfileService getUfService() {return ufService;}
+	public void setUfService(UfileService ufService) {this.ufService = ufService;}
+	
 
-	public void setMnDao(ManageNoticementDao mnDao) {
-		this.mnDao = mnDao;
-	}
-
-	public UfileService getUfService() {
-		return ufService;
-	}
-
-	public void setUfService(UfileService ufService) {
-		this.ufService = ufService;
-	}
-	// 공지사항 입력 요청을 수행하는 service입니다.
 	// 이때, 파일 upload를 동시에합니다.
-	@Transactional(rollbackFor = RuntimeException.class)
+	/* @Transactional(rollbackFor = RuntimeException.class) */
 	@Override
 	public boolean createNoticement(String usrId, String title, String contents, List<MultipartFile> uFileList) throws Exception{
-		logger.info("			ServiceLevelCalled ::::::: createNoticement");
 		Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
 		Iterator<MultipartFile> iterator = uFileList.iterator();
 		while(iterator.hasNext()) {
@@ -106,20 +96,13 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 	//공지사항 업데이트 요청에 응답하는 endpoint입니다.
 	@Transactional(rollbackFor = RuntimeException.class)
 	@Override
-	public boolean updateNoticement(
-			String usrId, int serial, String title, String contents,
-			List<String> previousFileCodes, List<String> deleteFileCodes, List<MultipartFile> uFileList
-			) throws Exception{
-		logger.info("			ServiceLevelCalled ::::::: UpdateNoticement Called");
+	public boolean updateNoticement(String usrId, int serial, String title, String contents,List<String> previousFileCodes, List<String> deleteFileCodes, List<MultipartFile> uFileList	) throws Exception{
 		try {
-				//Integer.valueOf((String)mpRequest.getParameter("f_count"));
-		Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
-		Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
-		
-		int previousListSize = 0;
-		int ufileListSize = 0;
-		int deleteTargetSize = 0;
-
+			Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
+			Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
+			int previousListSize = 0;
+			int ufileListSize = 0;
+			int deleteTargetSize = 0;
 		// 기존의 입력되어있는 파일에 대해서 작업을 진행합니다.
 		// text형태로 파일 코드만 전송받으며 filecount 변경에 쓰입니다.
 		if(previousFileCodes != null) {	
@@ -131,7 +114,6 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 				}
 			}
 			previousListSize = previousFileCodes.size();
-
 		}
 		// 공지사항-파일 간 연결 해제 요청을 수행합니다.
 		if(deleteFileCodes!=null) {
@@ -144,7 +126,6 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 					iterator.remove();
 				}else {
 					// 존재하는 파일에 대해 연결을 바로 끊습니다.
-					logger.info("			ServiceLevelCalled ::::::: uFileDetach Called");
 					ufService.uFileDetach(targetBoardFile, smf, usrId, disconnDate);
 				}
 			}
@@ -166,7 +147,6 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 					try {
 						// 디운로드 완료한 파일을 서버에 저장합니다.
 						mf.transferTo(new File(nFilePath+modifiedFileName));
-						logger.info("			ServiceLevelCalled ::::::: uFileUpload Called");
 						// 이후, 서버 파일 DB에 정보를 등록합니다.
 						ufService.uFileUpload(targetBoardFile, modifiedFileName, usrId, fileSize, createDate, originalFileName, serial);
 					}catch(RuntimeException e) {
@@ -178,7 +158,6 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 			}
 			ufileListSize = uFileList.size();
 		}
-		logger.info("			ServiceLevelCalled ::::::: UploadNoticementCalled Finally Called");
 		int fileCount = previousListSize - deleteTargetSize + ufileListSize;
 		//파일 요청에 대한 작업이 모두 끝났다면 공지사항의 변경내역을 적용합니다.
 		mnDao.updateNoticement(usrId, serial, title, contents, fileCount, modifyDate);
@@ -187,10 +166,10 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 		}
 		return false;
 	}
-	// 공지사항 삭제요청을 수행합니다.
+	
 	@Override
 	public boolean deleteNoticement(int targetSerial, String usrId) {
-		
+		// 공지사항 삭제요청을 수행합니다.
 		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
 		boolean result = mnDao.deleteNoticement(usrId, targetSerial, deleteDate) >= 1 ? true : false;
 		return result;

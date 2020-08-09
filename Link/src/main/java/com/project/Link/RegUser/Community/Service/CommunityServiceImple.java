@@ -23,9 +23,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.project.Link.RegUser.Comment.Comment;
+import com.project.Link.Commons.Comment.Comment;
+import com.project.Link.Commons.Community.Community;
+import com.project.Link.Commons.Community.Service.CommonsCommunityServiceImple;
 import com.project.Link.RegUser.Comment.Service.CommentService;
-import com.project.Link.RegUser.Community.Community;
 import com.project.Link.RegUser.Community.Dao.CommunityDao;
 import com.project.Link.RegUser.Noticement.NoticementController.NoticementControllerImple;
 import com.project.Link.RegUser.Noticement.NoticementService.NoticementServiceImple;
@@ -34,13 +35,13 @@ import com.project.Link.Ufile.Service.UfileService;
 
 @Service
 @Qualifier("UserCommunityService")
-public class CommunityServiceImple implements CommunityService {
-	private static final Logger logger = LoggerFactory.getLogger(NoticementServiceImple.class);
-	private int pagePerBlock = 10;
-	private static final String targetBoard = "community";
-	private static final String targetBoardFile = targetBoard + "file";
-	private static final String cFilePath = "C:\\temp\\" + targetBoard + "\\";
-	private String prefix = "c_";
+public class CommunityServiceImple extends CommonsCommunityServiceImple implements CommunityService {
+	/*
+	 * private int pagePerBlock = 10; private static final String targetBoard =
+	 * "community"; private static final String targetBoardFile = targetBoard +
+	 * "file"; private static final String cFilePath =
+	 * "C:\\temp\\" + targetBoard + "\\"; private String prefix = "c_";
+	 */
 
 	@Autowired
 	@Qualifier("UserCommunityDao")
@@ -48,6 +49,7 @@ public class CommunityServiceImple implements CommunityService {
 	@Autowired
 	private UfileService ufService;
 	@Autowired
+	@Qualifier("UserCommentService")
 	private CommentService ccService;
 
 	public CommunityServiceImple() {
@@ -77,44 +79,10 @@ public class CommunityServiceImple implements CommunityService {
 		this.ccService = ccService;
 	}
 
+	/* @Transactional */
 	@Override
-	public int userCountCommunities(String usrId) {
-		// 특정 유저가 작성한 댓글 개수를 가져옵니다.
-		return cDao.userCountCommunities(usrId);
-	}
-
-	@Override
-	public int totalCountCommunities(String searchCategory, String searchTarget, String subject) {
-		// 전체 게시글의 개수를 가져옵니다.
-		int totalCount = 0;
-		if (searchTarget == null || searchCategory == null) {
-			totalCount = cDao.getTotalCount(targetBoard, prefix, subject);
-		} else {
-			totalCount = cDao.getSearchCount(targetBoard, prefix, searchCategory, searchTarget, subject);
-		}
-		return totalCount;
-	}
-
-	@Override
-	public ArrayList<Community> ListCommunities(int targetPage, String searchCategory, String searchTarget,
-			String communitySubject) {
-		// 게시글을 페이지단위로 DB로부터 추출합니다.
-		ArrayList<Community> list = null;
-		if (searchTarget == null || searchTarget == "") {
-			// 검색 대상이 없을경우, 일반적인 추출을 시작합니다.
-			list = cDao.getListCommunity(targetPage, pagePerBlock, communitySubject);
-		} else {
-			// 검색 대상이 있을경우, 특정 타겟을 대상으로 추출합니다.
-			list = cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory, searchTarget, communitySubject);
-		}
-		list = ccService.totalCountComments(list);
-		return list;
-	}
-
-	@Transactional
-	@Override
-	public boolean createCommunity(String usrId, String title, String contents, List<MultipartFile> uFileList,
-			String subject) throws Exception {
+	public boolean createCommunity(String usrId, String title, String contents, List<MultipartFile> uFileList, String subject) throws Exception {
+		// 게시글 등록
 		Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
 		Iterator<MultipartFile> iterator = uFileList.iterator();
 		while (iterator.hasNext()) {
@@ -156,23 +124,9 @@ public class CommunityServiceImple implements CommunityService {
 	}
 
 	@Override
-	public Community getCommunity(int targetSerial) {
-		Community targetCommunity = cDao.getCommunity(targetSerial);
-		cDao.countUp(targetBoard, prefix, targetSerial, targetCommunity.getReadCount() + 1);
-		System.out.println(targetBoardFile + " : " +targetSerial);
-		targetCommunity.setuFileList(ufService.uFileGet(targetBoardFile, targetSerial));
-		targetCommunity.setReadCount(targetCommunity.getReadCount() + 1);
-		targetCommunity.setComments(ccService.ListCommunities(targetSerial,0));
-		return targetCommunity;
-	}
-
-	@Override
-	public boolean updateCommunity(String usrId, int serial, String title, String contents,
-			List<String> previousFileCodes, List<String> deleteFileCodes, List<MultipartFile> uFileList)
-			throws Exception {
-		logger.info("::updateNoticement called");
+	public boolean updateCommunity(String usrId, int serial, String title, String contents, List<String> previousFileCodes, List<String> deleteFileCodes, List<MultipartFile> uFileList) throws Exception {
+		// 게시글 수정 요청을 제공
 		try {
-			// Integer.valueOf((String)mpRequest.getParameter("f_count"));
 			Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
 			Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
 			int previousListSize = 0;
@@ -215,6 +169,7 @@ public class CommunityServiceImple implements CommunityService {
 						String originalFileName = mf.getOriginalFilename();
 						long fileSize = mf.getSize();
 						String modifiedFileName = System.currentTimeMillis() + originalFileName;
+						
 						try {
 							mf.transferTo(new File(cFilePath + modifiedFileName));
 							ufService.uFileUpload(targetBoardFile, modifiedFileName, usrId, fileSize, createDate,
@@ -231,7 +186,6 @@ public class CommunityServiceImple implements CommunityService {
 			int fileCount = previousListSize - deleteTargetSize + ufileListSize;
 			// 파일 자체의 업데이트를 끝내면
 			cDao.updateCommunity(serial, title, contents, fileCount, modifyDate);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -240,35 +194,27 @@ public class CommunityServiceImple implements CommunityService {
 
 	@Override
 	public boolean deleteCommunity(int targetSerial) {
+		// 게시글 삭제요청
 		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
 		boolean result = cDao.deleteCommunity(targetSerial, deleteDate) >= 1 ? true : false;
 		return result;
 	}
 
-	@Override 
-	public int getCommentTotalCount(int communitySerial) {
-		int result = ccService.totalCountComments(communitySerial);
-		System.out.println("communityserbvice commentservice totalcaoutn : " +result); return result;
-	}
+
 	@Override
 	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret) {
+		// 게시글 생성요청
 		boolean result = ccService.createComment(usrId, targetSerial,contents, isSecret);
 		return result;
 	}
 	@Override 
 	public boolean deleteComment(String usrId, int targetSerial) {
-		
+		//게시글 삭제요청
 		return ccService.deleteComment(usrId, targetSerial);
 	}
-
-	 @Override 
-	 public ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum){
-		 ArrayList<Comment> list = ccService.ListCommunities(targetSerial,pageNum);
-		 return list; 
-	 }
 	 @Override
 	 public boolean updateComment(int targetSerial, String contents,boolean isSecret) { 
-		 
+		 //게시글 수정요청
 		 return ccService.updateComment(targetSerial, contents, isSecret);
 	 }
 }

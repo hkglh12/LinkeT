@@ -10,20 +10,19 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.project.Link.Commons.Comment.Comment;
+import com.project.Link.Commons.Comment.Dao.CommonsCommentDaoImple;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.RegUser.Comment.Comment;
 import com.project.Link.RegUser.Community.Dao.CommunityDaoImple;
 import com.project.Link.RegUser.Posting.Posting;
 
 @Component
-public class CommentDaoImple implements CommentDao{
-	private static final Logger logger = LoggerFactory.getLogger(CommentDaoImple.class);
-	public final String targetBoard = "communitycomments";
-	public final String prefix = "cc_";
-	
+@Qualifier("UserCommentDao")
+public class CommentDaoImple extends CommonsCommentDaoImple implements CommentDao{
 	String dbDriver = DBinfo.getDriver();
 	String dbUrl = DBinfo.getUrl();
 	String dbUserId = DBinfo.getUserid();
@@ -31,45 +30,15 @@ public class CommentDaoImple implements CommentDao{
  	
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
- 	private ResultSet rs = null;
 
-	
-	 @Override 
-	 public int getTotalCount(int communitySerial) {
-		 logger.info("// getTotal Count called"); 
-		 int result = 0;
-		 try {
-			 Class.forName(dbDriver);
-			 conn = DriverManager.getConnection(dbUrl, dbUserId,dbUserPw); 
-			 String sql = "select count(*) as count from " + targetBoard +" where c_serial = ? AND cc_deletedate IS NULL";
-			 pstmt = conn.prepareStatement(sql); 
-			 pstmt.setInt(1, communitySerial);
-			 rs = pstmt.executeQuery();
-			 result = (rs.next()) == true ? rs.getInt("count") : -1;
-		 }catch(ClassNotFoundException e) {
-			 e.printStackTrace();
-		 }catch(SQLException e){
-			 e.printStackTrace();
-		 }finally{
-			 try{ 
-				 if (pstmt!=null) pstmt.close();
-				 if (conn!=null) conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-				}
-			 }
-		 return result; }
-	 
 	@Override
 	public int createComment(String usrId, int communitySerial, String contents, Timestamp createDate, boolean isSecret) {
+		// 댓글 작성
 		int result = 0;
 		try {
-			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//create community
-			// 멤버변수 prefix 를 사용하려 했으나 쿼리문이 지나치게 난잡해지므로 사용포기
-			String sql = "insert into "+targetBoard+" (c_serial, u_id, cc_contents, cc_createdate, issecret) values(?,?,?,?,?)";
+			String sql = "insert into communitycomments (c_serial, u_id, cc_contents, cc_createdate, issecret) values(?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,communitySerial);
 			pstmt.setString(2, usrId);
@@ -89,51 +58,13 @@ public class CommentDaoImple implements CommentDao{
 	}
 
 	@Override
-	public ArrayList<Comment> getListComment(int communitySerial, int page, int pagePerBlock) {
-		logger.info("::getListPosting called");
- 		ArrayList<Comment> list = new ArrayList<Comment>();
-		try {
-			Class.forName(dbDriver);
-			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from "+targetBoard+" where c_serial = ? AND cc_deletedate IS NULL Order by cc_serial desc LIMIT "+(page*pagePerBlock) + ", "+pagePerBlock;
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, communitySerial);
-			rs = pstmt.executeQuery();
-
-			while(rs.next()) {
-				Comment comment = new Comment();
-				comment.setSerial(rs.getInt("cc_serial"));
-				comment.setUsrId(rs.getString("u_id"));
-				/*comment.setUsrBannedId(rs.getString("u_id"));*/
-				comment.setCommunitySerial(rs.getInt("c_serial"));
-				comment.setContents(rs.getNString("cc_contents"));
-				comment.setCreateDate(rs.getTimestamp("cc_createdate"));
-				comment.setCheckSecret(rs.getBoolean("issecret"));
-				System.out.println(comment.getCheckSecret());
-				list.add(comment);
-			}
-			
-		}catch(ClassNotFoundException e) {e.printStackTrace();
-		}catch(SQLException e) {e.printStackTrace();
-		}finally {	
-			try {
-				if (pstmt!=null) pstmt.close();
-				if (conn!=null) conn.close();
-			}catch(SQLException e) {e.printStackTrace();}
-		}
-		return list;
-	}
-
-	@Override
 	public int updateComment(int serial, String contents, boolean isSecret, Timestamp modifyDate) {
+		// 댓글 수정
 		int result = 0;
 		try {
-			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
-			String sql = "update "+targetBoard+" set cc_contents = ?, cc_modifyDate = ?, issecret = ? where cc_serial = ? ";
+			String sql = "update communitycomments set cc_contents = ?, cc_modifyDate = ?, issecret = ? where cc_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,contents);
 			pstmt.setTimestamp(2, modifyDate);
@@ -153,13 +84,12 @@ public class CommentDaoImple implements CommentDao{
 
 	@Override
 	public int deleteComment(int serial, String usrId, Timestamp deleteDate) {
+		// 댓글 삭제
 		int result = 0;
 		try {
-			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
-			String sql = "update "+targetBoard+" set cc_deletedate = ? where cc_serial = ? ";
+			String sql = "update communitycomments set cc_deletedate = ? where cc_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setTimestamp(1,deleteDate);
 			pstmt.setInt(2, serial);
@@ -175,28 +105,6 @@ public class CommentDaoImple implements CommentDao{
 		return result;
 	}
 
-	@Override
-	public int getUserCommentCount(String usrId) {
-		int result = 0;
-		try {
-			//DB접속
-			Class.forName(dbDriver);
-			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
-			String sql = "select count(*) as count from communitycomments where u_id=? and cc_deletedate is null ";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,usrId);
-			rs = pstmt.executeQuery();
-			result = rs.next() != false ? rs.getInt("count") : -1;
-		}catch(ClassNotFoundException e) {e.printStackTrace();
-		}catch(SQLException e) {e.printStackTrace();
-		}finally {
-			try {
-				if (pstmt!=null) pstmt.close();
-				if (conn!=null) conn.close();
-			}catch(SQLException e) {e.printStackTrace();}
-		}
-		return result;
-	}
+	
 
 }

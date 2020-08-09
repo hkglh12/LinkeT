@@ -22,91 +22,29 @@ import com.project.Link.RegUser.User.User;
 @Component
 @Qualifier("noticeDao")
 public class NoticementDaoImple extends PostingDaoImple implements NoticementDao{
-	private static final Logger logger = LoggerFactory.getLogger(NoticementDaoImple.class);
-	public final String ntargetBoard = "noticement";
-	public final String nprefix = "n_";
-	
-	String dbDriver = DBinfo.getDriver();
-	String dbUrl = DBinfo.getUrl();
-	String dbUserId = DBinfo.getUserid();
-	String dbUserPw = DBinfo.getUserpw();
+	// 해당 다오는 noticement로만 접근합니다.
+	private String dbDriver = DBinfo.getDriver();
+	private String dbUrl = DBinfo.getUrl();
+	private String dbUserId = DBinfo.getUserid();
+	private String dbUserPw = DBinfo.getUserpw();
  	
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
  	private ResultSet rs = null;
  	
- 	public NoticementDaoImple() {
- 		logger.info("				DaoLvel : NoticementDaoImple Constructor Called");
- 	}
- 	
-	/*
-	 * @Override public int getTotalCount() { //공지사항의 총 게시글 개수를 가져오는 메서드
-	 * logger.info("::getTotalCount called"); int result = 0;
-	 * 
-	 * try { Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl,
-	 * dbUserId, dbUserPw); String sql = "select count(*) as count from " +
-	 * targetBoard +" where n_deletedate IS NULL"; pstmt =
-	 * conn.prepareStatement(sql); rs = pstmt.executeQuery(); result = (rs.next())
-	 * == true ? rs.getInt("count") : -1; }catch(ClassNotFoundException e)
-	 * {e.printStackTrace(); }catch(SQLException e) {e.printStackTrace(); }finally {
-	 * try { if (pstmt!=null) pstmt.close(); if (conn!=null) conn.close();
-	 * }catch(SQLException e) {e.printStackTrace();} } return result; }
-	 */
-	/*
-	 * @Override public int countUp(int targetSerial, int count) {
-	 * logger.info("::CountUp Called"); int result = 0; try {
-	 * Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl, dbUserId,
-	 * dbUserPw); String sql =
-	 * "update "+targetBoard+" set n_count = "+count+" where n_serial = "
-	 * +targetSerial; pstmt = conn.prepareStatement(sql); result =
-	 * pstmt.executeUpdate(); }catch(ClassNotFoundException e) {e.printStackTrace();
-	 * }catch(SQLException e) {e.printStackTrace(); }finally { try { if
-	 * (pstmt!=null) pstmt.close(); if (conn!=null) conn.close();
-	 * }catch(SQLException e) {e.printStackTrace();} } return result; }
-	 */
-	/*
-	 * @Override public int getLastSerial() { // 마지막 게시글의 PK를 가져옴. >> FileDao 연계고려
-	 * logger.info("::getLastSerial called"); int result = 0;
-	 * 
-	 * try { Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl,
-	 * dbUserId, dbUserPw); String target = prefix+"serial"; String sql =
-	 * "select "+target+" from "+targetBoard+" order by " + target +" desc limit 1";
-	 * pstmt = conn.prepareStatement(sql); rs = pstmt.executeQuery(); result =
-	 * (rs.next()) == true ? rs.getInt(target) : -1; }catch(ClassNotFoundException
-	 * e) { e.printStackTrace(); }catch(SQLException e) { e.printStackTrace();
-	 * }finally { try { if (pstmt!=null) pstmt.close(); if (conn!=null)
-	 * conn.close(); }catch(SQLException e) { e.printStackTrace(); } } return
-	 * result; }
-	 */
-	/*
-	 * @Override public int createPosting(int serial,String usrId, String title,
-	 * String contents, int fileCount, Timestamp createDate) {
-	 * logger.info("::createPosting called"); int result = 0; try { //DB접속
-	 * Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl, dbUserId,
-	 * dbUserPw); // 멤버변수 prefix 를 사용하려 했으나 쿼리문이 지나치게 난잡해지므로 사용포기 String sql =
-	 * "insert into "
-	 * +targetBoard+" (n_serial, u_id, n_title, n_contents, f_count, n_createdate) values(?,?,?,?,?,?)"
-	 * ; pstmt = conn.prepareStatement(sql); pstmt.setInt(1,serial);
-	 * pstmt.setString(2, usrId); pstmt.setString(3,title);
-	 * pstmt.setString(4,contents); pstmt.setInt(5,fileCount);
-	 * pstmt.setTimestamp(6,createDate); result = pstmt.executeUpdate();
-	 * }catch(ClassNotFoundException e) {e.printStackTrace(); }catch(SQLException e)
-	 * {e.printStackTrace(); }finally { try { if (pstmt!=null) pstmt.close(); if
-	 * (conn!=null) conn.close(); }catch(SQLException e) {e.printStackTrace();} }
-	 * return result; }
-	 */
+ 	public NoticementDaoImple() {}
+
  	@Override
+ 	// 
  	public ArrayList<Noticement> getListNoticement(int page, int pagePerBlock){
- 		logger.info("				DaoLvel : NoticementDaoImple /////GetListNoticement////// Called");
+ 		
  		ArrayList<Noticement> list = new ArrayList<Noticement>();
 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from "+ntargetBoard+" where n_deletedate IS NULL Order by n_serial desc Limit " + (page*pagePerBlock) +","+pagePerBlock;
-
+			String sql = "select * from noticement where n_deletedate IS NULL Order by n_serial desc Limit " + (page*pagePerBlock) +","+pagePerBlock;
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-
 			while(rs.next()) {
 				Noticement noticement = new Noticement();
 				noticement.setSerial(rs.getInt("n_serial"));
@@ -132,13 +70,12 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
  	}
 	@Override
 	public Noticement getNoticement(int targetSerial) {
-		logger.info("				DaoLvel : NoticementDaoImple ////TargetGetNoticement//// Called");
-		logger.info("::getPosting called");
+		// 특정 공지글을 불러옵니다.
 		Noticement noticement = new Noticement();
 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from "+ntargetBoard+" where n_serial = ? and n_deletedate IS NULL";
+			String sql = "select * from noticement where n_serial = ? and n_deletedate IS NULL";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,targetSerial);
 			rs = pstmt.executeQuery();
@@ -166,18 +103,17 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
 	}
 
 	@Override
-	public int getNoticementCount(String targetBoard, String prefix) {
-		logger.info("				DaoLevel : PostingDaoImple///// getTotalCount /////For : " + targetBoard + "table\n");
-		
+	public int getNoticementCount() {
+		// 삭제처리되지 않은 공지글의 개수를 가져옵니다
 		int result = 0;
  		try {
  			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select count(*) as count from " + targetBoard +" where "+prefix+"deletedate IS NULL";
+			String sql = "select count(*) as count from noticement where n_deletedate IS NULL";
 			pstmt = conn.prepareStatement(sql);
 			System.out.println(sql);
 			rs = pstmt.executeQuery();
-			result = (rs.next()) == true ? rs.getInt("count") : -1;	
+			result = rs.getInt("count");	
  		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();
 		}finally {

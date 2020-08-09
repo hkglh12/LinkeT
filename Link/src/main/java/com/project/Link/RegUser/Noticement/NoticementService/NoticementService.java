@@ -1,17 +1,7 @@
 package com.project.Link.RegUser.Noticement.NoticementService;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import com.project.Link.RegUser.Noticement.Noticement;
-import com.project.Link.RegUser.Posting.Posting;
 
 public interface NoticementService {
 	/* 공지사항 총 개수 전달 */

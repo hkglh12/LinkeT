@@ -1,8 +1,8 @@
-package com.project.Link.RegUser.Community;
+package com.project.Link.Commons.Community;
 
 import java.util.ArrayList;
 
-import com.project.Link.RegUser.Comment.Comment;
+import com.project.Link.Commons.Comment.Comment;
 import com.project.Link.RegUser.Posting.Posting;
 
 public class Community extends Posting{

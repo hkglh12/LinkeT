@@ -22,53 +22,25 @@ import com.project.Link.RegUser.Noticement.NoticementController.NoticementContro
 @Component
 public class SessionControlInterceptor extends HandlerInterceptorAdapter{
 	
-	private static final Logger logger = LoggerFactory.getLogger(NoticementControllerImple.class);
-	
 	public SessionControlInterceptor(){};
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		logger.info("::Prehandle requested");
-		
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)throws Exception {
 		HttpSession session = request.getSession();
-		/* HashMap<String, String> sr = new HashMap<String, String>(); */
 		Map<String, ?> redirectAttrs = RequestContextUtils.getInputFlashMap(request);
+		// 다른 POST, DELETE, 작업을 마치고 redirected 된 세션이라면
 		if(redirectAttrs!=null) {
-			logger.info("/////////////////////////FlashInfos Extracted////////");
+			// 정규 session 정보에 다시 재편입
 			session.setAttribute("usrId", (String)redirectAttrs.get("usrId"));
 			session.setAttribute("isAdmin",String.valueOf(redirectAttrs.get("isAdmin")));
-			logger.info("//At Redirective Access//SessionControlIntercepter got this :::: // ID : " + session.getAttribute("usrId") + "isAdmin : " +session.getAttribute("isAdmin"));
 			return true;
 		}else if(session.getAttribute("usrId") != null) {
-			logger.info("///////////////////////sessioninfo Confirmed////////////");
-			logger.info("//At regular Access///SessionControlIntercepter got this :::: // ID : " + session.getAttribute("usrId") + "isAdmin : " +session.getAttribute("isAdmin"));
+			// 리다이렉트중이진 않았지만, 정규 세션 정보가 있다면
 			return true;
-			
 		}else {
-			logger.info("////////////////Denied!////////////////////");
+			// 어떠한 정보도 없다면, redirect를 시행, 이때 HomeController로 리턴되게된다.
 			response.sendRedirect("/Link/");
 			return true;
 		}
-	
-		
-		/*
-		 * // TODO Auto-generated method stub return super.preHandle(request, response,
-		 * handler);
-		 */
 	}
-
-	/*
-	 * @Override public void postHandle(HttpServletRequest request,
-	 * HttpServletResponse response, Object handler, ModelAndView modelAndView)
-	 * throws Exception { // TODO Auto-generated method stub
-	 * super.postHandle(request, response, handler, modelAndView); }
-	 * 
-	 * @Override public void afterCompletion(HttpServletRequest request,
-	 * HttpServletResponse response, Object handler, Exception ex) throws Exception
-	 * { // TODO Auto-generated method stub
-	 * System.out.println(request.getParameter("search_target"));
-	 * super.afterCompletion(request, response, handler, ex); }
-	 */
-
 }

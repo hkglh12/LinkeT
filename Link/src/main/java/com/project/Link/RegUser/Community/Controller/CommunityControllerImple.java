@@ -29,9 +29,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.project.Link.RegUser.Comment.Comment;
+import com.project.Link.Commons.Comment.Comment;
+import com.project.Link.Commons.Community.Community;
 import com.project.Link.RegUser.Comment.Service.CommentService;
-import com.project.Link.RegUser.Community.Community;
 import com.project.Link.RegUser.Community.Service.CommunityService;
 import com.project.Link.RegUser.Posting.Posting;
 import com.project.Link.Ufile.Service.UfileService;
@@ -42,7 +42,7 @@ import com.project.Link.Ufile.Service.UfileService;
 @Controller
 public class CommunityControllerImple implements CommunityController{
 	private final String cFilePath = "c:\\temp\\community\\";
-	private static final Logger logger = LoggerFactory.getLogger(CommunityControllerImple.class);
+	
 
 	@Autowired
 	@Qualifier("UserCommunityService")
@@ -52,31 +52,20 @@ public class CommunityControllerImple implements CommunityController{
 
 	 
 	public CommunityControllerImple() {} 
-	
 	public CommunityService getcService() {return cService; } 
 	public void setcService(CommunityService cService) { this.cService = cService; }
-	
 	public UfileService getUfService() {return ufService;}
 	public void setUfService(UfileService ufService) {this.ufService = ufService;}
 	
-	// 신규 등록을 위해, 입력 폼 요청에 대한 응답
-	@RequestMapping(value= "/form", method=RequestMethod.GET)
-	@Override
-	public String getPostTemplate(Model model, HttpServletRequest request, HttpSession session) {
-		
-		String subject = request.getParameter("subject") == null ? "java" : request.getParameter("subject");
-		model.addAttribute("subject", subject);
-		return "/User/community/post";		
-	}
-	// Service의 축출 시작
 	@RequestMapping(value="/list", method = RequestMethod.GET)
 	@Override
 	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session) {
+		// 자유게시판 글 목록을 read, 한개의 테이블로 java, jsp, spring 게시글을 모아두므로, subject 컬럼이 필요함.
 		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
 		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
 		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
 		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
-		if(searchCategory != null) {			//검색 대상이 있다면 DB 퀄럼에 맞게 변형
+		if(searchCategory != null) { // 검색어와 검색타겟이 인자에 있다면, db 컬럼 이름에 맞게 변형
 			if(searchCategory.equals("title")) {
 				searchCategory = "c_"+searchCategory;
 			}else if(searchCategory.equals("id")) {
@@ -95,23 +84,32 @@ public class CommunityControllerImple implements CommunityController{
 		}
 		return "/User/community/board";
 	}
+
+	@RequestMapping(value= "/form", method=RequestMethod.GET)
+	@Override
+	public String getPostTemplate(Model model, HttpServletRequest request, HttpSession session) {
+		// 신규 등록을 위해, 입력 폼 요청에 대한 응답
+		String subject = request.getParameter("subject") == null ? "java" : request.getParameter("subject");
+		model.addAttribute("subject", subject);
+		return "/User/community/post";		
+	}
+
 	@RequestMapping(value="/post", method = RequestMethod.POST)
 	@Override
 	public String PostCommunity(Model model, MultipartHttpServletRequest mpRequest, HttpSession session, RedirectAttributes redirectAttr) throws Exception {
-			
-			String usrId = (String)session.getAttribute("usrId");
-			String title = mpRequest.getParameter("c_title");
-			String contents = mpRequest.getParameter("c_contents");
-			String subject = mpRequest.getParameter("c_subject");
-			List<MultipartFile> uFileList = mpRequest.getFiles("u_files");
-			boolean result = cService.createCommunity(usrId, title, contents, uFileList, subject);
-			if(result == true) {
-				redirectAttr.addFlashAttribute("result", "true");
-			}
-			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
-			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-			return "redirect:/community/list?subject="+subject+"&page=1";
-		//}
+		// 게시글 업로드 요청에 대응하는 엔드포인트
+		String usrId = (String)session.getAttribute("usrId");
+		String title = mpRequest.getParameter("c_title");
+		String contents = mpRequest.getParameter("c_contents");
+		String subject = mpRequest.getParameter("c_subject");
+		List<MultipartFile> uFileList = mpRequest.getFiles("u_files");
+		boolean result = cService.createCommunity(usrId, title, contents, uFileList, subject);
+		if(result == true) {
+			redirectAttr.addFlashAttribute("result", "true"); // 성공했다면 결과값 JSP로 리턴
+		}
+		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
+		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
+		return "redirect:/community/list?subject="+subject+"&page=1";
 	}
 	@RequestMapping(value="/get", method=RequestMethod.GET)
 	@Override
@@ -119,7 +117,7 @@ public class CommunityControllerImple implements CommunityController{
 		int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
 		System.out.println("targetSerial in controller : " + targetSerial);
 		Community community = cService.getCommunity(targetSerial);
-		int pageNum = 0;
+
 		model.addAttribute("total_comment", cService.getCommentTotalCount(targetSerial));
 		model.addAttribute("community",community);
 		return "/User/community/read";
@@ -127,43 +125,17 @@ public class CommunityControllerImple implements CommunityController{
 	
 	@RequestMapping(value="/update", method = RequestMethod.GET)
 	public String getUpdateCommunity(Model model, HttpServletRequest request, HttpSession session) {
-		logger.info(":: get-UpdateNoticement called");
-		/*
-		 * HashMap<String, String> sr = sc.sessionControl(session);
-		 * if(sr.get("usrId")==null) { return "/"; }else {
-		 */
+		// 게시글 수정 요청을 위해, 정보와 form 요청에 응답하는 엔드포인트
 		int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
 		Community community = cService.getCommunity(targetSerial);
-			/*
-			 * model.addAttribute("n_serial", noticement.getSerial());
-			 * model.addAttribute("u_id", noticement.getUsrId());
-			 * model.addAttribute("n_title", noticement.getTitle());
-			 * model.addAttribute("n_contents", noticement.getContents());
-			 *
-			 */
 		model.addAttribute("community",community);
-			//
 		return "/User/community/updateForm";
-			/* } */
 	}
+	
 	@RequestMapping(value="/update", method = RequestMethod.POST)
 	@Override
 	public String UpdateCommunity(Model model, MultipartHttpServletRequest mpRequest, HttpSession session, RedirectAttributes redirectAttr) throws Exception {
-		//HashMap<String, String> sr = sessionControl(session);
-		//if(sr.get("usrId")=="" || sr.get("isAdmin") == "false") {
-		//	return "main";
-		//}else {
-		/*
-		 * int targetSerial = Integer.valueOf(request.getParameter("serial")); //TODO
-		 * 변경하세여! // String usrId = sr.get("usrId"); int ntcSerial =
-		 * Integer.valueOf((String)request.getParameter("c_serial")); String ntcTitle =
-		 * request.getParameter("c_title"); String ntcContents =
-		 * request.getParameter("c_contents"); int fileCount =
-		 * Integer.valueOf((String)request.getParameter("f_count")); boolean result =
-		 * cService.updateCommunity(targetSerial, ntcTitle, ntcContents, fileCount) >= 1
-		 * ? true : false;
-		 */
-		//Serial 기준으로 동작하므로, subject 불필요
+		// 게시글 Serial로 동작
 		String usrId = (String)session.getAttribute("usrId");
 		int serial = Integer.valueOf((String)mpRequest.getParameter("c_serial"));
 		String title = mpRequest.getParameter("c_title");
@@ -190,12 +162,11 @@ public class CommunityControllerImple implements CommunityController{
 			redirectAttr.addFlashAttribute("result", "false");
 		}
 		return "redirect:/community/list?page=1&subject="+subject;
-		//	return "communityBoard";
-		//}
 	}
 	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	@Override
 	public String DeleteCommunity(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
+		// 게시글 삭제요청에 대응하는 엔드포인트
 		int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
 		String subject = request.getParameter("subject");
 		boolean result = cService.deleteCommunity(targetSerial);
@@ -208,46 +179,31 @@ public class CommunityControllerImple implements CommunityController{
 		return "redirect:/community/list?page=1&subject="+subject;
 	}
 
-	/* 개별적 댓글 List get */
 	@RequestMapping(value="/comment/list", method=RequestMethod.POST)
 	@Override
 	@ResponseBody
-										//Jackson-databind로 인해서, 같은 모양새를 가졌기 때문에 자동바인드
-										// 아니면 @RequestBody로 열고 VO에 받던가 String 하나하나 이름맞춰가면서해야함
 	public HashMap<String, ArrayList<Comment>> ListCommentsAjax(@RequestBody HashMap<String,String> ajaxRequest, Model model, HttpServletRequest request, HttpSession session) throws Exception {
-		System.out.println(request.toString());
-		//int targetSerial = request.getParameter("c_serial") != null ? Integer.valueOf((String)request.getParameter("c_serial")) : -1;
-		/*int targetSerial = Integer.valueOf((String)request.getParameter("c_serial"));*/
-		// AJAx통신에서 >> Json, <pom.xml dependency에 json-databind 추가했다면,> @RequestBody 위 설명 참고
+		// Community 최초 로딩 외에, Paging 처리된 댓글 리스트를 제공하는 엔드포인트
+		// Ajax통신을 사용하므로 ResponseBody, RequestBody를 사용함. Jackson-databind 라이브러리 사용
 		int targetSerial = ajaxRequest.containsKey("c_serial") == true ? Integer.valueOf(ajaxRequest.get("c_serial")) : 0;
 		if(targetSerial == 0) {
 			throw new Exception();
 		}
-		//int pageNum = request.getParameter("page_num") != null ? Integer.valueOf((String)request.getParameter("page_num"))-1 : 0;
 		int pageNum = ajaxRequest.containsKey("page_num") == true ? Integer.valueOf(ajaxRequest.get("page_num"))-1: 0;
 		ArrayList<Comment> list = cService.ListCommentsAjax(targetSerial, pageNum);
-		/*
-		 * ArrayList<Comment> list = cService.ListCommentsAjax(targetSerial, pageNum);
-		 */
-		// ResponseBody 이므로 객체 자체가 전달.
-		// Ajax Response의 "서버쪽 유효응답"이 XML, html, script, json, jsonp, text 이므로
-		// 부득이하게 list 자체를 넘기지 못하고, JSON으로 전달
-		//return list;
 		HashMap<String, ArrayList<Comment>> returnInfo = new HashMap<String, ArrayList<Comment>>();
-		returnInfo.put("list", list);
+		returnInfo.put("list", list); // 결과값을 Json형태로 리턴하기위해 HashMap 사용
 		return returnInfo;
-		
 	}
 	
 	@RequestMapping(value="/comment/post", method=RequestMethod.POST)
 	@Override
-	public String PostComments(Model model, HttpServletRequest request, HttpSession session,
-			RedirectAttributes redirectAttr) {
+	public String PostComments(Model model, HttpServletRequest request, HttpSession session,RedirectAttributes redirectAttr) {
+		// 댓글 게시 요청에 응답하는 endpoint
 			String usrId = (String)session.getAttribute("usrId");
 			int targetSerial = Integer.valueOf((String)request.getParameter("c_serial"));
 			String contents = request.getParameter("cc_contents");
 			boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("is_secret")) : false;
-			logger.info("		RequestURICHECK " + request.getRequestURI());
 			boolean result = cService.createComment(usrId, targetSerial, contents, isSecret);
 			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
@@ -256,11 +212,11 @@ public class CommunityControllerImple implements CommunityController{
 			}
 			return "redirect:/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
 	}
+	
 	@RequestMapping(value="/comment/update", method=RequestMethod.POST)
 	@Override
-	public String UpdateComments(Model model, HttpServletRequest request, HttpSession session,
-			RedirectAttributes redirectAttr) {
-		
+	public String UpdateComments(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
+		// 댓글 수정요청에 대응하는 endpoint
 		int targetSerial = Integer.valueOf((String)request.getParameter("cc_serial"));
 		String contents = request.getParameter("modi_contents");
 		boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("is_secret")) : false;
@@ -274,8 +230,8 @@ public class CommunityControllerImple implements CommunityController{
 	}
 	@RequestMapping(value="/comment/delete", method=RequestMethod.POST)
 	@Override
-	public String DeleteComments(Model model, HttpServletRequest request, HttpSession session,
-			RedirectAttributes redirectAttr) {
+	public String DeleteComments(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
+		// 댓글 삭제요청에 응답하는 endpoint
 		String usrId = (String)session.getAttribute("usrId");
 		int targetSerial = Integer.valueOf((String)request.getParameter("del_serial"));
 		boolean result = cService.deleteComment(usrId, targetSerial);
@@ -321,7 +277,6 @@ public class CommunityControllerImple implements CommunityController{
 
 	 @ExceptionHandler(value=Exception.class)
 	 public String handleDemoException(Exception e) { 
-		 logger.error(e.getMessage());
 		 e.printStackTrace();
 		 return "/error/404"; }
 	

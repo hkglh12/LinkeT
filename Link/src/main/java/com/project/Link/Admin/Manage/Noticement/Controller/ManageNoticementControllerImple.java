@@ -35,76 +35,67 @@ import com.project.Link.Ufile.Service.UfileService;
 @Controller
 public class ManageNoticementControllerImple implements ManageNoticementController {
 	private final String nFilePath = "c:\\temp\\noticement\\";
-	private static final Logger logger = LoggerFactory.getLogger(NoticementControllerImple.class);
 	
-	// 모든 N service는 a서비스로 변경되어야합니다.
 	@Autowired
 	@Qualifier("manageNoticeService")
 	private ManageNoticementService mnService;
 	
-	public ManageNoticementService getMnService() {
-		return mnService;
-	}
-
-	public void setMnService(ManageNoticementService mnService) {
-		this.mnService = mnService;
-	}
+	public ManageNoticementService getMnService() {return mnService;}
+	public void setMnService(ManageNoticementService mnService) {this.mnService = mnService;}
 
 	// 관리자용 List페이지를 적용한 jsp입니다.
 	// 공지사항의 목록출력 요청에 대응하는 페이지입니다. 
 	@RequestMapping(value={"/list", "/"}, method = RequestMethod.GET)
 	@Override
 	public String ListNoticements(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
-		logger.info("		Controller Level :: ListNoticements Called");
+		// 관리자페이지로 공지사항의 리스트를 제공하는 컨트롤러
 		int total = mnService.totalCountNoticements();
+		//페이징방식이므로, 전체개수와 페이지 단위로 제공해야 함
 		int targetPage = request.getParameter("page") == null ? 0 :Integer.parseInt(request.getParameter("page"))-1;
 		ArrayList<Noticement> list = mnService.listNoticements(targetPage);
 		model.addAttribute("total", total);
 		model.addAttribute("noticelist",list);
-		/* } */
 		return "/Admin/manage/noticement/board";
 	}
 	
-	// 공지사항 작성를 위한 "작성 폼" 요청에 응답하는 Endpoint
+
 	@RequestMapping(value="/form", method=RequestMethod.GET)
 	@Override
 	public String getPostTemplate(Model model, HttpServletRequest reqeust, HttpSession session) {
-		logger.info("Manage : post form");
+		// 공지사항 작성를 위한 "작성 폼" 요청에 응답하는 Endpoint
 		return "/Admin/manage/noticement/post";		
 	}
-	// TODO 성공했는지 아닌지 출력해야합니다.
-	// 신규 공지사항 입력 요청에 응답하는 endpoint입니다.
+	
+
 	@RequestMapping(value="/post", method = RequestMethod.POST)
 	@Override
 	public String PostNoticement(Model model, MultipartHttpServletRequest mpRequest, HttpSession session, RedirectAttributes redirectAttr) throws Exception{
-		logger.info("		Controller Level :: PostNoticement Called");
+		// 신규 공지사항 입력 요청에 응답하는 endpoint입니다.
 		String usrId = (String)session.getAttribute("usrId");
 		String title = mpRequest.getParameter("n_title");
 		String contents = mpRequest.getParameter("n_contents");
-		List<MultipartFile> uFileList = mpRequest.getFiles("u_files");
+		List<MultipartFile> uFileList = mpRequest.getFiles("u_files"); // 첨부된 파일을 가져옴
 		boolean result = mnService.createNoticement(usrId, title, contents,uFileList);
 		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
 		redirectAttr.addFlashAttribute("result", result);
 		return "redirect:/Admin/manage/notice/list?page=1";
-		/*}*/
 	}
 	
-	// 특정 공지사항 조회 요청에 응답하는 Endpoint입니다.
+	
 	@RequestMapping(value="/get", method = RequestMethod.GET)
 	@Override
 	public String GetNoticement(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirecAttr) {
-		logger.info("		Controller Level :: GetNoticement Called");
+		// 특정 공지사항 조회 요청에 응답하는 Endpoint입니다.
 		int targetSerial = Integer.valueOf(request.getParameter("n_serial"));
 		Noticement noticement = mnService.getNoticement(targetSerial);
 		model.addAttribute("noticement", noticement);
 		return "/Admin/manage/noticement/read";
 	}
 	
-	//Update요청을 위해 해당 경로로 접근하여 업데이트폼과 그 입력내용을 전달받음
 	@RequestMapping(value="/update", method = RequestMethod.GET)
 	public String getUpdateNoticement(Model model, HttpServletRequest request, HttpSession session) {
-		logger.info("		Controller Level :: getUpdateNoticement Called");
+		// 업데이트 폼 요청을 받아, 내용을 updateform으로 리턴
 		int targetSerial = Integer.valueOf(request.getParameter("n_serial"));
 		Noticement noticement = mnService.getNoticement(targetSerial);
 		model.addAttribute("noticement",noticement);
@@ -112,17 +103,12 @@ public class ManageNoticementControllerImple implements ManageNoticementControll
 	}
 	
 	
-	// 공지사항 Update 요청에 대응하는 Endpoint
+
 	// TODO 성공여부를 전달하여 jsp에서 출력하게해야함
 	@RequestMapping(value="/update", method = RequestMethod.POST)
 	@Override
 	public String UpdateNoticement(Model model, MultipartHttpServletRequest mpRequest, HttpSession session, RedirectAttributes redirectAttr) throws Exception {
-		logger.info("		Controller Level :: UpdateNoticement Called");
-		/*
-		 * HashMap<String, String> sr = sc.sessionControl(session);
-		 * if(sr.get("usrId")==null || sr.get("isAdmin") == "false") { return "/"; }else
-		 * {
-		 */
+		// 공지사항 Update 입력에 대응하는 endpoint
 		String usrId = (String)session.getAttribute("usrId");
 		int serial = Integer.valueOf((String)mpRequest.getParameter("n_serial"));
 		String title = mpRequest.getParameter("n_title");
@@ -147,15 +133,14 @@ public class ManageNoticementControllerImple implements ManageNoticementControll
 		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
 		redirectAttr.addFlashAttribute("result", result);
 		return "redirect:/Admin/manage/notice/list?page=1";
-			/* } */
 	}
 	
-	// 공지사항 삭제요청에 응답하는 페이지
+
 	// TODO 성공 여부를 전달하여 프린팅하게해야함.
 	@RequestMapping(value="/delete", method = RequestMethod.POST)
 	@Override
 	public String DeleteNoticement(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
-		logger.info("		Controller Level :: DeleteNoticement Called");
+		// 공지사항 삭제요청에 응답하는 페이지
 		int targetSerial = Integer.valueOf(request.getParameter("n_serial"));
 		String usrId = (String)session.getAttribute("usrId");
 		boolean result = mnService.deleteNoticement(targetSerial, usrId);
@@ -174,7 +159,6 @@ public class ManageNoticementControllerImple implements ManageNoticementControll
 		
 	 @ExceptionHandler(value=Exception.class)
 	 public String RuntimeException(Exception e) { 
-		 logger.error(e.getMessage());
 		 e.printStackTrace();
 		 return "/error/404"; 
 	}
@@ -182,7 +166,6 @@ public class ManageNoticementControllerImple implements ManageNoticementControll
 		@RequestMapping(value="/download", method=RequestMethod.GET)
 		public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response)
 				throws Exception {	
-			// TODO File 유효성검증 해야합니다.
 			try {
 				File file = new File(nFilePath+request.getParameter("fileCode"));
 				if(file.exists()) {
