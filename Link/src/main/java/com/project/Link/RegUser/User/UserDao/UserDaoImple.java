@@ -7,18 +7,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.project.Link.Commons.User.Dao.CommonsUserDaoImple;
 import com.project.Link.Dbinfo.DBinfo;
 import com.project.Link.RegUser.User.User;
 
 @Component
-public class UserDaoImple implements UserDao {
- 	private final String driver = DBinfo.getDriver();
+@Qualifier("UserDao")
+public class UserDaoImple extends CommonsUserDaoImple implements UserDao {
+/* 	private final String driver = DBinfo.getDriver();
  	private final String url = "jdbc:mysql://localhost:3306/Link?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
  	private final String dbId = "root";
  	private final String dbPw = "root";
- 	
+ 	*/
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
  	private ResultSet rs = null;
@@ -117,41 +120,7 @@ public class UserDaoImple implements UserDao {
 		}
 		return user;
 	}
-	@Override
-	public User get(String usrId) {
-		User user = null;
-		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, dbId, dbPw);
-			String sql = "select * from users where u_id = ? and u_outdate is NULL";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,usrId);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				user = new User();
-				user.setUsrId(rs.getString("u_id"));
-				user.setUsrPw(rs.getString("u_pw"));
-				user.setUsrName(rs.getString("u_name"));
-				user.setUsrPhone(rs.getString("u_phone"));
-				user.setUsrEmail(rs.getString("u_email"));
-				user.setUsrLevel(rs.getInt("u_level"));
-				user.setUsrInDate(rs.getTimestamp("u_indate"));
-			}
-		}catch(ClassNotFoundException e) {
-			e.printStackTrace();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}finally {	
-			try {
-				if (pstmt!=null) pstmt.close();
-				if (conn!=null) conn.close();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return user;
-	}
+
 	@Override
 	public boolean update(String usrId, String newPw) {
 		int result = 0;

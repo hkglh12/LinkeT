@@ -74,7 +74,6 @@ public class CommonsCommentDaoImple implements CommonsCommentDao{
 				comment.setContents(rs.getNString("cc_contents"));
 				comment.setCreateDate(rs.getTimestamp("cc_createdate"));
 				comment.setCheckSecret(rs.getBoolean("issecret"));
-				System.out.println(comment.getCheckSecret());
 				list.add(comment);
 			}
 			
@@ -110,6 +109,40 @@ public class CommonsCommentDaoImple implements CommonsCommentDao{
 			}catch(SQLException e) {e.printStackTrace();}
 		}
 		return result;
+	}
+	@Override
+	public Comment getLastUserComment(String usrId) {
+		 // 특정 게시물에 대한 댓글 개수를 리턴
+		 Comment comment = null;
+		 try {
+			 Class.forName(dbDriver);
+			 conn = DriverManager.getConnection(dbUrl, dbUserId,dbUserPw); 
+			 String sql = "select * from communitycomments where u_id = ? AND cc_deletedate IS NULL order by cc_createdate desc limit 0,1";
+			 pstmt = conn.prepareStatement(sql); 
+			 pstmt.setString(1, usrId);
+			 rs = pstmt.executeQuery();
+			 while(rs.next()) {
+			 	comment = new Comment();
+				comment.setSerial(rs.getInt("cc_serial"));
+				comment.setUsrId(rs.getString("u_id"));
+				comment.setCommunitySerial(rs.getInt("c_serial"));
+				comment.setContents(rs.getNString("cc_contents"));
+				comment.setCreateDate(rs.getTimestamp("cc_createdate"));
+				comment.setCheckSecret(rs.getBoolean("issecret"));
+			}
+		 }catch(ClassNotFoundException e) {
+			 e.printStackTrace();
+		 }catch(SQLException e){
+			 e.printStackTrace();
+		 }finally{
+			 try{ 
+				 if (pstmt!=null) pstmt.close();
+				 if (conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+				}
+			 }
+		 return comment;
 	}
 	 
 }

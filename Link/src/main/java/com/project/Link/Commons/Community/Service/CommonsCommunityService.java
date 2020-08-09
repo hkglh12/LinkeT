@@ -19,6 +19,6 @@ public interface CommonsCommunityService{
 	// 특정 게시글에 대해 총 댓글 개수를 출력 (CommentService와는 다르게 총 게시글 Listing할때 사용됨)
 	public int getCommentTotalCount(int communitySerial);
 	 // 특정 게시글에 대해 댓글 리스트를 Ajax통신처리
-	// 이건..왜여깄지?
 	public ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum);
+	public Community getLastUserCommunity(String usrId);
 }

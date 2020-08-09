@@ -19,11 +19,14 @@ function blockmove(block){
 	var main_category = $("#main_category").val() == null ? "all" : $("#main_category").val();
 	var sub_category = $("#sub_category").val();
 	var search_target = $("#search_target").val();
-	if(search_target == null || search_target == ""){
+	console.log(main_category);
+	console.log(sub_category);
+	console.log(search_target);
+	/*if(search_target == null || search_target == ""){
 		location.href="/Link/admin/manage/user/list?page="+block+"&main_category="+main_category;
-	}else{
+	}else{*/
 		location.href="/Link/admin/manage/user/list?page="+block+"&main_category="+main_category+"&sub_category="+sub_category+"&search_target="+search_target;
-	}
+	/*}*/
 }
 function pagecall(serial){
 	location.href="/Link/admin/manage/community/get?c_serial="+serial;
@@ -31,6 +34,9 @@ function pagecall(serial){
 function changeboard(){
 	var value = $("#maincategorylist option:selected").val();
 	location.href="/Link/admin/manage/user/list?main_category="+value;
+}
+function userdetail(usr_id){
+	location.href="/Link/admin/manage/user/detail?user_id="+usr_id;
 }
 function sync_sub_category(){
 	$("#sub_category").val($("#subcategorylist option:selected").val());	

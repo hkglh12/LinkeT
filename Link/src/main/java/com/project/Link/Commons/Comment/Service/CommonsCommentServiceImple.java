@@ -28,6 +28,14 @@ public class CommonsCommentServiceImple implements CommonsCommentService {
 		return ccDao.getUserCommentCount(usrId);
 	}
 	
+	public CommonsCommentDao getCcDao() {
+		return ccDao;
+	}
+
+	public void setCcDao(CommonsCommentDao ccDao) {
+		this.ccDao = ccDao;
+	}
+
 	@Override
 	public int totalCountComments(int communitySerial) {
 		//특정 게시글에 대한 총 댓글 개수를 리턴
@@ -46,5 +54,14 @@ public class CommonsCommentServiceImple implements CommonsCommentService {
 		// 최초 게시글 접속 시에, 댓글 1페이지 제공
 		ArrayList<Comment> list = ccDao.getListComment(targetSerial, pageNum, pagePerBlock);
 		return list;
+	}
+
+	@Override
+	public Comment getLastUserComment(String usrId) {
+		Comment result = ccDao.getLastUserComment(usrId);
+		if( result != null && result.getContents().length() >= 6) {
+			result.setContents(result.getContents().substring(0, 5)+"...");
+		}
+		return result;
 	}
 }

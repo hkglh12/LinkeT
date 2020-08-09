@@ -15,6 +15,12 @@
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous"> -->
+    <script>
+    	var result = "${result}";
+    	if(result == true){
+    		alert("반영에 성공하였습니다!");
+    	}
+    </script>
 </head>
 <body>
 <jsp:include page="../../root-view.jsp"/>
@@ -150,7 +156,7 @@
 				<input type="hidden" name="curr_page" id="currpage" value="${page}">
 				</form>
          		<c:forEach items="${list}" var="user" varStatus = "number">
-        			<div class="large-12 forum-topic cal">
+        			<div class="large-12 forum-topic cal" onclick='userdetail("${user.usrId}");'>
           				<div class="large-1 column lpad">
             				<span class="overflow-upper">
             					<c:choose>
@@ -167,6 +173,7 @@
             				</span>
           				</div>
           				<div class="large-5 column lpad">
+          					<%-- <input type="hidden" value="${user.usrId}" class="hd_usr_id"> --%>
             				<span class="overflow-control">
               				<a> <c:out value="${user.usrId}"/> </a>
             				</span>

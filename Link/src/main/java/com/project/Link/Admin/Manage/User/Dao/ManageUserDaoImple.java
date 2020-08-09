@@ -8,12 +8,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.project.Link.Dbinfo.DBinfo;
 import com.project.Link.RegUser.User.User;
 
 @Component
+@Qualifier("ManageUserDao")
 public class ManageUserDaoImple implements ManageUserDao{
 	
 	String dbDriver = DBinfo.getDriver();
@@ -44,7 +46,6 @@ public class ManageUserDaoImple implements ManageUserDao{
 				if(conn != null) conn.close();
 			}catch(SQLException e) {e.printStackTrace();}
 		}
-		System.out.println(result);
 		return result;
 	}
 	// 모든 "사용자" 리스트 출력 (단, 20개씩 끊어서)
@@ -88,7 +89,6 @@ public class ManageUserDaoImple implements ManageUserDao{
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			String sql = "select count(*) as count from users where u_level = 1 and "+subCategory+" like ?";
-			System.out.println(sql);
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1,"%"+searchTarget+"%");
 			rs = pstmt.executeQuery();
@@ -101,7 +101,6 @@ public class ManageUserDaoImple implements ManageUserDao{
 				if (conn!=null) conn.close();
 			}catch(SQLException e) {e.printStackTrace();}
 		}
-		System.out.println(result);
 		return result;
 	}
 	// 조건에 부합하는 "모든 사용자" 출력
@@ -158,7 +157,6 @@ public class ManageUserDaoImple implements ManageUserDao{
 				if(conn != null) conn.close();
 			}catch(SQLException e) {e.printStackTrace();}
 		}
-		System.out.println(result);
 		return result;
 	}
 	// 강퇴 혹은 탈퇴 한 사람 출력
@@ -198,7 +196,6 @@ public class ManageUserDaoImple implements ManageUserDao{
 	//정상사용자 개수 출력
 	@Override
 	public int getNormalCount() {
-		System.out.println("정상출력?>");
 		int result = 0;
 		try {
 			Class.forName(dbDriver);
@@ -294,7 +291,6 @@ public class ManageUserDaoImple implements ManageUserDao{
 				if(conn != null) conn.close();
 			}catch(SQLException e) {e.printStackTrace();}
 		}
-		System.out.println(result);
 		return result;
 	}
 	@Override
@@ -407,7 +403,6 @@ public class ManageUserDaoImple implements ManageUserDao{
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			String sql = "select * from users where u_level = 99 and "+subCategory+" like ? order by u_indate limit " +(amount*page)+", "+amount;
 			pstmt=conn.prepareStatement(sql);
-			System.out.println(sql);
 			pstmt.setString(1,"%"+searchTarget+"%");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -487,7 +482,6 @@ public class ManageUserDaoImple implements ManageUserDao{
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			String sql = "select count(*) as count from users where u_level = 99 and "+subCategory+" like ?";
 			pstmt=conn.prepareStatement(sql);
-			System.out.println(searchTarget);
 			pstmt.setString(1,"%"+searchTarget+"%");
 			rs = pstmt.executeQuery();
 			result = rs.next() == true ? rs.getInt("count") : -1;
