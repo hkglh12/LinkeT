@@ -26,26 +26,11 @@
 	</script>
 </head>
 <body>
-	<%-- 	<c:out value="<script type='text/javascript'>alert('${result});"></c:out>
-	<c:if test="${result eq 'denied'}">
-		<c:out value="<script type='text/javascript'>alert('관리자계정만 접근할 수 있습니다.');</script>"></c:out>
-	</c:if>
-	<c:if test = "${result ne null}">
-		<c:if test = "${result eq 'failed'}">
-			<c:out value="<script type='text/javascript'>alert('ID 혹은 비밀번호를 확인해주세요');</script>"></c:out>
-		</c:if>
-		<c:if test = "${result eq 'success'}">
-			<c:out value="<script type='text/javascript'>alert('가입에 성공하였습니다.');</script>"></c:out>
-		</c:if>
-		<c:if test = "${result eq 'notvalid'}">
-			<c:out value="<script type='text/javascript'>alert('관리자 계정만 접근 가능합니다.');</script>"></c:out>
-			</c:if>
-	</c:if> --%>
     <div class="body"></div>
 		<div class="grad"></div>
 		<div class="innerwrapper"></div>
 		<div class="header">
-			<div><span>ADMIN</span>Link</div>
+			<div><span>ADMIN<br></span><span>L</span>ink</div>
 		</div>
 		<br>
 		<div class="login">

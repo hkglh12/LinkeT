@@ -1,18 +1,13 @@
 $(document).ready(function(){
 	var pwstd = /[\w\!\@\#]{12,16}/;
-    /* 좌측 메뉴에 마우스 올릴경우 나머지가 반응하게하기*/
-   $(".main-menu").on("mouseover",function(){
-      $(".upper .info").css("margin-left","190px"); 
-   });
+ 	/*좌측 메인메뉴 애니메이션*/
     $(".main-menu").on("mouseover",function(){
-      $(".profile").css("margin-left","25%"); 
-   });
-    
+		$("section").css("width","80%");
+      	$("section").css("margin-left","18%"); 
+   }); 
     $(".main-menu").on("mouseout",function(){
-      $(".upper .info").css("margin-left","0px"); 
-   });
-     $(".main-menu").on("mouseout",function(){
-      $(".profile").css("margin","0 auto"); 
+		$("section").css("width","95%");
+      	$("section").css("margin-left","6vw"); 
    });
     /*비밀번호변경 버튼*/
     $('#pwcgbtn').on("click",function(){
