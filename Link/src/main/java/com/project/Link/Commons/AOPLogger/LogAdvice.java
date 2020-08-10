@@ -40,7 +40,7 @@ public class LogAdvice {
 			+" or execution(* com.project.Link.RegUser.Comment.Service..*.*(..)) "
 			+" or execution(* com.project.Link.RegUser.Noticement.NoticementService..*.*(..))"
 			+" or execution(* com.project.Link.Commons.Community.Service..*.*(..))"
-			+" or execution(* com.project.Link.Commons.Comment.Service..*.*(..))"
+			/* +" or execution(* com.project.Link.Commons.Comment.Service..*.*(..))" */
 			+" or execution(* com.project.Link.Admin.Manage.Comment.Service..*.*(..))"
 			+" or execution(* com.project.Link.Admin.Manage.Community.Service..*.*(..))"
 			+" or execution(* com.project.Link.Admin.Manage.Noticement.Service..*.*(..))"
