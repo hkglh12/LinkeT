@@ -1,0 +1,37 @@
+.forum-head{display:flex; width:100%;}
+.forum-head > .column { background-color: hsl(206, 35%, 13%); border-right: 1px solid hsl(212, 35%, 15%); border-left: 1px solid hsl(212, 28%, 12%); color: hsl(0, 0%, 100%); font-weight: 300; font-size: 12px; text-shadow: 0 1px 1px hsl(0, 0%, 0%); text-align: center;}
+.forum-head > .column:first-child {text-align: left;border-left: none;}
+.forum-head > .column:last-child {border-right: none;}
+.forum-topic{display:flex; flex-direction: row;}
+.forum-topic:hover{cursor:pointer}
+.forum-topic > .column {min-height: 50px; max-height: 50px; background-color: hsl(0, 0%, 96%); border-bottom: 1px solid hsl(0, 0%, 90%); color: hsl(0, 0%, 50%); font-size: 12px;}
+.forum-topic > .column:first-child {color: hsl(0, 0%, 60%);font-size: 30px; text-align: center;}
+.forum-topic > .column:nth-child(n+3) {text-align: center;}
+.forum-topic > .column:last-child {text-align: left;}
+.forum-topic a {transition: color .5s;color: hsl(195, 73%, 58%); font-weight: 600;}
+.forum-topic a:hover {color: hsl(195, 73%, 48%);}
+.forum-topic span {display: block; margin: 0 0 2px 0;}
+.overflow-upper{font-size:14px;}
+.overflow-control {fwhite-space: nowrap; text-overflow:ellipsis; font-size:20px;}
+.forum-topic .column:nth-child(2) span.overflow-control {width: 70%; height: 15px;}
+.forum-topic span.center {padding-top: 10px;}
+.mainwrapper{display:block; width: 100%; height:auto;/*  overflow:hidden; */ position:relative;}
+#notice_post{width:120px;height:30px; border:2px solid white; border-radius:10px; color:white; background:transparent;}
+#notice_post:hover{cursor:pointer;}
+.dashboard{display:block; width:100%; height:100%; position:absolute; top:50em;}
+.curr{top:0em;}
+#atop{border-radius:10px; margin-top:5px;}
+.postwrapper{background-color: #d6d6d6;}
+.postingbox{width:80%; border:1px solid black; height:35em; margin: auto;}
+.noti.posting.title{border:1px solid black; width:100%; height:5em;}
+.noti.posting.content{border:1px solid red; height:24em; text-align: justify;}
+.noti.posting.title input[type="text"]{width:100%; height:100%; font-size:3em; padding: 0 0 0 20px; margin:0; box-sizing: border-box; }
+.noti.posting.content textarea{width:100%; height:100%; resize:none; margin:0; padding:20px 0 0 20px; box-sizing: border-box; font-size:1.5em;}
+
+/*page block common c.contss*/                                      
+.page_block{width:100%; height:3em; margin-top:20px;}
+.blocks{margin:0; padding:0; display:flex; list-style: none; flex-direction: row; justify-content:center; align-items: center;}
+.blocks li{padding: 0 10px; color:#0180fe;}
+.blocks li:hover{cursor:pointer;}
+.blockcurr{color:black;}
+/*page block commom css*/

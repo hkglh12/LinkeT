@@ -76,11 +76,24 @@ public class ManageUserControllerImple implements ManageUserController {
 	@Override
 	public String getUserDetail(Model model, HttpServletRequest request, HttpSession session) {
 		String usrId = request.getParameter("user_id");
+		System.out.println("in control : " + usrId);
 		User result = muService.getUserDetail(usrId);
-		
+		String mainCategory = request.getParameter("main_category") == null ? "all" : (String)request.getParameter("main_category");
+		String subCategory = request.getParameter("sub_category") == null ? "" : (String)request.getParameter("sub_category");
+		String searchTarget = request.getParameter("search_target") == null ? "" : request.getParameter("search_target");
+		System.out.println(usrId);
+		System.out.println(result.getUsrId());
+		System.out.println(mainCategory);
+		System.out.println(subCategory);
+		System.out.println(searchTarget);
+		int page = request.getParameter("page") == null ? 0 : Integer.valueOf((String)request.getParameter("page"))-1;
 		model.addAttribute("user", result);
 		model.addAttribute("last_community", mcService.getLastUserCommunity(usrId));
 		model.addAttribute("last_comment", mccService.getLastUserComment(usrId));
+		model.addAttribute("main_category", mainCategory);
+		model.addAttribute("sub_category", subCategory);
+		model.addAttribute("search_target", searchTarget);
+		model.addAttribute("page", page+1);
 		return "/Admin/manage/user/profile";
 	}
 }

@@ -21,8 +21,13 @@ function blockmove(block){
 	console.log(stc)
 	var stg=$('#search_target_hd').val();
 	console.log(stg)
-	if(stc != null && stg != null){
-	location.href="/Link/admin/manage/community/list?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+$('#subject').val();
+	var sbj= $('#subject').val();
+	if (sbj!="direct"){
+		if(stc != null && stg != null){
+			location.href="/Link/admin/manage/community/list?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+sbj;
+		}
+	}else{
+		location.href="/Link/admin/manage/community/directlist?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+sbj;
 	}
 }
 function pagecall(serial){

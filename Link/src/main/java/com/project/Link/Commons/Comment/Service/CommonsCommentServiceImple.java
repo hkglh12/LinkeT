@@ -22,18 +22,31 @@ public class CommonsCommentServiceImple implements CommonsCommentService {
 	@Qualifier("CommonsCommentDao")
 	private CommonsCommentDao ccDao;
 	
-	@Override
-	public int getUserCommentsCount(String usrId) {
-		// 특정 유저의 댓글 개수를 리턴
-		return ccDao.getUserCommentCount(usrId);
-	}
-	
 	public CommonsCommentDao getCcDao() {
 		return ccDao;
 	}
 
 	public void setCcDao(CommonsCommentDao ccDao) {
 		this.ccDao = ccDao;
+	}
+	
+	@Override
+	public int getUserCommentsCount(String usrId) {
+		// 특정 유저의 댓글 개수를 리턴
+		return ccDao.getUserCommentCount(usrId);
+	}
+	@Override
+	public ArrayList<Comment> getDirectUserComment(String usrId , int page){
+		ArrayList<Comment> list = ccDao.getDirectUserComment(usrId, page, pagePerBlock);
+		
+		for(Comment c : list) {
+			if(c.getContents().length() >= 21) {
+				System.out.println(c.getContents().length());
+				c.setContents(c.getContents().substring(0, 20)+"...");
+			}
+		}
+		//특정 유저가 작성한 리스트 리턴
+		return list;
 	}
 
 	@Override

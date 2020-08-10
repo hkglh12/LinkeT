@@ -137,7 +137,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from community where c_deletedate IS NULL and c_subject = ?Order by c_serial desc Limit " + (page*pagePerBlock) +", "+pagePerBlock;
+			String sql = "select * from community where c_deletedate IS NULL and c_subject = ? Order by c_serial desc Limit " + (page*pagePerBlock) +", "+pagePerBlock;
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, communitySubject);
 			rs = pstmt.executeQuery();
@@ -209,7 +209,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from community where c_deletedate IS NULL and u_id = ?order by c_createdate desc Limit 0,1";
+			String sql = "select * from community where c_deletedate IS NULL and u_id = ? order by c_createdate desc Limit 0,1";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, usrId);
 			rs = pstmt.executeQuery();
@@ -235,5 +235,41 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 			}catch(SQLException e) {e.printStackTrace();}
 		}
 		return community;
+	}
+
+	@Override
+	public ArrayList<Community> directSerachUserCommunity(int targetPage, int pagePerBlock, String searchCategory,
+			String searchTarget) {
+		ArrayList<Community> list = new ArrayList<Community>();
+		try {
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			String sql = "select * from community where c_deletedate IS NULL and "+searchCategory+" like ? Order by c_serial desc Limit " + (targetPage*pagePerBlock) +", "+pagePerBlock;
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+searchTarget+"%");
+			rs = pstmt.executeQuery();
+			System.out.println(sql);
+			while(rs.next()) {
+				Community community = new Community();
+				community.setSerial(rs.getInt("c_serial"));
+				community.setUsrId(rs.getString("u_id"));
+				community.setTitle(rs.getString("c_title"));
+				community.setContents(rs.getString("c_contents"));
+				community.setFileCount(rs.getInt("f_count"));
+				community.setCreateDate(rs.getTimestamp("c_createdate"));
+				community.setModifyDate(rs.getTimestamp("c_modifydate"));
+				community.setReadCount(rs.getInt("c_count"));
+				community.setSubject(rs.getNString("c_subject"));
+				list.add(community);
+			}
+		}catch(ClassNotFoundException e) {e.printStackTrace();
+		}catch(SQLException e) {e.printStackTrace();
+		}finally {	
+			try {
+				if (pstmt!=null) pstmt.close();
+				if (conn!=null) conn.close();
+			}catch(SQLException e) {e.printStackTrace();}
+		}
+		return list;
 	}
 }

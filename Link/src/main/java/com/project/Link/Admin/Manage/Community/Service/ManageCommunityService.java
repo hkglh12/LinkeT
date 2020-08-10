@@ -1,5 +1,8 @@
 package com.project.Link.Admin.Manage.Community.Service;
 
+import java.util.ArrayList;
+
+import com.project.Link.Commons.Comment.Comment;
 import com.project.Link.Commons.Community.Service.CommonsCommunityService;
 import com.project.Link.RegUser.Community.Service.CommunityService;
 
@@ -15,4 +18,8 @@ public interface ManageCommunityService extends CommonsCommunityService {
 	public boolean bulkCommunityBan(String[] list, String usrId);
 	// 특정 댓글 Ban
 	public boolean banComment(int targetSerial, String usrId);
+	// 특정 유저의 댓글 return
+	public ArrayList<Comment> getdirectUserComment(String usrId, int page);
+	// 특정 유저의 댓글 개수 리턴
+	public int getdirectUsercommentCount(String usrId);
 }

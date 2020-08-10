@@ -40,6 +40,7 @@ public class CommonsUserServiceImple implements CommonsUserService{
 	/* 회원정보가져오기로 쓰임 */
 	public User getUserDetail(String usrId) {
 		User user = uDao.get(usrId);
+		
 		user.setFileCount(ufService.getUserFileCount(usrId));
 		user.setCommunityCount(cService.userCountCommunities(usrId));
 		user.setCommentCount(ccService.getUserCommentsCount(usrId));

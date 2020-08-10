@@ -16,4 +16,7 @@ public interface CommonsCommentService {
 	public ArrayList<Comment> ListCommunities(int targetSerial, int pageNum);
 	// 특정 유저의 마지막 댓글을 리턴
 	public Comment getLastUserComment(String usrId);
+	// 특정 유저가 작성한 모든 댓글을 리턴
+	public ArrayList<Comment> getDirectUserComment(String usrId, int page);
+	
 }

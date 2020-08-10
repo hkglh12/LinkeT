@@ -36,7 +36,14 @@ function changeboard(){
 	location.href="/Link/admin/manage/user/list?main_category="+value;
 }
 function userdetail(usr_id){
-	location.href="/Link/admin/manage/user/detail?user_id="+usr_id;
+	console.log(usr_id);
+	var frm = $("<form>").attr("action","/Link/admin/manage/user/detail").attr("method","GET").appendTo($("body"));
+	$("<input>").attr("type","hidden").attr("name","user_id").attr("value",usr_id).appendTo(frm);
+	$("<input>").attr("type","hidden").attr("name","main_category").attr("value",$("#main_category").val()).appendTo(frm);
+	$("<input>").attr("type","hidden").attr("name","sub_category").attr("value",$("#sub_category").val()).appendTo(frm);
+	$("<input>").attr("type","hidden").attr("name","search_target").attr("value",$("#search_target").val()).appendTo(frm);
+	$("<input>").attr("type","hidden").attr("name","page").attr("value",$("#currpage").val()).appendTo(frm);
+	frm.submit();
 }
 function sync_sub_category(){
 	$("#sub_category").val($("#subcategorylist option:selected").val());	
@@ -57,7 +64,7 @@ function ban_user(){
 		$("<input>").attr("type","hidden").attr("name","curr_page").attr("value",$('#currpage').val()).appendTo(delform);
 		$("<input>").attr("type","hidden").attr("name","category").attr("value",$('#category').val()).appendTo(delform);
 		$("input[class=target_id]:checked").each(function(){
-			$("<input>").attr('type','hidden').attr('name','target_list').attr('value',this.value).appendTo(delform);
+		$("<input>").attr('type','hidden').attr('name','target_list').attr('value',this.value).appendTo(delform);
 		});
 		delform.submit();
 	}else{

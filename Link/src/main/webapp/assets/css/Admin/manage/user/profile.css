@@ -96,7 +96,7 @@ right: 0; transform: skewY(-8deg); -webkit-transform: skewY(-8deg); transform-or
 .cont{text-align:right;}
 
 
-#bann{width:150px; height:40px; font-size:16px; background-color: #6e97f4; border-radius:5px; border:none; color:white; font-weight: bold;}
+#bann, #gobacklist, .godetail{width:150px; height:40px; font-size:16px; background-color: #6e97f4; border-radius:5px; border:none; color:white; font-weight: bold;}
 #passwordchange{display:none; width:100%; height:100%; position: absolute; z-index:50; background-color: rgba(149, 149, 149, 0.46);}
 #pwchangeinputarea{width:500px; height:400px; margin:15% auto; border:2px solid rgba(93, 93, 93, 0.35); background-color: rgb(255, 255, 255); border-radius:20px; padding:20px;}
 #pwchangeinputarea table, #signoutarea table{width:100%; height:100%;}
