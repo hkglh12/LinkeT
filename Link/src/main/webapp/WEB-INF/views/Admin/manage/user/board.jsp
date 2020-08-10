@@ -156,7 +156,7 @@
 				<input type="hidden" name="curr_page" id="currpage" value="${page}">
 				</form>
          		<c:forEach items="${list}" var="user" varStatus = "number">
-        			<div class="large-12 forum-topic cal" onclick='userdetail("${user.usrId}");'>
+        			<div class="large-12 forum-topic cal">
           				<div class="large-1 column lpad">
             				<span class="overflow-upper">
             					<c:choose>
@@ -172,7 +172,7 @@
               					 </c:choose>
             				</span>
           				</div>
-          				<div class="large-5 column lpad">
+          				<div class="large-5 column lpad" onclick='userdetail("${user.usrId}");'>
           					<%-- <input type="hidden" value="${user.usrId}" class="hd_usr_id"> --%>
             				<span class="overflow-control">
               				<a> <c:out value="${user.usrId}"/> </a>

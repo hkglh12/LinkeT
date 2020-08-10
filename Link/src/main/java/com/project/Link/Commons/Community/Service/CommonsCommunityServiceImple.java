@@ -55,12 +55,16 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 			String communitySubject) {
 		// 게시글을 페이지단위로 DB로부터 추출합니다.
 		ArrayList<Community> list = null;
-		if (searchTarget == null || searchTarget == "") {
-			// 검색 대상이 없을경우, 일반적인 추출을 시작합니다.
-			list = cDao.getListCommunity(targetPage, pagePerBlock, communitySubject);
-		} else {
-			// 검색 대상이 있을경우, 특정 타겟을 대상으로 추출합니다.
-			list = cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory, searchTarget, communitySubject);
+		if(!(communitySubject.equals("direct"))) {
+			if (searchTarget == null || searchTarget == "") {
+				// 검색 대상이 없을경우, 일반적인 추출을 시작합니다.
+				list = cDao.getListCommunity(targetPage, pagePerBlock, communitySubject);
+			} else {
+				// 검색 대상이 있을경우, 특정 타겟을 대상으로 추출합니다.
+				list = cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory, searchTarget, communitySubject);
+			}
+		}else {
+			list = cDao.directSerachUserCommunity(targetPage, pagePerBlock, searchCategory, searchTarget);
 		}
 		list = ccService.totalCountComments(list);
 		return list;

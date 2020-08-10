@@ -144,5 +144,40 @@ public class CommonsCommentDaoImple implements CommonsCommentDao{
 			 }
 		 return comment;
 	}
+	@Override
+	public ArrayList<Comment> getDirectUserComment(String usrId, int page, int pagePerBlock) {
+	// 특정 유저가 작성한 모든 comment를 페이지단위로 잘라서 리턴
+	 		ArrayList<Comment> list = new ArrayList<Comment>();
+			try {
+				Class.forName(dbDriver);
+				conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+				String sql = "select * from communitycomments where u_id = ? AND cc_deletedate IS NULL Order by cc_serial desc LIMIT "+(page*pagePerBlock) + ", "+pagePerBlock;
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, usrId);
+				rs = pstmt.executeQuery();
+
+				while(rs.next()) {
+					Comment comment = new Comment();
+					comment.setSerial(rs.getInt("cc_serial"));
+					comment.setUsrId(rs.getString("u_id"));
+					/*comment.setUsrBannedId(rs.getString("u_id"));*/
+					comment.setCommunitySerial(rs.getInt("c_serial"));
+					comment.setContents(rs.getNString("cc_contents"));
+					comment.setCreateDate(rs.getTimestamp("cc_createdate"));
+					comment.setCheckSecret(rs.getBoolean("issecret"));
+					list.add(comment);
+				}
+				
+			}catch(ClassNotFoundException e) {e.printStackTrace();
+			}catch(SQLException e) {e.printStackTrace();
+			}finally {	
+				try {
+					if (pstmt!=null) pstmt.close();
+					if (conn!=null) conn.close();
+				}catch(SQLException e) {e.printStackTrace();}
+			}
+			return list;
+		}
 	 
 }

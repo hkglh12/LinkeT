@@ -2,6 +2,7 @@ package com.project.Link.Admin.Manage.Community.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.Link.Admin.Manage.Comment.Service.ManageCommentService;
 import com.project.Link.Admin.Manage.Community.Dao.ManageCommunityDao;
+import com.project.Link.Commons.Comment.Comment;
 import com.project.Link.Commons.Community.Dao.CommonsCommunityDaoImple;
 import com.project.Link.Commons.Community.Service.CommonsCommunityServiceImple;
 import com.project.Link.RegUser.Comment.Service.CommentService;
@@ -53,4 +55,13 @@ public class ManageCommunityServiceImple extends CommonsCommunityServiceImple im
 		return mccService.banComment(targetSerial, usrId, deleteDate);
 	}
 
+	@Override
+	public ArrayList<Comment> getdirectUserComment(String usrId, int page){
+		return mccService.getDirectUserComment(usrId, page); // 해당 메서드는 Commons 패키지하에서 제공
+	}
+	
+	@Override
+	public int getdirectUsercommentCount(String usrId) {
+		return mccService.getUserCommentsCount(usrId);
+	}
 }

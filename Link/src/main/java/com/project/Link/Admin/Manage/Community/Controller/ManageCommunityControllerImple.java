@@ -98,6 +98,36 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 		}
 		return "/Admin/manage/community/board";
 	}
+	
+	@RequestMapping(value={"/directlist", "/"}, method=RequestMethod.GET)
+	@Override
+	public String DirectListCommunities(Model model, HttpServletRequest request, HttpSession session) {
+		// 특정 유저가 작성한 게시글을 리턴해주는 페이지입니다.
+		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
+		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
+		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
+		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
+		if(searchCategory != null) {			//검색 대상이 있다면 DB 퀄럼에 맞게 변형
+			if(searchCategory.equals("title")) {
+				searchCategory = "c_"+searchCategory;
+			}else if(searchCategory.equals("id")) {
+				searchCategory = "u_"+searchCategory;
+			}else {searchCategory = null;}
+		}
+		ArrayList<Community> list = mcService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
+		int total = 0;
+		// directlist로 요청이 들어올때, searchTarget이 반드시 대상 User의 ID입니다.
+		total = mcService.userCountCommunities(searchTarget);
+		model.addAttribute("total", total);
+		model.addAttribute("communitylist",list);
+		if(searchCategory != null) {
+			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
+			model.addAttribute("search_target", searchTarget);
+			model.addAttribute("subject", subject);
+		}
+		return "/Admin/manage/community/board";
+	}
+	
 	@RequestMapping(value="/get", method=RequestMethod.GET)
 	@Override
 	public String GetCommunity(Model model, HttpServletRequest request, HttpSession session,
@@ -129,6 +159,7 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 	@RequestMapping(value="/comment/ban", method=RequestMethod.POST)
 	@Override
 	public String BanComment(Model model, HttpServletRequest request, HttpSession session,	RedirectAttributes redirectAttr) {
+		// 특정 댓글을 벤 합니다.
 		String usrId = (String)session.getAttribute("usrId");
 		int targetSerial = request.getParameter("del_serial") != null ? Integer.valueOf((String)request.getParameter("del_serial")) : -1;
 		boolean result = false;
@@ -143,6 +174,20 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 			redirectAttr.addFlashAttribute("result", result);
 		}
 		return "redirect:/admin/manage/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
+	}
+	@RequestMapping(value="/comment/direct", method=RequestMethod.GET)
+	@Override
+	//특정 유저가 작성한 댓글 리스트를 제공하는 엔드포인트입니다
+	public String getUserDirectComments(Model model, HttpServletRequest request, HttpSession session,	RedirectAttributes redirectAttr) {
+		String usrId = request.getParameter("u_id");
+		int page = request.getParameter("page") != null ? Integer.valueOf((String)request.getParameter("page"))-1 : 0;
+		System.out.println(usrId + " : " +page);
+		ArrayList<Comment> list = mcService.getdirectUserComment(usrId, page);
+		model.addAttribute("search_target", usrId);
+		model.addAttribute("page", page);
+		model.addAttribute("list", list);
+		model.addAttribute("total", mcService.getdirectUsercommentCount(usrId));
+		return "/Admin/manage/comment/board";
 	}
 	@RequestMapping(value="/download", method=RequestMethod.GET)
 	@Override

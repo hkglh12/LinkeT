@@ -11,8 +11,8 @@
     <meta name="keywords" content="">
     
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
-    <script src="${pageContext.request.contextPath}/a/js/Admin/manage/noticement/board.js"></script>
-    <link href="${pageContext.request.contextPath}/a/css/Admin/manage/noticement/board.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/a/js/Admin/manage/comment/board.js"></script>
+    <link href="${pageContext.request.contextPath}/a/css/Admin/manage/comment/board.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"> 
@@ -27,13 +27,15 @@
 <body>
 <!-- 좌측 네비게이터 -->
 <jsp:include page="../../root-view.jsp"/>
+<input type="hidden" id="currpage" value="${page}">
+<input type="hidden" id="search_target" value="${search_target}">
 <section>
 	<header id="atop">
 		<div class="row">
       		<div class="main lpad header location">
         		<div class="logo">
           			<span> 관리자페이지 : </span>
-          			<span id="main_header_location_t_name">공지 목록</span>
+          			<span id="main_header_location_t_name">작성한 댓글 리스트</span>
         		</div>
       		</div>
       <!-- CSS로부터 공간확보를 위해 유지 -->
@@ -56,10 +58,10 @@
   		<div class="dashboard mt curr">
       		<div class="large-12 forum-category rounded top">
       			<div class="column lpad categ">
-      				공지사항
+      				${search_target} 의 작성 댓글 목록
         		</div>
       			<div class="mpad ar">
-        			<button type="button" id="notice_post">공지글 게시하기</button>
+        			<button type="button" id="gobacklist" onclick="javascript:history.back();">돌아가기</button>
         		</div>
       		</div>
 		<div class="toggleview">
@@ -71,27 +73,24 @@
             		Contents
           		</div>
           		<div class="large-5 column ltpad">
-            		File Count
-          		</div>
-          		<div class="large-5 column ltpad">
-            		Read Count
+					Community Number
           		</div>
           		<div class="large-15 small-4 column lpad">
             		Posting Information
           		</div>
         	</div>
 <!----------------------------------------------Contents -------------------------------------->
-		<c:if test="${empty noticelist}">
+		<c:if test="${empty list}">
        		<div class="large-12 forum-topic">
           		<div class="large-1 column lpad">
-            			<i class="icon-file"></i>
+            		
           		</div>
           		<div class="large-70 small-8 column lpad">
             		<span class="overflow-upper">
               				
             		</span>
             		<span class="overflow-control">
-              				<c:out value="아직 아무 공지사항도 입력된적이 없어요!"></c:out>
+              				<c:out value="아직 아무 댓글도 게시한적이 없어요!"></c:out>
             		</span>
           		</div>
           		<div class="large-5 column ltpad">
@@ -109,32 +108,29 @@
           		</div>
         	</div>
         </c:if>
-		<c:if test="${not empty noticelist}">
-        	<c:forEach items="${noticelist}" var="notice"> 
-        		<div class="large-12 forum-topic" onclick="pagecall(${notice.serial});">
+		<c:if test="${not empty list}">
+        	<c:forEach items="${list}" var="comment"> 
+        		<div class="large-12 forum-topic" onclick="communitycall('${comment.communitySerial}');">
           			<div class="large-1 column lpad">
-            			<i class="icon-file"></i>
+            			<span class="overflow-upper">
+              				#<c:out value="${total - ((param.page-1) * 10) - number.count+1}"/>
+            			</span>
           			</div>
 	          		<div class="large-70 small-8 column lpad">
 	            		<span class="overflow-upper">
-	              			 #<c:out value="${notice.serial}"/>
+	              			 #<c:out value="${comment.serial}"/>
 	            		</span>
 	            		<span class="overflow-control">
-	              			<a href="#"> <c:out value="${notice.title}"/> </a>
+	              			<a href="#"> <c:out value="${comment.contents}"/> </a>
 	            		</span>
 	          		</div>
-	          		<div class="large-5 column ltpad">
-	            		<span class="center" id="total">${notice.fileCount}</span>
-	          		</div>
-	          		<div class="large-5 column ltpad">
-	           			<span class="center" id="counts">${notice.readCount}</span>
-	          		</div>
+
 	          		<div class="large-15 small-4 column lpad">
 	            		<!-- <span>
 	              			공지사항
 	            		</span> -->
-	            		<span>${notice.createDate}</span>
-	           		 	<span>by <!-- <a href="#"> -->${notice.usrId}<!-- </a> --></span>
+	            		<span>${comment.createDate}</span>
+	           		 	<span>by <!-- <a href="#"> -->${comment.usrId}<!-- </a> --></span>
 	          		</div>
         		</div>
         </c:forEach>
@@ -144,8 +140,8 @@
     	<ul class="blocks">
 	      	<!-- //https://yoonka.tistory.com/459 -->
 	        <!-- https://blog.nerdfactory.ai/2019/05/05/spring-mvc-jstl.html -->
-	        <%-- <fmt:parseNumber var="comment_block" value="${(commentlength/10) + (commentlength%10 == 0 ? 0 :1)}" integerOnly="true"></fmt:parseNumber> --%>
-         	<fmt:parseNumber var="block" value ="${(total/8)+(total%8 == 0 ? 0 : 1)}" integerOnly="true"/>
+	        <fmt:parseNumber var="comment_block" value="${(commentlength/10) + (commentlength%10 == 0 ? 0 :1)}" integerOnly="true"></fmt:parseNumber>
+         	<fmt:parseNumber var="block" value ="${(total/10)+(total%10 == 0 ? 0 : 1)}" integerOnly="true"/>
       		<c:if test="${block gt 0}">
           		<c:forEach begin="1" end="${block}" var="i" step="1">
           			<c:if test="${i eq param.page}">
@@ -162,7 +158,6 @@
 	</div>
 </section>
 </body>
-<script src="${pageContext.request.contextPath}/a/js/Admin/manage/noticement/board.js"></script>
 </html>
 
 <!-- JSP하면서 참조한 사이트들

@@ -14,134 +14,37 @@ $(document).ready(function(){
      $(".main-menu").on("mouseout",function(){
       $(".profile").css("margin","0 auto"); 
    });
-    /*비밀번호변경 버튼*/
-    $('#pwcgbtn').on("click",function(){
-        $("#passwordchange").css("display","block");
-        $('body').css("overflow","hidden");
 
-    });
-	/*비밀번호 변경 취소버튼*/
-   $('#pwchangecancel').on("click",function(){
-        $("#passwordchange").css("display","none"); 
-        $('body').css("overflow","visible");
-		$('#old_pw').val("");
-		$('#new_pw').val("");
-		$('#new_pw_cnfm').val("");
-   });
-	
-	//비밀번호 변경하기
-    $('#pwchsbm').on("click", function(){
-        var bool = confirm("비밀번호를 변경하시겠습니까?");
-        if(bool == true){
-	 		var old_pw = $('#old_pw');
-			var new_pw = $('#new_pw');
-			var new_pw_cnfm = $('#new_pw_cnfm');
-			//빈칸점검
-            if(old_pw.val() != "" && new_pw.val()!="" && new_pw_cnfm.val()!=""){
-				//비밀번호 규칙점검
-                if(pwstd.test(new_pw.val()) == true){
-				// 비밀번호 , 비밀번호 확인 점검
-                if(new_pw.val() == new_pw_cnfm.val()){
-                    var old_pw_enc = (SHA256(old_pw.val()));
-                    var new_pw_enc = (SHA256(new_pw.val()));
-                    var param = {"old_pw": old_pw_enc ,"new_pw": new_pw_enc};
-                    $.ajax({
-                        type:"POST",
-                        async:true,
-                        headers: { 
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json' 
-                        },
-                        url:"/Link/usr/update",
-                        dataType:"json",
-                        data:JSON.stringify(param),
-                        success:function(data){
-                          if(data.result =="404"){
-							alert("기존 비밀번호가 일치하지 않아요");
-							}else if(data.result=="200"){
-								alert("변경에 성공하였습니다!");
-							}else{
-								alert("오류로 인해 성공하지 못했어요.\r\n 관리자에게 문의해주세요");
-							}
-							$("#passwordchange").css("display","none"); 
-        					$('body').css("overflow","visible");
-							old_pw.val("");
-							new_pw.val("");
-							new_pw_cnfm.val("");
-                        },error:function(data){
-                         	alert("오류가 발생하였습니다.\r\n 관리자에게 문의해주세요");
-							$("#passwordchange").css("display","none"); 
-        					$('body').css("overflow","visible");
-							old_pw.val("");
-							new_pw.val("");
-							new_pw_cnfm("");
-                        }
-                    })
-                }else{
-                    alert('비밀번호와 비밀번호 확인이 일치하지 않아요');
-                }
-            }else{
-                alert('비밀번호 규칙을 만족하지 않았어요');
-            }
-            }else{
-                alert("입력창을 모두 채우지 않으셨어요");
-            }
-        }
-    });
-	/*탈퇴하기 버튼*/
-	$('#signoutbtn').on("click",function(){
-		$('#signoutstart').css("display","block");
-		$('body').css("overflow","hidden");
-	});
-	/*탈퇴하기 취소버튼*/
-	$('#signoutcancel').on("click",function(){
-		$('#signoutstart').css('display',"none");
-		$('body').css("overflow","visible");
-		$('#u_pw').val("");
-		$('#signout_cnfm').val("");
-	});
-	
-	$('#signoutsbm').on('click',function(){
-		var pwin = $('#u_pw');
-		var cnfm = $('#signout_cnfm');
-		if(cnfm.val()=="" || cnfm.val() != "지금탈퇴"){
-			alert("지금탈퇴 정확히 입력해주세요");
-		}else{
-			var u_pw = (SHA256(pwin.val())); 
-			var param = {"u_pw" : u_pw};
-			
-			 $.ajax({
-                type:"POST",
-                async:true,
-                headers: { 
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json' 
-                },
-                url:"/Link/usr/signout",
-                dataType:"json",
-                data:JSON.stringify(param),
-                success:function(data){
-					console.log(data.result);
-                 	if(data.result =="404"){
-						alert("비밀번호가 일치하지 않아요.");
-						pwin.val("");
-						cnfm.val("");
-						$("#signoutstart").css("display","none"); 
-        				$('body').css("overflow","visible");
-					}else if(data.result=="200"){
-						alert("탈퇴에 성공했습니다.\r\n그동안 사용해주셔서 감사합니다.");
-						location.href="/Link/";
-					}else{
-						alert("오류가 발생하였습니다.\r\n 관리자에게 문의해주세요");
-						pwin.val("");
-						cnfm.val("");
-						$("#signoutstart").css("display","none"); 
-        				$('body').css("overflow","visible");
-					}
-                },error:function(data){
-               		alert("오류가 발생하였습니다.\r\n 관리자에게 문의해주세요");
-                }
-			});
-		}
-	});
 });
+
+function bann(user_id){
+	var result = confirm("정말 강퇴시킬까요?");
+	if (result == true){
+		var frm = $("<form>").appendTo($("body"));
+		$("<input>").attr("type","hidden").attr("name","target_list").attr("value", user_id).appendTo(frm);
+		$("<input>").attr("type","hidden").attr("name","user_id").attr("value",usr_id).appendTo(frm);
+		$("<input>").attr("type","hidden").attr("name","main_category").attr("value",$("#main_category").val()).appendTo(frm);
+		$("<input>").attr("type","hidden").attr("name","sub_category").attr("value",$("#sub_category").val()).appendTo(frm);
+		$("<input>").attr("type","hidden").attr("name","search_target").attr("value",$("#search_target").val()).appendTo(frm);
+		$("<input>").attr("type","hidden").attr("name","page").attr("value",$("#currpage").val()).appendTo(frm);
+		frm.submit();
+	}
+}
+function goback(){
+	var main_category = $("#main_category").val() == "" ? "" : $("#main_category").val();
+	var sub_category = $("#sub_category").val() == "" ? "" : $("#sub_category").val();
+	var search_target = $("#search_target").val() == "" ? "" : $("#search_target").val();
+	var page = $("#currpage").val() == "" ? "" : $("#currpage").val();    
+	location.href="/Link/admin/manage/user/list?main_category="+main_category+"&sub_category="+sub_category+"&search_target="+search_target+"&page="+page;
+}
+
+function direct_search(){
+	var search_category = "id";
+	var search_target = $("#user_id").val();
+	var subject = "direct";
+	location.href="/Link/admin/manage/community/directlist?search_category="+search_category+"&search_target="+search_target+"&subject="+subject
+}
+
+function direct_comment_search(target){
+	location.href="/Link/admin/manage/community/comment/direct?u_id="+target
+}
