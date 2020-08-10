@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 	<link href="${pageContext.request.contextPath}/a/css/User/root-view.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 </head>
 <body>
 <nav class="main-menu">
@@ -19,7 +20,7 @@
         </li>
         <li>
             <a href="/Link/usr/me">
-                <i class="fa fa-home fa-2x"></i>
+                <i class="far fa-address-card fa-2x"></i>
                 <span class="nav-text">
                     내 정보보기
                 </span>
@@ -28,10 +29,9 @@
         </li>
         <li class="has-subnav">
             <a href="/Link/notice/list?page=1">
-                <i class="fa fa-laptop fa-2x"></i>
+                <i class="fas fa-exclamation-circle fa-2x"></i>
                 <span class="nav-text">
-                    공지사항 게시판
-                    <!--아래에 팀 세개 추가해야함.-->
+                    공지사항
                 </span>
             </a>
         </li>

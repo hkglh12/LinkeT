@@ -39,8 +39,8 @@ public class SessionControlInterceptor extends HandlerInterceptorAdapter{
 			return true;
 		}else {
 			// 어떠한 정보도 없다면, redirect를 시행, 이때 HomeController로 리턴되게된다.
-			response.sendRedirect("/Link/");
-			return true;
+			response.sendRedirect("/Link?result=denied");
+			return false;
 		}
 	}
 }

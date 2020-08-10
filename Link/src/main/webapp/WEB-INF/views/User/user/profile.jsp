@@ -9,10 +9,11 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
   
-    <link href="<c:url value="/a/css/User/user/profile.css"/>" rel="stylesheet">
-    <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script src="<c:url value="/a/js/User/user/profile.js"/>"></script>
-    <script src="<c:url value="/a/js/encryptor.js"/>"></script>
+  	<link href="${pageContext.request.contextPath}/a/css/User/user/profile.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/User/user/profile.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/encryptor.js"></script>
 
 </head>
 <body>
@@ -73,26 +74,42 @@
 
     </div>
 </div>
-<div class="area">
-    
-</div>
 <jsp:include page="../../root-view.jsp"/>
 
 <section>
    <!--상단 Site navigator-->
-<div class="upper">
-        <div class="info"><h1 class="title">내 개인정보 보기</h1></div>
-    </div>
+	<header id="atop">
+    	<div class="row">
+      		<div class="main lpad header location">
+        		<div class="logo">
+          			<span>현재위치 : </span>
+          			<span id="main_header_location_t_name">사용자 개인정보</span>
+        		</div>
+      		</div>
+      		<div class="main header submenu ar">
+				<nav class="menu">
+	        		 <a href="#" class="current" id="dashboard"></a>
+	       		</nav>     
+	  		</div>
+	    </div>
+  	</header>
+ 	<div class="row">
+    	<div class="main lpad greets ar">
+      	Welcome,
+      		<a href="#" class="underline">${sessionScope.usrId}</a>
+    	</div>
+  	</div> 
     <!--profile 내용부-->
     <div class="profilebg">
     <div class="profile">
-    <div class="container">
+<!--     <div class="container"> -->
       
       <div class="row cf">
         <div id="card1" class="card four col">
           <div class="image-wrapper"></div>
-          <h3 class="name">${user.usrId}</h3>
+          
           <div class="info cf">
+            <div class="four col">사용자 아이디 <span class="number">${user.usrId}</span></div>
             <div class="four col">PhoneNumber<span class="number">${user.usrPhone}</span></div>
             <div class="four col">Email<span class="number">${user.usrEmail}</span></div>
             <div class="four col">JoinDate<span class="number">${user.usrInDate}</span></div>
@@ -135,7 +152,7 @@
 
       </div>
     </div>
-    </div>
+<!--     </div> -->
     </section>
     
     </body>

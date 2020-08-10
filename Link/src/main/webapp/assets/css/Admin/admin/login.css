@@ -45,14 +45,14 @@ body{
 .innerwrapper{
     position:absolute;
     width:650px;
-    height:50%;
-    	top: calc(30% - 35px);
+    height:500px;
+    top: calc(30% - 35px);
 	left: calc(46% - 255px);
     background-color: rgba(0, 0, 0, 0.49);
 }
 .header{
 	position: absolute;
-	top: calc(50% - 35px);
+	top: calc(45% - 35px);
 	left: calc(50% - 255px);
 	z-index: 2;
 }
@@ -61,17 +61,19 @@ body{
 	float: left;
 	color: #fff;
 	font-family: 'Exo', sans-serif;
-	font-size: 35px;
+	font-size: 40px;
 	font-weight: 200;
 }
 
 .header div span{
 	color: #5379fa !important;
+	font-size:40px;
+	font-weight:bold;
 }
 
 .login{
 	position: absolute;
-	top: calc(50% - 75px);
+	top: calc(45% - 35px);
 	left: calc(50% - 50px);
 	height: 140px;
 	width: 270px;

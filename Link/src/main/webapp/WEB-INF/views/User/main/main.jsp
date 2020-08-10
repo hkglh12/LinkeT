@@ -17,7 +17,12 @@
 	<%-- <script src="${pageContext.request.contextPath}/js/User/main/main.js"></script> --%>
 	<link href="${pageContext.request.contextPath}/a/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/a/css/User/main/scrolling-nav.css" rel="stylesheet">
-	
+	<script>
+		var result = "${param.result}";
+		if(result == "denied"){
+			alert("로그인 후 사용해주세요");
+		}
+	</script>
 </head>
 
 <body id="page-top">

@@ -11,10 +11,11 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="<c:url value="/a/css/User/user/login.css"/>" rel="stylesheet">
-    <script type="text/javascript" src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/a/js/User/user/login.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/a/js/encryptor.js"/>"></script>
+    <link href="${pageContext.request.contextPath}/a/css/User/user/login.css" rel="stylesheet">
+   	<script type="text/javascript" src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+   	<script type="text/javascript" src="${pageContext.request.contextPath}/a/js/User/user/login.js"></script>
+   	<script type="text/javascript" src="${pageContext.request.contextPath}/a/js/encryptor.js"></script>
+   	
     <script>
     	var result = "${result}"
     	if(result == "false"){
@@ -35,7 +36,7 @@
 		<div class="grad"></div>
 		<div class="innerwrapper"></div>
 		<div class="header">
-			<div><span>L</span>ink</div>
+			<div><span>L&nbsp;</span>ink</div>
 		</div>
 		<br>
 		<div class="login">

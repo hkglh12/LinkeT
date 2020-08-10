@@ -11,8 +11,8 @@ a {display: inline-block; color: inherit; text-decoration: none;}
 #atop{border-radius:10px; margin-top:10px;}
 .mpad.ar{height:3em;}
 /*Common set fin*/
-.logo{font-size:20px; font-weight:bold; padding:15px; font-weight:bold;}
-.logo{color: hsl(0, 0%, 100%);font-size: 20px; text-transform: lowercase;}
+.logo{font-size:20px; font-weight:bold; padding:30px; font-weight:bold;}
+.logo{color: white;font-size: 20px; text-transform: lowercase;}
 .logo span:first-child {font-weight: bold;}
 .logo #main_header_location_t_name{color: hsl(0, 0%, 70%);font-weight: 300;}
 .main.header.submenu{margin-right:15px;}
