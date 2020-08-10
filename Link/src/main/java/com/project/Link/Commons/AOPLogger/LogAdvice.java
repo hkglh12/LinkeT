@@ -34,18 +34,20 @@ public class LogAdvice {
 	  https://doublesprogramming.tistory.com/207
 	  
 	  
-	 
+	 https://addio3305.tistory.com/86
 	 * */
-	@Around(" execution(* com.project.Link.User.UserService..*.*(..))"
-			+" or execution(* com.project.Link.RegUser.Comment.Service..*.*(..)) "
-			+" or execution(* com.project.Link.RegUser.Noticement.NoticementService..*.*(..))"
-			+" or execution(* com.project.Link.Commons.Community.Service..*.*(..))"
-			/* +" or execution(* com.project.Link.Commons.Comment.Service..*.*(..))" */
-			+" or execution(* com.project.Link.Admin.Manage.Comment.Service..*.*(..))"
-			+" or execution(* com.project.Link.Admin.Manage.Community.Service..*.*(..))"
-			+" or execution(* com.project.Link.Admin.Manage.Noticement.Service..*.*(..))"
-			+" or execution(* com.project.Link.Admin.Manage.User.Service..*.*(..))"
-			)
+	//@Around(" execution(* com.project.Link.User.UserService..*.*(..))"
+	//		+" or execution(* com.project.Link.RegUser.Comment.Service..*.*(..)) "
+	//		+" or execution(* com.project.Link.RegUser.Noticement.NoticementService..*.*(..))"
+	//		+" or execution(* com.project.Link.Commons.Community.Service..*.*(..))"
+	//		/* +" or execution(* com.project.Link.Commons.Comment.Service..*.*(..))" */
+	//		+" or execution(* com.project.Link.Admin.Manage.Comment.Service..*.*(..))"
+	//		+" or execution(* com.project.Link.Admin.Manage.Community.Service..*.*(..))"
+	//		+" or execution(* com.project.Link.Admin.Manage.Noticement.Service..*.*(..))"
+	//		+" or execution(* com.project.Link.Admin.Manage.User.Service..*.*(..))"
+	//		)
+	
+	@Around("execution (*")
 	public Object log(ProceedingJoinPoint pjp) throws Throwable{
 		long start = System.currentTimeMillis();
 		
