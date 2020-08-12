@@ -31,18 +31,5 @@ public interface CommunityController {
 	/* 자유게시글에 등재된 파일 획득*/
 	public void getCommunityFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception;
 	/* 자유게시판 작성폼 획득*/
-	public String getPostTemplate(Model model, HttpServletRequest request, HttpSession session);
-	/* 자유게시판 댓글 get(update, delete용) */
-	
-	/* 자유게시판 댓글 리스팅 */
-	/* 리스팅은 사실 controller에 없어도 되겠다.
-	 * community get에 동시에 실행되야하니까 service에서 하면 되겠지. */
-	/* 자유게시판 댓글 작성 */
-	public String PostComments(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr);	
-	/* 자유게시판 댓글 업데이트 */
-	public String UpdateComments(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr);
-	/* 자유게시판 댓글 삭제 */
-	public String DeleteComments(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr);
-	/* 자유게시판 개별리스팅*/
-	public HashMap<String, ArrayList<Comment>> ListCommentsAjax(@RequestBody HashMap<String,String> ajaxRequest, Model model, HttpServletRequest request, HttpSession session)  throws Exception;
+	public String getPostTemplate(Model model, HttpServletRequest request, HttpSession session);	
 }

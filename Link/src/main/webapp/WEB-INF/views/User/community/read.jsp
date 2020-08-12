@@ -120,7 +120,7 @@
 		<div class="uploadcomment_wrapper">
 	  		<label>댓글 작성하기</label>
 	  		<div id="uploadcomment">
-	   			<form action="/Link/community/comment/post" method="post">
+	   			<form action="/Link/comment/post" method="post">
 	   				<input name="c_serial" type="hidden" value="${community.serial}">
 	   				<textarea name="cc_contents" id="cc_contents"></textarea>
 	   				<input type="checkbox" name="is_secret" value="true"> 비밀로하기
@@ -153,7 +153,7 @@
 		     						<label class="comm usrlbl">게시날짜 : <fmt:formatDate value="${i.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></label>
 	     							<c:if test="${sessionScope.usrId eq i.usrId}">
 	     							<div class="toglecomm">
-			     						<form action="/Link/community/comment/delete" method="post" class="delform">
+			     						<form action="/Link/comment/delete" method="post" class="delform">
 			     							<input type="hidden" value="${community.serial}" name="c_serial">
 			     							<input type="hidden" value="${i.serial}" name="del_serial"> 
 			     							<button type="button" class="comment_del">댓글 삭제</button>
@@ -168,7 +168,7 @@
 	     						
 									<c:if test="${sessionScope.usrId eq i.usrId}">
 		     						<div class="toglemodi">
-		     							<form action="/Link/community/comment/update" method="post" class="comm_modi_form">
+		     							<form action="/Link/comment/update" method="post" class="comm_modi_form">
 		     								<input type="hidden" value="${community.serial}" name="c_serial">
 			     							<input type="hidden" value="${i.serial}" name="cc_serial">
 			     							<textarea name="modi_contents" class="modi_contents"></textarea>

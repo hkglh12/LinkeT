@@ -10,15 +10,13 @@ public interface CommonsCommunityService{
 	public int userCountCommunities(String usrId);
 	// 일반 사용자가 자유게시글 list에 접근할때 paging 처리를 위해 총 게시글 갯수를 제공
 	public int totalCountCommunities(String searchCategory, String searchTarget, String subject);
-	
 	// 자유게시글 리스팅
 	public ArrayList<Community> ListCommunities(int targetPage, String searchCategory, String searchTarget, String community_subject);
 	// 자유게시글 조회
 	public Community getCommunity(int targetSerial);
-	
 	// 특정 게시글에 대해 총 댓글 개수를 출력 (CommentService와는 다르게 총 게시글 Listing할때 사용됨)
-	public int getCommentTotalCount(int communitySerial);
+//	public int getCommentTotalCount(int communitySerial);
 	 // 특정 게시글에 대해 댓글 리스트를 Ajax통신처리
-	public ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum);
+//	public ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum);
 	public Community getLastUserCommunity(String usrId);
 }

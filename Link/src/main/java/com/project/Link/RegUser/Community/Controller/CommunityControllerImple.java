@@ -49,7 +49,9 @@ public class CommunityControllerImple implements CommunityController{
 	private CommunityService cService;
 	@Autowired
 	private UfileService ufService;
-
+	@Autowired
+	@Qualifier("UserCommentService")
+	private CommentService ccService;
 	 
 	public CommunityControllerImple() {} 
 	public CommunityService getcService() {return cService; } 
@@ -57,7 +59,7 @@ public class CommunityControllerImple implements CommunityController{
 	public UfileService getUfService() {return ufService;}
 	public void setUfService(UfileService ufService) {this.ufService = ufService;}
 	
-	@RequestMapping(value="/list", method = RequestMethod.GET)
+	@RequestMapping(value={"/list", "/directlist", "/"}, method = RequestMethod.GET)
 	@Override
 	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session) {
 		// 자유게시판 글 목록을 read, 한개의 테이블로 java, jsp, spring 게시글을 모아두므로, subject 컬럼이 필요함.
@@ -73,10 +75,17 @@ public class CommunityControllerImple implements CommunityController{
 			}else {searchCategory = null;}
 		}
 		ArrayList<Community> list = cService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
+		list = ccService.totalCountComments(list);
 		int total = 0;
-		total = cService.totalCountCommunities(searchCategory, searchTarget, subject);
+		if(subject.contentEquals("direct")) {
+			//Direct일경우 반드시 유저 아이디가 넘어옵니다.
+			total = cService.userCountCommunities(searchTarget);
+		}else {
+			total = cService.totalCountCommunities(searchCategory, searchTarget, subject);
+		}
 		model.addAttribute("total", total);
 		model.addAttribute("communitylist",list);
+		model.addAttribute("page", targetPage);
 		if(searchCategory != null) {
 			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
 			model.addAttribute("search_target", searchTarget);
@@ -117,8 +126,9 @@ public class CommunityControllerImple implements CommunityController{
 		int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
 		System.out.println("targetSerial in controller : " + targetSerial);
 		Community community = cService.getCommunity(targetSerial);
-
-		model.addAttribute("total_comment", cService.getCommentTotalCount(targetSerial));
+		int pageNum=0;
+		community.setComments(ccService.ListComments(community.getSerial(),pageNum));
+		model.addAttribute("total_comment", ccService.totalCountComments(targetSerial));
 		model.addAttribute("community",community);
 		return "/User/community/read";
 	}
@@ -179,70 +189,6 @@ public class CommunityControllerImple implements CommunityController{
 		return "redirect:/community/list?page=1&subject="+subject;
 	}
 
-	@RequestMapping(value="/comment/list", method=RequestMethod.POST)
-	@Override
-	@ResponseBody
-	public HashMap<String, ArrayList<Comment>> ListCommentsAjax(@RequestBody HashMap<String,String> ajaxRequest, Model model, HttpServletRequest request, HttpSession session) throws Exception {
-		// Community 최초 로딩 외에, Paging 처리된 댓글 리스트를 제공하는 엔드포인트
-		// Ajax통신을 사용하므로 ResponseBody, RequestBody를 사용함. Jackson-databind 라이브러리 사용
-		int targetSerial = ajaxRequest.containsKey("c_serial") == true ? Integer.valueOf(ajaxRequest.get("c_serial")) : 0;
-		if(targetSerial == 0) {
-			throw new Exception();
-		}
-		int pageNum = ajaxRequest.containsKey("page_num") == true ? Integer.valueOf(ajaxRequest.get("page_num"))-1: 0;
-		ArrayList<Comment> list = cService.ListCommentsAjax(targetSerial, pageNum);
-		HashMap<String, ArrayList<Comment>> returnInfo = new HashMap<String, ArrayList<Comment>>();
-		returnInfo.put("list", list); // 결과값을 Json형태로 리턴하기위해 HashMap 사용
-		return returnInfo;
-	}
-	
-	@RequestMapping(value="/comment/post", method=RequestMethod.POST)
-	@Override
-	public String PostComments(Model model, HttpServletRequest request, HttpSession session,RedirectAttributes redirectAttr) {
-		// 댓글 게시 요청에 응답하는 endpoint
-			String usrId = (String)session.getAttribute("usrId");
-			int targetSerial = Integer.valueOf((String)request.getParameter("c_serial"));
-			String contents = request.getParameter("cc_contents");
-			boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("is_secret")) : false;
-			boolean result = cService.createComment(usrId, targetSerial, contents, isSecret);
-			redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
-			redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-			if(result == true) {
-				redirectAttr.addFlashAttribute("result", result);
-			}
-			return "redirect:/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
-	}
-	
-	@RequestMapping(value="/comment/update", method=RequestMethod.POST)
-	@Override
-	public String UpdateComments(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
-		// 댓글 수정요청에 대응하는 endpoint
-		int targetSerial = Integer.valueOf((String)request.getParameter("cc_serial"));
-		String contents = request.getParameter("modi_contents");
-		boolean isSecret = request.getParameter("is_secret") != null ? Boolean.valueOf(request.getParameter("is_secret")) : false;
-		boolean result = cService.updateComment(targetSerial, contents, isSecret);
-		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
-		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-		if(result == true) {
-			redirectAttr.addFlashAttribute("result", result);
-		}
-		return "redirect:/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
-	}
-	@RequestMapping(value="/comment/delete", method=RequestMethod.POST)
-	@Override
-	public String DeleteComments(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
-		// 댓글 삭제요청에 응답하는 endpoint
-		String usrId = (String)session.getAttribute("usrId");
-		int targetSerial = Integer.valueOf((String)request.getParameter("del_serial"));
-		boolean result = cService.deleteComment(usrId, targetSerial);
-		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
-		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-		if(result == true) {
-			redirectAttr.addFlashAttribute("result", result);
-		}
-		return "redirect:/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
-	}
-	
 	@RequestMapping(value="/download", method=RequestMethod.GET)
 	@Override
 	public void getCommunityFile(Model model, HttpServletRequest request, HttpSession session,

@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.Link.Admin.Manage.Comment.Service.ManageCommentService;
 import com.project.Link.Admin.Manage.Community.Service.ManageCommunityService;
 import com.project.Link.Commons.Comment.Comment;
 import com.project.Link.Commons.Community.Community;
@@ -43,6 +44,9 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 	@Autowired
 	@Qualifier("ManageCommunityService")
 	private ManageCommunityService mcService;
+	@Autowired
+	@Qualifier("ManageCommentService")
+	private ManageCommentService mccService;
 	@Autowired
 	private UfileService ufService;
 
@@ -71,35 +75,36 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 		return "redirect:/admin/manage/community/list?page=1&subject="+request.getParameter("subject");
 	}
 
-	@RequestMapping(value={"/list", "/"}, method=RequestMethod.GET)
-	@Override
-	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session) {
-		System.out.println("called");
-		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
-		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
-		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
-		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
-		if(searchCategory != null) {			//검색 대상이 있다면 DB 퀄럼에 맞게 변형
-			if(searchCategory.equals("title")) {
-				searchCategory = "c_"+searchCategory;
-			}else if(searchCategory.equals("id")) {
-				searchCategory = "u_"+searchCategory;
-			}else {searchCategory = null;}
-		}
-		ArrayList<Community> list = mcService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
-		int total = 0;
-		total = mcService.totalCountCommunities(searchCategory, searchTarget, subject);
-		model.addAttribute("total", total);
-		model.addAttribute("communitylist",list);
-		if(searchCategory != null) {
-			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
-			model.addAttribute("search_target", searchTarget);
-			model.addAttribute("subject", subject);
-		}
-		return "/Admin/manage/community/board";
-	}
+//	@RequestMapping(value={"/list", "/"}, method=RequestMethod.GET)
+//	@Override
+//	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session) {
+//		System.out.println("called");
+//		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
+//		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
+//		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
+//		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
+//		if(searchCategory != null) {			//검색 대상이 있다면 DB 퀄럼에 맞게 변형
+//			if(searchCategory.equals("title")) {
+//				searchCategory = "c_"+searchCategory;
+//			}else if(searchCategory.equals("id")) {
+//				searchCategory = "u_"+searchCategory;
+///			}else {searchCategory = null;}
+//		}
+//		ArrayList<Community> list = mcService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
+//	/	list = mccService.totalCountComments(list);
+//		int total = 0;
+//		total = mcService.totalCountCommunities(searchCategory, searchTarget, subject);
+//		model.addAttribute("total", total);
+//		model.addAttribute("communitylist",list);
+///		if(searchCategory != null) {
+//			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
+//			model.addAttribute("search_target", searchTarget);
+///			model.addAttribute("subject", subject);
+//		}
+//		return "/Admin/manage/community/board";
+//	}
 	
-	@RequestMapping(value={"/directlist", "/"}, method=RequestMethod.GET)
+	@RequestMapping(value={"/list", "/directlist", "/"}, method=RequestMethod.GET)
 	@Override
 	public String DirectListCommunities(Model model, HttpServletRequest request, HttpSession session) {
 		// 특정 유저가 작성한 게시글을 리턴해주는 페이지입니다.
@@ -117,10 +122,16 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 		ArrayList<Community> list = mcService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
 		int total = 0;
 		// directlist로 요청이 들어올때, searchTarget이 반드시 대상 User의 ID입니다.
+		if(subject.equals("direct")) {
 		total = mcService.userCountCommunities(searchTarget);
+		}else {
+			total = mcService.totalCountCommunities(searchCategory, searchTarget, subject);
+		}
+		list = mccService.totalCountComments(list);
 		model.addAttribute("total", total);
 		model.addAttribute("communitylist",list);
 		if(searchCategory != null) {
+			// 붙였던 u_를 다시 떼주는 작업
 			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
 			model.addAttribute("search_target", searchTarget);
 			model.addAttribute("subject", subject);
@@ -133,10 +144,10 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 	public String GetCommunity(Model model, HttpServletRequest request, HttpSession session,
 			RedirectAttributes redirectAttr) {
 		int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
-		System.out.println("targetSerial in controller : " + targetSerial);
 		Community community = mcService.getCommunity(targetSerial);
-		int pageNum = 0;
-		model.addAttribute("total_comment", mcService.getCommentTotalCount(targetSerial));
+		int pageNum=0;
+		community.setComments(mccService.ListComments(community.getSerial(), pageNum));
+		model.addAttribute("total_comment", mccService.totalCountComments(targetSerial));
 		model.addAttribute("community",community);
 		return "/Admin/manage/community/read";
 	}
@@ -156,39 +167,7 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 		}
 		return "redirect:/admin/manage/community/list?page=1&subject="+subject;
 	}
-	@RequestMapping(value="/comment/ban", method=RequestMethod.POST)
-	@Override
-	public String BanComment(Model model, HttpServletRequest request, HttpSession session,	RedirectAttributes redirectAttr) {
-		// 특정 댓글을 벤 합니다.
-		String usrId = (String)session.getAttribute("usrId");
-		int targetSerial = request.getParameter("del_serial") != null ? Integer.valueOf((String)request.getParameter("del_serial")) : -1;
-		boolean result = false;
-		if(targetSerial != -1) {
-			result = mcService.banComment(targetSerial, usrId);
-		}else{
-			return "failed";
-		}
-		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
-		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
-		if(result == true) {
-			redirectAttr.addFlashAttribute("result", result);
-		}
-		return "redirect:/admin/manage/community/get?c_serial="+Integer.valueOf((String)request.getParameter("c_serial"));
-	}
-	@RequestMapping(value="/comment/direct", method=RequestMethod.GET)
-	@Override
-	//특정 유저가 작성한 댓글 리스트를 제공하는 엔드포인트입니다
-	public String getUserDirectComments(Model model, HttpServletRequest request, HttpSession session,	RedirectAttributes redirectAttr) {
-		String usrId = request.getParameter("u_id");
-		int page = request.getParameter("page") != null ? Integer.valueOf((String)request.getParameter("page"))-1 : 0;
-		System.out.println(usrId + " : " +page);
-		ArrayList<Comment> list = mcService.getdirectUserComment(usrId, page);
-		model.addAttribute("search_target", usrId);
-		model.addAttribute("page", page);
-		model.addAttribute("list", list);
-		model.addAttribute("total", mcService.getdirectUsercommentCount(usrId));
-		return "/Admin/manage/comment/board";
-	}
+
 	@RequestMapping(value="/download", method=RequestMethod.GET)
 	@Override
 	public void getCommunityFile(Model model, HttpServletRequest request, HttpSession session,
@@ -219,23 +198,6 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@RequestMapping(value="/comment/list", method=RequestMethod.POST)
-	@Override
-	@ResponseBody
-	public HashMap<String, ArrayList<Comment>> ListCommentsAjax(@RequestBody HashMap<String,String> ajaxRequest, Model model, HttpServletRequest request, HttpSession session) throws Exception {
-		// Community 최초 로딩 외에, Paging 처리된 댓글 리스트를 제공하는 엔드포인트
-		// Ajax통신을 사용하므로 ResponseBody, RequestBody를 사용함. Jackson-databind 라이브러리 사용
-		int targetSerial = ajaxRequest.containsKey("c_serial") == true ? Integer.valueOf(ajaxRequest.get("c_serial")) : 0;
-		if(targetSerial == 0) {
-			throw new Exception();
-		}
-		int pageNum = ajaxRequest.containsKey("page_num") == true ? Integer.valueOf(ajaxRequest.get("page_num"))-1: 0;
-		ArrayList<Comment> list = mcService.ListCommentsAjax(targetSerial, pageNum);
-		HashMap<String, ArrayList<Comment>> returnInfo = new HashMap<String, ArrayList<Comment>>();
-		returnInfo.put("list", list); // 결과값을 Json형태로 리턴하기위해 HashMap 사용
-		return returnInfo;
 	}
 
 }

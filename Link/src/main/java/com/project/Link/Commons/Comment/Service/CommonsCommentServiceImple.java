@@ -63,7 +63,7 @@ public class CommonsCommentServiceImple implements CommonsCommentService {
 		return list;	
 	}
 	@Override
-	public ArrayList<Comment> ListCommunities(int targetSerial, int pageNum) {
+	public ArrayList<Comment> ListComments(int targetSerial, int pageNum) {
 		// 최초 게시글 접속 시에, 댓글 1페이지 제공
 		ArrayList<Comment> list = ccDao.getListComment(targetSerial, pageNum, pagePerBlock);
 		return list;
@@ -76,5 +76,10 @@ public class CommonsCommentServiceImple implements CommonsCommentService {
 			result.setContents(result.getContents().substring(0, 5)+"...");
 		}
 		return result;
+	}
+	
+	@Override
+	public int getdirectUsercommentCount(String usrId) {
+		return ccDao.getUserCommentCount(usrId);
 	}
 }

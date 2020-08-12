@@ -1,4 +1,4 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+ <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -22,10 +22,10 @@
 <jsp:include page="../../root-view.jsp"/>
 
 <section>
-<input type="hidden" name="curr_page" id="currpage" value="${page}">
-        			<input type="hidden" value="${main_category}" name="main_category" id="main_category">
-        			<input type="hidden" value="${sub_category}" name="sub_category" id="sub_category">
-        			<input type="text" id="search_target" name="search_target" value="${search_target}">
+	<input type="hidden" name="curr_page" id="currpage" value="${page}">
+	<input type="hidden" value="${main_category}" name="main_category" id="main_category">
+	<input type="hidden" value="${sub_category}" name="sub_category" id="sub_category">
+	<input type="hidden" id="search_target" name="search_target" value="${search_target}">
    <!--상단 Site navigator-->
 <div class="upper">
         <div class="info"><h1 class="title">유저 개인정보 보기</h1></div>
@@ -43,11 +43,26 @@
           <div class="info cf">
             <div class="four col">PhoneNumber<span class="number">${user.usrPhone}</span></div>
             <div class="four col">Email<span class="number">${user.usrEmail}</span></div>
-            <div class="four col">JoinDate<span class="number">${user.usrInDate}</span></div>
+            <div class="four col">JoinDate<span class="number"><fmt:formatDate value="${user.usrInDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span></div>
               <div class="four col">
             	<button type="button" id="gobacklist" onclick="goback();">돌아가기</button>
               <button type="button" id="bann" onclick="bann('${user.usrId}');">강퇴시키기</button>
-				
+              </div>
+              <div class="four col">
+              	<c:choose>
+              		<c:when test="${user.usrKickedDate ne null}">
+              			<span class="number redlbl"><c:out value="상태 : 강퇴"></c:out></span>
+              			<span class="number"><c:out value="처리 : ${user.usrBannedId}"></c:out></span>
+              			<span class="number redlbl"><c:out value="일시 : "></c:out><fmt:formatDate value="${user.usrKickedDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+              		</c:when>
+              		<c:when test="${user.usrOutDate ne null}">
+              			<span class="number"><c:out value="상태 : 탈퇴"></c:out></span>
+              			<span class="number"><c:out value="탈퇴날짜 : "></c:out><fmt:formatDate value="${user.usrOutDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
+              		</c:when>
+              		<c:when test="${user.usrKickedDate eq null and user.usrOutDate eq null}">
+              			<span class="number"><c:out value="상태 : 정상"></c:out></span>
+              		</c:when>
+              	</c:choose>
               </div>
           </div>
   

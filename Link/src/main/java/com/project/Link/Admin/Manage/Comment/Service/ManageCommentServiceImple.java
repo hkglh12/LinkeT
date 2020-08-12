@@ -19,7 +19,8 @@ public class ManageCommentServiceImple extends CommonsCommentServiceImple implem
 	private ManageCommentDao mcDao;
 	
 	@Override
-	public boolean banComment(int targetSerial, String usrId, Timestamp deleteDate) {
+	public boolean banComment(int targetSerial, String usrId) {
+		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
 		return mcDao.banComment(targetSerial, usrId, deleteDate);
 	}
 

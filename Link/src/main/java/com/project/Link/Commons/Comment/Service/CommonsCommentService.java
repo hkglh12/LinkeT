@@ -12,11 +12,12 @@ public interface CommonsCommentService {
 	public int totalCountComments(int communitySerial);
 	// 게시글 리스트를 제공받아, 각 게시글 당 댓글갯수를 embed 제공
 	public ArrayList<Community> totalCountComments(ArrayList<Community> list);
-	// 최초 게시글 로드시에 1번 페이지에 대한 댓글 제공
-	public ArrayList<Comment> ListCommunities(int targetSerial, int pageNum);
+	// 주어진 "community" 번호에 따른 댓글을 리턴하는 메서드
+	public ArrayList<Comment> ListComments(int targetSerial, int pageNum);
 	// 특정 유저의 마지막 댓글을 리턴
 	public Comment getLastUserComment(String usrId);
 	// 특정 유저가 작성한 모든 댓글을 리턴
 	public ArrayList<Comment> getDirectUserComment(String usrId, int page);
-	
+	// 특정 유저의 댓글 개수 리턴
+	public int getdirectUsercommentCount(String usrId);
 }

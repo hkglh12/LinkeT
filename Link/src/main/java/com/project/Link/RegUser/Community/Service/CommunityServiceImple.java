@@ -48,9 +48,9 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 	private CommunityDao cDao;
 	@Autowired
 	private UfileService ufService;
-	@Autowired
-	@Qualifier("UserCommentService")
-	private CommentService ccService;
+//	@Autowired
+//	@Qualifier("UserCommentService")
+//	private CommentService ccService;
 
 	public CommunityServiceImple() {
 	}
@@ -71,13 +71,13 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 		this.ufService = ufService;
 	}
 
-	public CommentService getCcService() {
-		return ccService;
-	}
+//	public CommentService getCcService() {
+//		return ccService;
+//	}
 
-	public void setCcService(CommentService ccService) {
-		this.ccService = ccService;
-	}
+//	public void setCcService(CommentService ccService) {
+//		this.ccService = ccService;
+//	}
 
 	/* @Transactional */
 	@Override
@@ -201,20 +201,20 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 	}
 
 
-	@Override
-	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret) {
-		// 게시글 생성요청
-		boolean result = ccService.createComment(usrId, targetSerial,contents, isSecret);
-		return result;
-	}
-	@Override 
-	public boolean deleteComment(String usrId, int targetSerial) {
-		//게시글 삭제요청
-		return ccService.deleteComment(usrId, targetSerial);
-	}
-	 @Override
-	 public boolean updateComment(int targetSerial, String contents,boolean isSecret) { 
-		 //게시글 수정요청
-		 return ccService.updateComment(targetSerial, contents, isSecret);
-	 }
+//	@Override
+//	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret) {
+//		// 게시글 생성요청
+//		boolean result = ccService.createComment(usrId, targetSerial,contents, isSecret);
+//		return result;
+//	}
+//	@Override 
+//	public boolean deleteComment(String usrId, int targetSerial) {
+//		//게시글 삭제요청
+//		return ccService.deleteComment(usrId, targetSerial);
+//	}
+//	 @Override
+//	 public boolean updateComment(int targetSerial, String contents,boolean isSecret) { 
+//		 //게시글 수정요청
+//		 return ccService.updateComment(targetSerial, contents, isSecret);
+//	 }
 }

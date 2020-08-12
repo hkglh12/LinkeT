@@ -138,7 +138,7 @@
 	     							
 	     							<div class="toglecomm">
 
-			     						<form action="/Link/admin/manage/community/comment/ban" method="post" class="delform">
+			     						<form action="/Link/admin/manage/comment/ban" method="post" class="delform">
 			     							<input type="hidden" value="${community.serial}" name="c_serial">
 			     							<input type="hidden" value="${i.serial}" name="del_serial"> 
 			     						</form>

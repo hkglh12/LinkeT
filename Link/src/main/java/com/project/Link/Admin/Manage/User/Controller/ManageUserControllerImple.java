@@ -17,7 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.Link.Admin.Manage.Comment.Service.ManageCommentService;
 import com.project.Link.Admin.Manage.Community.Service.ManageCommunityService;
 import com.project.Link.Admin.Manage.User.Service.ManageUserService;
-import com.project.Link.RegUser.User.User;
+import com.project.Link.Commons.User.User;
+import com.project.Link.Ufile.Service.UfileServiceImple;
 
 
 @RequestMapping(value="/admin/manage/user/*")
@@ -32,6 +33,8 @@ public class ManageUserControllerImple implements ManageUserController {
 	@Autowired
 	@Qualifier("ManageCommentService")
 	private ManageCommentService mccService;
+	@Autowired
+	private UfileServiceImple ufService;
 	
 	public ManageUserService getMuService() {return muService;}
 	public void setMuService(ManageUserService muService) {this.muService = muService;}
@@ -76,18 +79,16 @@ public class ManageUserControllerImple implements ManageUserController {
 	@Override
 	public String getUserDetail(Model model, HttpServletRequest request, HttpSession session) {
 		String usrId = request.getParameter("user_id");
-		System.out.println("in control : " + usrId);
 		User result = muService.getUserDetail(usrId);
+		result.setCommunityCount(mcService.userCountCommunities(result.getUsrId()));
+		result.setCommentCount(mccService.getUserCommentsCount(usrId));
+		result.setFileCount(ufService.getUserFileCount(usrId));
 		String mainCategory = request.getParameter("main_category") == null ? "all" : (String)request.getParameter("main_category");
 		String subCategory = request.getParameter("sub_category") == null ? "" : (String)request.getParameter("sub_category");
 		String searchTarget = request.getParameter("search_target") == null ? "" : request.getParameter("search_target");
-		System.out.println(usrId);
-		System.out.println(result.getUsrId());
-		System.out.println(mainCategory);
-		System.out.println(subCategory);
-		System.out.println(searchTarget);
 		int page = request.getParameter("page") == null ? 0 : Integer.valueOf((String)request.getParameter("page"))-1;
 		model.addAttribute("user", result);
+
 		model.addAttribute("last_community", mcService.getLastUserCommunity(usrId));
 		model.addAttribute("last_comment", mccService.getLastUserComment(usrId));
 		model.addAttribute("main_category", mainCategory);

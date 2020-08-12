@@ -13,11 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.project.Link.Commons.User.User;
 import com.project.Link.Dbinfo.DBinfo;
 import com.project.Link.RegUser.Noticement.Noticement;
 import com.project.Link.RegUser.Posting.Posting;
 import com.project.Link.RegUser.Posting.Dao.PostingDaoImple;
-import com.project.Link.RegUser.User.User;
 
 @Component
 @Qualifier("noticeDao")

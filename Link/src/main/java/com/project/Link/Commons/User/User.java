@@ -1,4 +1,4 @@
-package com.project.Link.RegUser.User;
+package com.project.Link.Commons.User;
 
 import java.sql.Timestamp;
 

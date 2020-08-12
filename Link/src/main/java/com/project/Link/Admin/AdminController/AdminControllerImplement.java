@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.Link.AdminHomeController;
 import com.project.Link.Admin.AdminService.AdminService;
-import com.project.Link.RegUser.User.User;
+import com.project.Link.Commons.User.User;
 import com.project.Link.RegUser.User.UserController.UserControllerImple;
 
 @Controller
