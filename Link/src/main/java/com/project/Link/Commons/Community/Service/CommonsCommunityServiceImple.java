@@ -57,7 +57,7 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 		ArrayList<Community> list = null;
 		if(!(communitySubject.equals("direct"))) {
 			if (searchTarget == null || searchTarget == "") {
-				System.out.println("called");
+	
 				// 검색 대상이 없을경우, 일반적인 추출을 시작합니다.
 				list = cDao.getListCommunity(targetPage, pagePerBlock, communitySubject);
 			} else {
@@ -65,7 +65,7 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 				list = cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory, searchTarget, communitySubject);
 			}
 		}else {
-			System.out.println("CALLED");
+
 			list = cDao.directSerachUserCommunity(targetPage, pagePerBlock, searchCategory, searchTarget);
 		}
 //		list = ccService.totalCountComments(list);

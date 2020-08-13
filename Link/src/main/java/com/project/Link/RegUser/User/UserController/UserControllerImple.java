@@ -31,7 +31,7 @@ import com.project.Link.Ufile.Service.UfileService;
 @Controller
 @RequestMapping(value = "/usr/*")
 public class UserControllerImple implements UserController {
-	private static final Logger logger = LoggerFactory.getLogger(UserControllerImple.class);
+	
 
 	@Autowired
 	@Qualifier("UserService")
@@ -56,17 +56,17 @@ public class UserControllerImple implements UserController {
 	@ResponseBody
 	public HashMap<String, String> usrJoinValidation(@RequestBody HashMap<String, String> target,
 			HttpServletRequest request) {
-		logger.info("/validate called");
+		
 		HashMap<String, String> returnInfo = new HashMap<String, String>();
 		String key = "";
 		for (String entrykey : target.keySet()) {
 			key = entrykey;
 		}
 		String value = target.get(key);
-		logger.info("Request for : " + key + " / value : " + value);
+		
 		String result = uService.userValidate(key, value);
 		returnInfo.put("result", result);
-		logger.info("answers : " + "result : " + result);
+		
 		return returnInfo;
 	}
 
@@ -74,7 +74,7 @@ public class UserControllerImple implements UserController {
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	@Override
 	public String RegisterUser(Model model, HttpServletRequest request, RedirectAttributes attributes) {
-		logger.info("/usr/join called");
+		
 
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
@@ -104,7 +104,7 @@ public class UserControllerImple implements UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@Override
 	public String GetUser(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes attributes) {
-		logger.info("/usrLogin Called");
+		
 
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");

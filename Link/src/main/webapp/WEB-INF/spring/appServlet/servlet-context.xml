@@ -34,7 +34,7 @@
 	<!-- 인터셉터 객체 생성 -->
 	<!-- https://stackoverflow.com/questions/34851472/mvcexclude-mapping-throwing-error-while-excluding-url-for-spring-interceptor -->
 	<!-- 무한루프돌면 / 부분은 거절해야할수도있음 혹은 제외하거나 -->
-    <beans:bean id="SessionControlIntercetpor" class="com.project.Link.SessionControlInterceptor"> </beans:bean>
+    <beans:bean id="SessionControlIntercetpor" class="com.project.Link.RegUser.SessionControlInterceptor"> </beans:bean>
     <beans:bean id="AdminSessionControlInterceptor" class="com.project.Link.Admin.AdminSessionControlInterceptor"></beans:bean>
     <!-- Interceptor 설정 -->
     <interceptors>

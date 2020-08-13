@@ -15,21 +15,22 @@ import com.project.Link.Dbinfo.DBinfo;
 @Component
 @Qualifier("CommonsUserDao")
 public class CommonsUserDaoImple implements CommonsUserDao{
- 	protected final String driver = DBinfo.getDriver();
- 	protected final String url = "jdbc:mysql://localhost:3306/Link?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
- 	protected final String dbId = "root";
- 	protected final String dbPw = "root";
+	protected String dbDriver = DBinfo.getDriver();
+	protected String dbUrl = DBinfo.getUrl();
+	protected String dbUserId = DBinfo.getUserid();
+	protected String dbUserPw = DBinfo.getUserpw();
  	
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
  	private ResultSet rs = null;
  	
+ 	
 	@Override
 	public User get(String usrId) {
 		User user = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, dbId, dbPw);
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			String sql = "select * from users where u_id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,usrId);

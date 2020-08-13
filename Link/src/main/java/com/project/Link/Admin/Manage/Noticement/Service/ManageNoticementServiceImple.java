@@ -118,7 +118,7 @@ public class ManageNoticementServiceImple extends NoticementServiceImple impleme
 		// 공지사항-파일 간 연결 해제 요청을 수행합니다.
 		if(deleteFileCodes!=null) {
 			Iterator<String> iterator = deleteFileCodes.iterator();
-			System.out.println("deletefilecoesfiaaa : " + deleteFileCodes.size());
+	
 			Timestamp disconnDate = Timestamp.valueOf(LocalDateTime.now());
 			while(iterator.hasNext()) {
 				String smf = iterator.next();

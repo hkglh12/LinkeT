@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
-public class AdminHomeController implements AdminHomeContollerIntf {
-	public static final Logger logger = LoggerFactory.getLogger(AdminHomeController.class);
+public class AdminHomeController {
+
 	
 	@RequestMapping(value = {"/admin", "/Admin"}, method = RequestMethod.GET)
 	public String adminHome(Locale locale, Model model, HttpSession session) {
-		logger.info("///////////////////////////////////////ADMIN ACCESS TRIED");
+		
 		if(session.getAttribute("usrId")==null) {
 			return "/Admin/admin/login";
 		}else {

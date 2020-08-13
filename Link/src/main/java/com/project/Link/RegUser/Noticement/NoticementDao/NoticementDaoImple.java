@@ -111,7 +111,6 @@ public class NoticementDaoImple extends PostingDaoImple implements NoticementDao
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			String sql = "select count(*) as count from noticement where n_deletedate IS NULL";
 			pstmt = conn.prepareStatement(sql);
-			System.out.println(sql);
 			rs = pstmt.executeQuery();
 			result = rs.next() == true ? rs.getInt("count") : 0;	
  		}catch(ClassNotFoundException e) {e.printStackTrace();

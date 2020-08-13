@@ -18,6 +18,7 @@ import com.project.Link.Admin.Manage.Comment.Service.ManageCommentService;
 import com.project.Link.Admin.Manage.Community.Service.ManageCommunityService;
 import com.project.Link.Admin.Manage.User.Service.ManageUserService;
 import com.project.Link.Commons.User.User;
+import com.project.Link.Ufile.Service.UfileService;
 import com.project.Link.Ufile.Service.UfileServiceImple;
 
 
@@ -34,7 +35,8 @@ public class ManageUserControllerImple implements ManageUserController {
 	@Qualifier("ManageCommentService")
 	private ManageCommentService mccService;
 	@Autowired
-	private UfileServiceImple ufService;
+	private UfileService ufService;
+	
 	
 	public ManageUserService getMuService() {return muService;}
 	public void setMuService(ManageUserService muService) {this.muService = muService;}

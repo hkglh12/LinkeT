@@ -141,7 +141,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, communitySubject);
 			rs = pstmt.executeQuery();
-			System.out.println(sql);
+
 			while(rs.next()) {
 				Community community = new Community();
 				community.setSerial(rs.getInt("c_serial"));
@@ -178,7 +178,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 			pstmt.setString(1, "%"+searchTarget+"%");
 			pstmt.setString(2, communitySubject);
 			rs = pstmt.executeQuery();
-			System.out.println(sql);
+
 			while(rs.next()) {
 				Community community = new Community();
 				community.setSerial(rs.getInt("c_serial"));
@@ -213,7 +213,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, usrId);
 			rs = pstmt.executeQuery();
-			System.out.println(sql);
+
 			while(rs.next()) {
 				community = new Community();
 				community.setSerial(rs.getInt("c_serial"));
@@ -248,7 +248,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%"+searchTarget+"%");
 			rs = pstmt.executeQuery();
-			System.out.println(sql);
+
 			while(rs.next()) {
 				Community community = new Community();
 				community.setSerial(rs.getInt("c_serial"));

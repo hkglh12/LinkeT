@@ -41,7 +41,7 @@ public class CommonsCommentServiceImple implements CommonsCommentService {
 		
 		for(Comment c : list) {
 			if(c.getContents().length() >= 21) {
-				System.out.println(c.getContents().length());
+
 				c.setContents(c.getContents().substring(0, 20)+"...");
 			}
 		}

@@ -1,4 +1,4 @@
-package com.project.Link;
+package com.project.Link.RegUser;
 
 import java.util.HashMap;
 import java.util.Map;

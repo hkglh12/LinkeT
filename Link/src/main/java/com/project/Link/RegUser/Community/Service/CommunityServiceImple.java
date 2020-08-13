@@ -92,7 +92,7 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 			}
 		}
 		int serial = cDao.getLastSerial(targetBoard, prefix) + 1;
-		System.out.println("NUMBE :" + serial);
+
 		boolean result;
 		try {
 			result = cDao.createPosting(targetBoard, prefix, serial, usrId, title, contents, uFileList.size(),

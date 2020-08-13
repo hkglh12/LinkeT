@@ -22,8 +22,6 @@ public class UserServiceImple extends CommonsUserServiceImple implements UserSer
 	@Qualifier("UserDao")
 	private UserDao uDao;
 	@Autowired
-	private UfileService ufService;
-	@Autowired
 	@Qualifier("UserCommunityService")
 	private CommunityService cService;
 	@Autowired
@@ -40,9 +38,7 @@ public class UserServiceImple extends CommonsUserServiceImple implements UserSer
 
 	@Override
 	public String userValidate(String key, String value) {
-		System.out.println("userValidate called");
 		String result = uDao.validate(key,value) == false? "accept" : "deny";
-		System.out.println("result : " + result);
 		return result;
 	}
 

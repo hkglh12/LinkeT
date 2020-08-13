@@ -40,7 +40,7 @@ public class ManageUserServiceImple extends CommonsUserServiceImple implements M
 		ArrayList<User> userList = new ArrayList<User>();
 
 		if(!(subCategory.isEmpty())) subCategory = "u_"+subCategory;
-		System.out.println(subCategory);
+
 		if(mainCategory.equals("all")) {
 			if(subCategory.isEmpty())	userList = muDao.getAll(amount, page);
 			else userList = muDao.getTarget(amount, page, subCategory, searchTarget);

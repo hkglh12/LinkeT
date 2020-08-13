@@ -124,7 +124,6 @@ public class CommunityControllerImple implements CommunityController{
 	@Override
 	public String GetCommunity(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirecAttr) {
 		int targetSerial = Integer.valueOf(request.getParameter("c_serial"));
-		System.out.println("targetSerial in controller : " + targetSerial);
 		Community community = cService.getCommunity(targetSerial);
 		int pageNum=0;
 		community.setComments(ccService.ListComments(community.getSerial(),pageNum));
