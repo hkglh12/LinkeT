@@ -1,19 +1,50 @@
-.forum-head{display:flex; width:100%;}
-.forum-head > .column { background-color: hsl(206, 35%, 13%); border-right: 1px solid hsl(212, 35%, 15%); border-left: 1px solid hsl(212, 28%, 12%); color: hsl(0, 0%, 100%); font-weight: 300; font-size: 12px; text-shadow: 0 1px 1px hsl(0, 0%, 0%); text-align: center;}
-.forum-head > .column:first-child {text-align: left;border-left: none;}
-.forum-head > .column:last-child {border-right: none;}
-.forum-topic{display:flex; flex-direction: row;}
-.forum-topic > .column {min-height: 50px;max-height: 50px;background-color: hsl(0, 0%, 96%); border-bottom: 1px solid hsl(0, 0%, 90%);color: hsl(0, 0%, 50%); font-size: 14px;}
-.forum-topic > .column:first-child {color: hsl(0, 0%, 60%); font-size: 30px; text-align: center;}
-.forum-topic > .column:nth-child(n+3) {text-align: center;}
-.forum-topic > .column:last-child {text-align: left;}
+.pad { padding: 10px 15px; }
+.spad { padding: 10px 5px; }
+.mpad{padding:10px;}
+/*커다랗게만드는거*/
+.lpad {padding: 10px 20px;}
+.lgpad{padding: 40px;}
+.ltpad{padding: 10px 0;}
+/*우측정렬 클래스*/
+.ar{text-align:right;}
+.rounded {overflow: hidden;}
+.rounded.top {border-radius: 4px 4px 0 0;}
+.rounded.all {border-radius: 4px;}
+/*large 8 -> 75*/
+.large-75{width:75%;}
+.large-70{width:70%;}
+.large-1{width:1%;}
+.large-2{width:2%;}
+.large-15{width:15%;}
+.large-14{width:14%;}
+.large-17{width:17.5%;}
+.large-5{width:5%;}
+.large-4{width:4%}
+.large-4t{width:4.5%;}
+.large-6{wodth:6%;}
+.large-10{width:10%;}
+.large-12c{width:12%;}
+
+.large-3t{width:3.8%;}
+.large-12ttc{width:11%;}
+.large-5ttc{width:3.8%;}
+.mt{ margin-top: 1.25em;}
+/*.row.mt {}*/
+.mb { margin-bottom: 1.25em;}
+.large-12{width:100%;}
+.forum-head{display:flex; width:100%; box-sizing:border-box;}
+.forum-head > .column {background-color: hsl(206, 35%, 13%); border-right: 1px solid hsl(212, 35%, 15%); border-left: 1px solid hsl(212, 28%, 12%); color: hsl(0, 0%, 100%); font-weight: 300; font-size: 15px; text-shadow: 0 1px 1px hsl(0, 0%, 0%); text-align: center;}
+.forum-topic{display:flex; width:100%; box-sizing:border-box;}
+.forum-topic > .column {background-color: hsl(0, 0%, 96%); border-bottom: 1px solid hsl(0, 0%, 90%);color: hsl(0, 0%, 50%); font-size: 15px; text-align:center;}
+/* .forum-topic > .column:first-child {color: hsl(0, 0%, 60%); font-size: 30px; text-align: center;}
+.forum-topic > .column:nth-child(n+3) {text-align: center;} */
 .forum-topic a {transition: color .5s;color: hsl(195, 73%, 58%); font-weight: 600;}
 .cal:hover{cursor:pointer}
 .forum-topic a:hover {color: hsl(195, 73%, 48%);}
-.forum-topic span {display: block; margin: 0 0 2px 0;}
+/* .forum-topic span {display: block; margin: 0 0 2px 0;} */
 .overflow-upper {white-space: nowrap;text-overflow:ellipsis; font-size:12px; margin-top:5px; display:inline-block;}
 .overflow-control {white-space: nowrap;text-overflow:ellipsis; font-size:20px;}
-.forum-topic .column:nth-child(2) span.overflow-control {width: 70%; height: 15px;}
+/* .forum-topic .column:nth-child(2) span.overflow-control {width: 70%; height: 15px;} */
 .forum-topic span.center {padding-top: 10px;}
 .lta{padding:20px 40px;}
 #search_comm{height:5em; width:100%-40px; text-align:right; display:flex; align-items:center; flex-direction:row; justify-content: flex-end; border-top:2px solid hsla(0, 0%, 100%, 0.43); padding:10px;  box-sizing:border-box; margin-left:20px; margin-right:20px;  border-bottom:2px solid hsla(0, 0%, 100%, 0.43); }
@@ -30,5 +61,6 @@
 .blocks li:hover{cursor:pointer;}
 .blockcurr{color:black;}
 #bulk_delete_submit{width:150px; height:30px; border:2px solid white; border-radius:10px; float:left; color:white; background:transparent; font-size:16px;}
+ #ban_submit{width:150px; height:30px; border:2px solid white; border-radius:10px; margin-right:20px; color:white; background:transparent; font-size:16px;}
 /*page block commom css*/
 button[type="button"]:hover, button[type="submit"]{cursor:pointer;}

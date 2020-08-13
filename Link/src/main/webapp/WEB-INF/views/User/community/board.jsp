@@ -31,7 +31,8 @@
         		<div class="logo">
           			<span>현재위치 : </span>
           			<input type="hidden" id="subject" value="${param.subject}">
-          			<span id="main_header_location_t_name"> ${param.subject}</span>
+          			<c:if test="${param.subject eq 'direct'}"><span id="main_header_location_t_name"> 내가 작성한 글</span></c:if>
+          			<c:if test="${param.subject ne 'direct'}"><span id="main_header_location_t_name"> ${param.subject}</span></c:if>
         		</div>
       		</div>
       		<div class="main header submenu ar">
@@ -70,7 +71,9 @@
         		</form>
         	</div>
        		<div class="mpad ar">
+       		<c:if test="${param.subject ne 'direct'}">
         		<button type="button" id="community_post"> 글 게시하기</button>
+        	</c:if>
         	</div>
       </div>
       <div class="toggleview">

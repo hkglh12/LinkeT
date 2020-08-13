@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.project.Link.Commons.Comment.Service.CommonsCommentService;
 import com.project.Link.Commons.Community.Service.CommonsCommunityService;
+import com.project.Link.Commons.User.User;
 import com.project.Link.Commons.User.Dao.CommonsUserDao;
-import com.project.Link.RegUser.User.User;
 import com.project.Link.Ufile.Service.UfileService;
 
 @Service
@@ -40,10 +40,6 @@ public class CommonsUserServiceImple implements CommonsUserService{
 	/* 회원정보가져오기로 쓰임 */
 	public User getUserDetail(String usrId) {
 		User user = uDao.get(usrId);
-		
-		user.setFileCount(ufService.getUserFileCount(usrId));
-		user.setCommunityCount(cService.userCountCommunities(usrId));
-		user.setCommentCount(ccService.getUserCommentsCount(usrId));
 		return user;
 	}
 }

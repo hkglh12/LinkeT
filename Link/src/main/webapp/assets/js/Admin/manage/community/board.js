@@ -16,11 +16,8 @@ $(document).ready(function(){
 });
 
 function blockmove(block){
-	console.log("called");
 	var stc=$('#search_category_hd').val();
-	console.log(stc)
 	var stg=$('#search_target_hd').val();
-	console.log(stg)
 	var sbj= $('#subject').val();
 	if (sbj!="direct"){
 		if(stc != null && stg != null){

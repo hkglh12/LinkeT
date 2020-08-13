@@ -67,7 +67,6 @@ $(document).ready(function() {
 	$('.comment_del').on("click", function(){
 		var result = confirm("정말 삭제하시겠습니까?");
 		if(result == true){
-
 			$(this).parent().find('.delform').submit();
 		}
 	});
@@ -88,7 +87,7 @@ function commentblockmove(page_num){
 			'Accept': 'application/json',
             'Content-Type': 'application/json' 
 		},
-		url:"/Link/community/comment/list",
+		url:"/Link/admin/manage/comment/list",
 		dataType:"json",
 		data:JSON.stringify(param),
 		success:function(data){
@@ -112,15 +111,21 @@ function commentblockmove(page_num){
 					var idlbl = $("<label>").text("유저아이디 : " + ci.usrId).attr('class','comm usrlbl').appendTo(commenter);
 					var datelbl = $("<label>").text("게시날짜 : " + moment(ci.createDate).format('YYYY-MM-DD HH:mm:ss')).attr('class','comm usrlbl').appendTo(commenter);
 					var toglecomm = $("<div>").attr('class', 'toglecomm').appendTo(commenter);
-					var togleform = $("<form>").attr('action',"/Link/community/comment/ban").attr('method', 'post').attr('class','delform').appendTo(toglecomm);
+					var togleform = $("<form>").attr('action',"/Link/admin/manage/comment/ban").attr('method', 'post').attr('class','delform').appendTo(toglecomm);
 					var togle_cserial = $('<input>').attr('type','hidden').attr('value',c_serial).attr('name','c_serial').appendTo(togleform);
 					var togle_delserial = $('<input>').attr('type','hidden').attr('value',ci.serial).attr('name','del_serial').appendTo(togleform);
 					var comm_delbtn = $("<button>").attr('type','button').attr('class','comment_del').text("댓글 강제삭제").appendTo(togleform);
 					if(ci.checkSecret == true){
-						var lblred = $("<label>").attr('class', 'col red').text("비밀게시글입니다.").appendTo(toglecomm);
+						var lblred = $("<label>").attr('class', 'col red usrlbl').text("비밀게시글입니다.").appendTo(toglecomm);
 					}
 					var com_contents = $("<div>").attr('class','comment_contents').html(ci.contents).appendTo(comm);	
 				}
+				$('.comment_del').on("click", function(){
+				var result = confirm("정말 삭제하시겠습니까?");
+				if(result == true){
+					$(this).parent().submit();
+				}
+	});
 			}
 		},error:function(data){
 			console.log(data);

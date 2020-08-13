@@ -28,10 +28,12 @@ public class ManageCommunityServiceImple extends CommonsCommunityServiceImple im
 	@Qualifier("ManageCommunityDao")
 	private ManageCommunityDao mcDao;
 	
-	@Autowired
-	@Qualifier("ManageCommentService")
-	private ManageCommentService mccService;
-	
+	public ManageCommunityDao getMcDao() {
+		return mcDao;
+	}
+	public void setMcDao(ManageCommunityDao mcDao) {
+		this.mcDao = mcDao;
+	}
 	@Override
 	public boolean banCommunity(int targetSerial, String usrId) {
 		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
@@ -49,19 +51,5 @@ public class ManageCommunityServiceImple extends CommonsCommunityServiceImple im
 		}
 		return result;
 	}
-	@Override
-	public boolean banComment(int targetSerial, String usrId) {
-		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
-		return mccService.banComment(targetSerial, usrId, deleteDate);
-	}
 
-	@Override
-	public ArrayList<Comment> getdirectUserComment(String usrId, int page){
-		return mccService.getDirectUserComment(usrId, page); // 해당 메서드는 Commons 패키지하에서 제공
-	}
-	
-	@Override
-	public int getdirectUsercommentCount(String usrId) {
-		return mccService.getUserCommentsCount(usrId);
-	}
 }

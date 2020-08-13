@@ -20,9 +20,9 @@ public interface CommunityService extends CommonsCommunityService{
 	public boolean deleteCommunity(int targetSerial);
 	
 	// 댓글 게시
-	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret);
-	// 댓글 삭제
-	public boolean deleteComment(String usrId, int targetSerial);
-	// 댓글 갱신
-	public boolean updateComment(int targetSerial, String contents, boolean isSecret);
+//	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret);
+//	// 댓글 삭제
+//	public boolean deleteComment(String usrId, int targetSerial);
+//	// 댓글 갱신
+//	public boolean updateComment(int targetSerial, String contents, boolean isSecret);
 }

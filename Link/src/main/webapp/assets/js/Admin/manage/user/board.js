@@ -19,13 +19,10 @@ function blockmove(block){
 	var main_category = $("#main_category").val() == null ? "all" : $("#main_category").val();
 	var sub_category = $("#sub_category").val();
 	var search_target = $("#search_target").val();
-	console.log(main_category);
-	console.log(sub_category);
-	console.log(search_target);
 	/*if(search_target == null || search_target == ""){
 		location.href="/Link/admin/manage/user/list?page="+block+"&main_category="+main_category;
 	}else{*/
-		location.href="/Link/admin/manage/user/list?page="+block+"&main_category="+main_category+"&sub_category="+sub_category+"&search_target="+search_target;
+	location.href="/Link/admin/manage/user/list?page="+block+"&main_category="+main_category+"&sub_category="+sub_category+"&search_target="+search_target;
 	/*}*/
 }
 function pagecall(serial){

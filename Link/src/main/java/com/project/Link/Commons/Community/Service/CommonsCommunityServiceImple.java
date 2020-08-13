@@ -28,9 +28,9 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 	@Autowired
 	private UfileService ufService;
 	
-	@Autowired
-	@Qualifier("CommonsCommentService")
-	private CommonsCommentService ccService;
+//	@Autowired
+//	@Qualifier("CommonsCommentService")
+//	private CommonsCommentService ccService;
 	
 	@Override
 	public int userCountCommunities(String usrId) {
@@ -57,6 +57,7 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 		ArrayList<Community> list = null;
 		if(!(communitySubject.equals("direct"))) {
 			if (searchTarget == null || searchTarget == "") {
+				System.out.println("called");
 				// 검색 대상이 없을경우, 일반적인 추출을 시작합니다.
 				list = cDao.getListCommunity(targetPage, pagePerBlock, communitySubject);
 			} else {
@@ -64,9 +65,10 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 				list = cDao.searchListCommunity(targetPage, pagePerBlock, searchCategory, searchTarget, communitySubject);
 			}
 		}else {
+			System.out.println("CALLED");
 			list = cDao.directSerachUserCommunity(targetPage, pagePerBlock, searchCategory, searchTarget);
 		}
-		list = ccService.totalCountComments(list);
+//		list = ccService.totalCountComments(list);
 		return list;
 	}
 	
@@ -74,26 +76,25 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 	public Community getCommunity(int targetSerial) {
 		Community targetCommunity = cDao.getCommunity(targetSerial);
 		cDao.countUp(targetBoard, prefix, targetSerial, targetCommunity.getReadCount() + 1);
-		System.out.println(targetBoardFile + " : " +targetSerial);
 		targetCommunity.setuFileList(ufService.uFileGet(targetBoardFile, targetSerial));
 		targetCommunity.setReadCount(targetCommunity.getReadCount() + 1);
-		targetCommunity.setComments(ccService.ListCommunities(targetSerial,0));
+		//targetCommunity.setComments(ccService.ListComments(targetSerial,0));
 		return targetCommunity;
 	}
 
-	@Override 
-	public int getCommentTotalCount(int communitySerial) {
-		// 총 게시글 댓글 개수를 가져옴
-		int result = ccService.totalCountComments(communitySerial);
-		System.out.println("communityserbvice commentservice totalcaoutn : " +result); return result;
-	}
+//	@Override 
+//	public int getCommentTotalCount(int communitySerial) {
+//		// 총 게시글 댓글 개수를 가져옴
+//		int result = ccService.totalCountComments(communitySerial);
+//		System.out.println("communityserbvice commentservice totalcaoutn : " +result); return result;
+//	}
 	
-	 @Override 
-	 public ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum){
-		 // 리스트를 Ajax통신
-		 ArrayList<Comment> list = ccService.ListCommunities(targetSerial,pageNum);
-		 return list; 
-	 }
+//	 @Override 
+//	 public ArrayList<Comment> ListCommentsAjax(int targetSerial, int pageNum){
+//		 // 리스트를 Ajax통신
+//		 ArrayList<Comment> list = ccService.ListComments(targetSerial,pageNum);
+//		 return list; 
+//	 }
 
 	@Override
 	public Community getLastUserCommunity(String usrId) {
@@ -104,4 +105,5 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 		}
 		return result;
 	}
+
 }

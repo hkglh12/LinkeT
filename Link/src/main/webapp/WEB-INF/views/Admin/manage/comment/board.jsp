@@ -109,7 +109,7 @@
         	</div>
         </c:if>
 		<c:if test="${not empty list}">
-        	<c:forEach items="${list}" var="comment"> 
+        	<c:forEach items="${list}" var="comment" varStatus="number"> 
         		<div class="large-12 forum-topic" onclick="communitycall('${comment.communitySerial}');">
           			<div class="large-1 column lpad">
             			<span class="overflow-upper">
@@ -124,7 +124,9 @@
 	              			<a href="#"> <c:out value="${comment.contents}"/> </a>
 	            		</span>
 	          		</div>
-
+					<div class="large-5 small-4 column lpad">
+						<span>${comment.communitySerial}</span>
+					</div>
 	          		<div class="large-15 small-4 column lpad">
 	            		<!-- <span>
 	              			공지사항

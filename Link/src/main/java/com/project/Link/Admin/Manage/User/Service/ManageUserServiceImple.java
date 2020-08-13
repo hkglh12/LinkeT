@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import com.project.Link.Admin.Manage.Comment.Service.ManageCommentService;
 import com.project.Link.Admin.Manage.Community.Service.ManageCommunityService;
 import com.project.Link.Admin.Manage.User.Dao.ManageUserDao;
+import com.project.Link.Commons.User.User;
 import com.project.Link.Commons.User.Service.CommonsUserServiceImple;
 import com.project.Link.RegUser.Comment.Service.CommentService;
 import com.project.Link.RegUser.Community.Service.CommunityService;
-import com.project.Link.RegUser.User.User;
 import com.project.Link.Ufile.Service.UfileService;
 
 @Service

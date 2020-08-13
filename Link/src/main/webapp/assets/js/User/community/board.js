@@ -24,6 +24,18 @@ function blockmove(block){
 	location.href="/Link/community/list?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+$('#subject').val();
 	}
 }
+function blockmove(block){
+	var stc=$('#search_category_hd').val();
+	var stg=$('#search_target_hd').val();
+	var sbj= $('#subject').val();
+	if (sbj!="direct"){
+		if(stc != null && stg != null){
+			location.href="/Link/community/list?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+sbj;
+		}
+	}else{
+		location.href="/Link/community/list?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+sbj;
+	}
+}
 function pagecall(serial){
 	location.href="/Link/community/get?c_serial="+serial;
 }

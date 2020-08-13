@@ -140,3 +140,10 @@ $(document).ready(function(){
 		}
 	});
 });
+
+function go_my_community(target){
+	location.href="/Link/community/list?search_category=id&search_target="+target+"&subject=direct"
+}
+function go_my_comments(target){
+	location.href="/Link/comment/direct?u_id="+target+"&page=1";
+}

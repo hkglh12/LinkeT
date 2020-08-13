@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.project.Link.Commons.User.User;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.RegUser.User.User;
 
 @Component
 @Qualifier("CommonsUserDao")
@@ -30,7 +30,7 @@ public class CommonsUserDaoImple implements CommonsUserDao{
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, dbId, dbPw);
-			String sql = "select * from users where u_id = ? and u_outdate is NULL";
+			String sql = "select * from users where u_id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,usrId);
 			rs = pstmt.executeQuery();
@@ -44,6 +44,9 @@ public class CommonsUserDaoImple implements CommonsUserDao{
 				user.setUsrEmail(rs.getString("u_email"));
 				user.setUsrLevel(rs.getInt("u_level"));
 				user.setUsrInDate(rs.getTimestamp("u_indate"));
+				user.setUsrOutDate(rs.getTimestamp("u_outdate"));
+				user.setUsrKickedDate(rs.getTimestamp("u_kickeddate"));
+				user.setUsrBannedId(rs.getString("u_banned_id"));
 			}
 		}catch(ClassNotFoundException e) {
 			e.printStackTrace();

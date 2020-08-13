@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import com.project.Link.Commons.User.User;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.RegUser.User.User;
 
 @Component
 @Qualifier("ManageUserDao")

@@ -16,10 +16,5 @@ public interface ManageCommunityService extends CommonsCommunityService {
 	public boolean banCommunity(int targetSerial, String usrId);
 	// 다중 게시글 Ban
 	public boolean bulkCommunityBan(String[] list, String usrId);
-	// 특정 댓글 Ban
-	public boolean banComment(int targetSerial, String usrId);
-	// 특정 유저의 댓글 return
-	public ArrayList<Comment> getdirectUserComment(String usrId, int page);
-	// 특정 유저의 댓글 개수 리턴
-	public int getdirectUsercommentCount(String usrId);
+
 }

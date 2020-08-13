@@ -21,9 +21,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.Link.HomeController;
-import com.project.Link.RegUser.User.User;
+import com.project.Link.Commons.User.User;
+import com.project.Link.RegUser.Comment.Service.CommentService;
+import com.project.Link.RegUser.Community.Service.CommunityService;
 import com.project.Link.RegUser.User.UserService.UserService;
 import com.project.Link.SessionControl.SessionControl;
+import com.project.Link.Ufile.Service.UfileService;
 
 @Controller
 @RequestMapping(value = "/usr/*")
@@ -34,12 +37,16 @@ public class UserControllerImple implements UserController {
 	@Qualifier("UserService")
 	private UserService uService;
 	@Autowired
-	private SessionControl sc;
-
+	@Qualifier("UserCommunityService")
+	private CommunityService cService;
+	@Autowired
+	@Qualifier("UserCommentService")
+	private CommentService ccService;
+	@Autowired
+	private UfileService ufService;
+	
 	public UserControllerImple() {};
 	public UserService getuService() {return uService;}
-	public SessionControl getSc() {return sc;}
-	public void setSc(SessionControl sc) {this.sc = sc;}
 	public void setuService(UserService uService) {this.uService = uService;}
 
 	
@@ -118,6 +125,9 @@ public class UserControllerImple implements UserController {
 	@Override
 	public String GetMe(Model model, HttpServletRequest request, HttpSession session) {
 		User result = uService.getUserDetail((String) session.getAttribute("usrId"));
+		result.setCommentCount(ccService.getUserCommentsCount(result.getUsrId()));
+		result.setCommunityCount(cService.userCountCommunities(result.getUsrId()));
+		result.setFileCount(ufService.getUserFileCount(result.getUsrId()));
 		model.addAttribute("user", result);
 		return "/User/user/profile";
 	}

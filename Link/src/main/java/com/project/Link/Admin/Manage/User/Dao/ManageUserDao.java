@@ -3,7 +3,7 @@ package com.project.Link.Admin.Manage.User.Dao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import com.project.Link.RegUser.User.User;
+import com.project.Link.Commons.User.User;
 
 public interface ManageUserDao {
 	// 전체유저

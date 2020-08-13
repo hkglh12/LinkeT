@@ -2,8 +2,8 @@ package com.project.Link.RegUser.User.UserDao;
 
 import java.sql.Timestamp;
 
+import com.project.Link.Commons.User.User;
 import com.project.Link.Commons.User.Dao.CommonsUserDao;
-import com.project.Link.RegUser.User.User;
 
 public interface UserDao extends CommonsUserDao{
 	public boolean validate(String key, String value);

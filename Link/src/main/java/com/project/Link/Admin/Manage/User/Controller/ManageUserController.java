@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.project.Link.RegUser.User.User;
+import com.project.Link.Commons.User.User;
 
 public interface ManageUserController {
 	public String getUserList(Model model, HttpServletRequest request, HttpSession session);

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.Link.Admin.AdminDao.AdminDao;
-import com.project.Link.RegUser.User.User;
+import com.project.Link.Commons.User.User;
 
 @Service
 public class AdminServiceImple implements AdminService{

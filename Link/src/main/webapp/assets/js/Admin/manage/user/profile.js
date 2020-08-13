@@ -46,5 +46,5 @@ function direct_search(){
 }
 
 function direct_comment_search(target){
-	location.href="/Link/admin/manage/community/comment/direct?u_id="+target
+	location.href="/Link/admin/manage/comment/direct?u_id="+target+"&page=1";
 }

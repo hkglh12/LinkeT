@@ -129,13 +129,13 @@
               <div id="attributions">
                   <ul>
                       <li class="attrs">
-                      <p class="card2 infoexp" id="c1">작성한 글의 갯수</p><button type="button" class="golistbtn">전체보기 ></button></li>
+                      <p class="card2 infoexp" id="c1">작성한 글의 갯수</p><button type="button" class="golistbtn" onclick="go_my_community('${user.usrId}')">전체보기 ></button></li>
                       <hr>
                       <li class="cont"><label class="cd2 lb info"><strong>${user.communityCount}</strong> 개 </label>
                   </ul>
                     <ul>
                       <li class="attrs">
-                      <p class="card2 infoexp" id="c1">작성한 댓글의 갯수</p><button type="button" class="golistbtn">전체보기 ></button></li>
+                      <p class="card2 infoexp" id="c1">작성한 댓글의 갯수</p><button type="button" class="golistbtn" onclick="go_my_comments('${user.usrId}')">전체보기 ></button></li>
                       <hr>
                       <li class="cont"><label class="cd2 lb info"><strong>${user.commentCount} </strong>개</label>
                   </ul>
