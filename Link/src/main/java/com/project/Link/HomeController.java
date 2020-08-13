@@ -21,7 +21,7 @@ import com.project.Link.SessionControl.SessionControl;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController implements HomeControllerIntf{
+public class HomeController{
 	public HomeController(){}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)

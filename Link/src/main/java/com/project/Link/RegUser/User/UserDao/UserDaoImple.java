@@ -31,8 +31,8 @@ public class UserDaoImple extends CommonsUserDaoImple implements UserDao {
 		boolean result = true;
 		
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, dbId, dbPw);
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 
 			String sql = "select * from users where "+key+" = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -62,8 +62,8 @@ public class UserDaoImple extends CommonsUserDaoImple implements UserDao {
 		int result = 0;
 		try {
 			//DB접속
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, dbId, dbPw);
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			//회원가입 시도
 			String sql = "insert into users (u_id, u_pw, u_name, u_phone, u_email, u_level, u_indate) values (?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
@@ -93,8 +93,8 @@ public class UserDaoImple extends CommonsUserDaoImple implements UserDao {
 	public User get(String usrId, String usrPw) {
 		User user = null;
 		try {
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, dbId, dbPw);
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			String sql = "select * from users where u_id = ? and u_pw = ? and u_outdate IS NULL and u_kickeddate IS NULL";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,usrId);
@@ -127,8 +127,8 @@ public class UserDaoImple extends CommonsUserDaoImple implements UserDao {
 		boolean rResult = false;
 		try {
 			//DB접속
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, dbId, dbPw);
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			//회원가입 시도
 			String sql = "update users set u_pw = ? where u_id = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -156,8 +156,8 @@ public class UserDaoImple extends CommonsUserDaoImple implements UserDao {
 		boolean rResult = false;
 		try {
 			//DB접속
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, dbId, dbPw);
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 
 			String sql = "update users set u_outdate = ? where u_id = ?";
 			pstmt = conn.prepareStatement(sql);

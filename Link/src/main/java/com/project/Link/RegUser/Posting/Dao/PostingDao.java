@@ -13,24 +13,10 @@ public interface PostingDao {
 	// public int getTotalCount(String targetBoard, String prefix, String subject);
 	// 조회수 올려주는 메서드
 	public int countUp(String targetBoard, String prefix, int targetSerial, int count);
-	// 각각 연관된 Filetable에 연관게시글 serial을 연결하기 위해서 사용.
-	// create 직후에 PK가 아닌값으로 DB를 재조회하는 행위를 막고자 사용. 
-	/* public int getLastSerial(String targetBoard, String prefix); */
+
 	
 	
 	/* public ArrayList<?> getListPosting(int page, int pagePerBlock); */
-	
-	
-	//**************************CRUD************************//
-	// Posting 등록
-	//TODO 공지사항에서는 제외해야하므로, community에서 다시 작성해야합니다. 제외하세dy 
-	//public int createPosting(String targetBoard, String prefix, int serial,String usrId,String title, String contents, int fileCount, Timestamp createDate, String subject);
-	// Posting GET
-	/* public Posting getPosting(int targetSerial); */
-	// TODO Posting update(전체내용을 다시업로드, 파일이 변경될 경우를 생각해야함)
-	//public int updatePosting(String targetBoard, String prefix, String usrId, int targetSerial,String title, String contents, int fileCount, Timestamp modifyDate);
-	// Posting delete
-	//public int deletePosting(String usrId, int targetSerial, Timestamp deleteDate);
 	
 	
 	

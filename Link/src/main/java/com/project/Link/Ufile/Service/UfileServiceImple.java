@@ -15,7 +15,7 @@ import com.project.Link.Ufile.Dao.UfileDao;
 
 @Service
 public class UfileServiceImple implements UfileService {
-	private static final Logger logger = LoggerFactory.getLogger(UfileServiceImple.class);
+	
 	//TODO file absolute file path need to be re-configured
 	private static final String filePath = "C:\\Users\\Administrator\\Desktop\\spr\\Link";
 	
@@ -32,7 +32,7 @@ public class UfileServiceImple implements UfileService {
 	}
 	@Override
 	public int uFileUpload(String targetBoard, String modifiedFileName, String usrId, long fileSize, Timestamp createDate, String originalFileName, int serial){
-		logger.info("FileUpload called : " + targetBoard);
+		
 		if(originalFileName.length() >= 30) {originalFileName = originalFileName.substring(0, 30);}
 		int result = fDao.uploadFile(targetBoard, modifiedFileName, usrId, fileSize, createDate, originalFileName, serial);
 		return result;
@@ -40,7 +40,7 @@ public class UfileServiceImple implements UfileService {
 
 	@Override
 	public ArrayList<UFile> uFileGet(String targetBoard, int targetSerial) {
-		logger.info("FileGet called : " + targetBoard);
+		
 		ArrayList<UFile> result = new ArrayList<UFile>();
 		result = fDao.getFileList(targetBoard, targetSerial);
 		return result;
@@ -48,7 +48,7 @@ public class UfileServiceImple implements UfileService {
 
 	@Override
 	public void uFileDetach(String targetBoard, String targetCode, String usrId, Timestamp disconnDate) throws Exception{
-		logger.info("fileDetachedCalled");
+	
 		fDao.detachFile(targetBoard, targetCode, usrId, disconnDate);
 	}
 

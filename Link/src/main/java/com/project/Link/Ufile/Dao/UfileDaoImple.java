@@ -19,7 +19,6 @@ import com.project.Link.Ufile.UFile;
 
 @Component
 public class UfileDaoImple implements UfileDao{
-	private static final Logger logger = LoggerFactory.getLogger(NoticementDaoImple.class);
 	String dbDriver = DBinfo.getDriver();
 	String dbUrl = DBinfo.getUrl();
 	String dbUserId = DBinfo.getUserid();
@@ -35,7 +34,6 @@ public class UfileDaoImple implements UfileDao{
 	public int uploadFile(String targetBoard, String modifiedFileName, String usrId, long fileSize,
 			Timestamp createDate, String originalFileName, int serial) {
 
-		logger.info("::UploadFile Called");
  		int result = 0;
  		try {
  			String prefix = targetBoard.substring(0,1)+"_";
@@ -72,13 +70,13 @@ public class UfileDaoImple implements UfileDao{
 		ArrayList<UFile> uFileList = new ArrayList<UFile>();
 
 		String prefix = targetBoard.substring(0, 1) +"_";
-		logger.info("::Getfile, prefix got = " + prefix);
+
 		try {
  			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			
 			String sql = "select * from "+targetBoard+" where "+prefix+"serial = ? and isdisconn IS FALSE";
-			logger.info(sql);
+
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,relativeSerial);
 			rs = pstmt.executeQuery();
@@ -170,7 +168,7 @@ public class UfileDaoImple implements UfileDao{
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
 			
 			String sql = "select count(*) as count from communityfile where u_id = ? and isdisconn IS FALSE";
-			logger.info(sql);
+
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, usrId);
 			rs = pstmt.executeQuery();
@@ -192,21 +190,4 @@ public class UfileDaoImple implements UfileDao{
 		}
 		return result;
 	}
-
-	/*
-	 * @Override public ArrayList<String> upload(MultipartFile uFile, String
-	 * targetBoard) { try { Class.forName(driver); conn =
-	 * DriverManager.getConnection(url, userId, userPw);
-	 * 
-	 * String sql = "select * from users where "+key+" = ?"; pstmt =
-	 * conn.prepareStatement(sql); pstmt.setString(1,value); rs =
-	 * pstmt.executeQuery(); if(rs.next()) { result = true; }else { result = false;
-	 * } }catch(ClassNotFoundException e) { e.printStackTrace(); }catch(SQLException
-	 * e) { e.printStackTrace(); }finally { try { if (pstmt!=null) pstmt.close(); if
-	 * (conn!=null) conn.close(); }catch(SQLException e) { e.printStackTrace(); } }
-	 * return result; }
-	 * 
-	 * @Override public ArrayList<UFile> get(String targetBoard, int relativeSerial)
-	 * { // TODO Auto-generated method stub return null; }
-	 */
 }

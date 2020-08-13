@@ -72,7 +72,7 @@ public class ManageCommentControllerImple implements ManageCommentController {
 		int page = request.getParameter("page") != null ? Integer.valueOf((String)request.getParameter("page"))-1 : 0;
 		ArrayList<Comment> list = mccService.getDirectUserComment(usrId, page);
 		model.addAttribute("search_target", usrId);
-		System.out.println(page);
+
 		model.addAttribute("page", page);
 		model.addAttribute("list", list);
 		model.addAttribute("total", mccService.getdirectUsercommentCount(usrId));

@@ -30,11 +30,11 @@ public class AdminControllerImplement implements AdminController{
 	public void setaService(AdminService aService) {
 		this.aService = aService;
 	}
-	private static final Logger logger = LoggerFactory.getLogger(UserControllerImple.class);
+
 	@RequestMapping(value="/login", method = RequestMethod.POST)
 	@Override
 	public String LoginAdmin(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes attributes) {
-		logger.info("/Admin/login called");
+		
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
 		User user = aService.adminGet(usrId, usrPw);
