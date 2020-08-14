@@ -12,16 +12,16 @@
 <nav class="main-menu">
     <ul>
         <li>
-            <a href="http://localhost:80/Link/admin">
+            <a href="/Link/admin/manage/log/list">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
-					DASHBOARD
+					로그감사
                 </span>
             </a>
 
         </li>
         <li>
-            <a href="http://localhost:80/Link/admin/manage/user/list?page=1&subject=java">
+            <a href="/Link/admin/manage/user/list?page=1&subject=java">
                 <i class="fa fa-home fa-2x"></i>
                 <span class="nav-text">
                 	사용자 관리
@@ -30,7 +30,7 @@
 
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/admin/manage/notice/list?page=1">
+            <a href="/Link/admin/manage/notice/list?page=1">
                 <i class="fa fa-laptop fa-2x"></i>
                 <span class="nav-text">
                     공지게시판 관리
@@ -39,30 +39,13 @@
             </a>
         </li>
         <li class="has-subnav">
-            <a href="http://localhost:80/Link/admin/manage/community/list?page=1&subject=java">
+            <a href="/Link/admin/manage/community/list?page=1&subject=java">
                <i class="fa fa-list fa-2x"></i>
                 <span class="nav-text">
                     게시판 관리
                 </span>
             </a>
         </li>
-<!--        <li class="has-subnav">
-            <a href="http://localhost:80/Link/admin/manage/community/list?page=1&subject=jsp">
-               <i class="fa fa-list fa-2x"></i>
-                <span class="nav-text">
-                     JSP 게시판 관리
-                </span>
-            </a>
-        </li>
-        <li class="has-subnav">
-            <a href="http://localhost:80/Link/admin/manage/community/list?page=1&subject=spring">
-               <i class="fa fa-list fa-2x"></i>
-                <span class="nav-text">
-                    Spring 게시판 관리
-                </span>
-            </a>
-        </li> -->
-        
     </ul>
 
     <ul class="logout">

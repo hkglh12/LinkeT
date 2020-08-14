@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -26,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.project.Link.Commons.AOPLogger.Dao.DaoLevelLoggerDao;
 import com.project.Link.Commons.AOPLogger.Dao.ServiceLevelLoggerDao;
 
 @Component
@@ -35,8 +36,6 @@ public class LogAdviceImple implements LogAdvice{
 	
 	@Autowired
 	private ServiceLevelLoggerDao svlLogger;
-	@Autowired
-	private DaoLevelLoggerDao dlLogger;
 	
 	public ServiceLevelLoggerDao getSvlLogger() {
 		return svlLogger;
@@ -47,61 +46,78 @@ public class LogAdviceImple implements LogAdvice{
 	}
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	private final Logger logger = LoggerFactory.getLogger(LogAdviceImple.class);
-	// Cannot proxy target class because CGLIB2 is not available. 에러 발생
-	// Admin home controller, HomeController,  SessionControlInterceptor가 Interface 없이 class기반으로만 작성되어있기 때문이다.
-	// 이를 해결하기위해 CGLIB 라이브러리를 추가했다
-	/*
-	 * @Around("execution(* com.project.Link.Admin..service..*Impl.*(..))"
-	 * +" or execution(* com.project.Link.Commons..service..*Impl.*(..))"
-	 * +" or execution(* com.project.Link.RegUser..service..*Impl.*(..))"
-	 * +" or execution(* com.project.Link.Ufile..service..*Impl.*(..))" )
-	 */
-	/*
-	 * @Pointcut("execution(* com.project.Link.RegUser.Community.Service.*.*(..)) "
-	 * + " or execution(* com.project.Link.Commons.Community..*.*(..))") public void
-	 * serviceAccess() {}
-	 */
-	/*
-	 * @Pointcut("execution(* com.project.Link.RegUser.Notice")
-	 */
 	
-	/*
-	 https://yeti.tistory.com/126 
-	  https://doublesprogramming.tistory.com/207
-	  
-	  
-	 https://addio3305.tistory.com/86
-	 * */
-	// Before, after 활용 https://sup2is.tistory.com/59
-	
+	@Override
+	public void sessionTimeStamper(HttpSession session) {
+		session.setAttribute("SessionStamp", Timestamp.valueOf(LocalDateTime.now()).toString());
+	}
+
+	// 들어갈 때 발자취를 남기고 들어감 (로그에)
+	@Override
 	@Before("@within(org.springframework.stereotype.Service)")
 	//public Object EnterServiceLevel(ProceedingJoinPoint pjp) throws Throwable{
-	public void EnterServiceLevel(JoinPoint jp) throws Throwable{
+	// 실행 메서드 정보를 가져오려면 인자에 JoinPoint 추가, Around는 ProceedingJoinPoint
+	public void EnterServiceLevel() throws Throwable{
 		 HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 			logger.info("Service in*********************************************************");
 		 	String usrId = null;
-			String sessionStamp = null;
+			Timestamp sessionStamp = null;
 			String targetUri = null;
 			String ip = null;
+			String method = null;
 			if(request != null) {
 				HttpSession session = request.getSession();
 				sessionTimeStamper(session);
+				method = request.getMethod();
 				usrId = (String) session.getAttribute("usrId");
-				sessionStamp = (String) session.getAttribute("SessionStamp");
+				sessionStamp = Timestamp.valueOf(session.getAttribute("SessionStamp").toString());
 				targetUri = request.getRequestURI();
 				ip = request.getHeader("X-FORWARDED-FOR");
 				if(ip == null) {
 					ip = request.getRemoteAddr();
 				}
 			}
-			svlLogger.loggerBefore(ip, sessionStamp, usrId, targetUri);
+			svlLogger.loggerBefore(ip, sessionStamp, usrId, targetUri, method);
 	
 			// 메서드 이름 : jp.getSignature().getName()
-			logger.info("Session : " + usrId + "IP : " +ip+" / Timestsamp : " + sessionStamp + "Target :"+targetUri+" ////  Arg / param : " + Arrays.deepToString(jp.getArgs()));
+			logger.info("Session : " + usrId + "IP : " +ip+" / Timestsamp : " + sessionStamp + "Target :"+targetUri);
 			System.out.println("===========================================================");
 			
 	}
-
+	// 정상성공했다면 남긴 발자취를 모두 성공으로 변경
+	@Override
+	@AfterReturning("@within(org.springframework.stereotype.Service)")
+	public void SuccessServiceLevel() throws Throwable{
+		Timestamp sessionStampStr = null;
+		Timestamp stampNow = Timestamp.valueOf(LocalDateTime.now());
+		
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		logger.info("Service Returner Start");
+		if(request!=null) {
+			
+			HttpSession session = request.getSession();
+			sessionStampStr = Timestamp.valueOf(session.getAttribute("SessionStamp").toString());
+			svlLogger.afterSuccess(sessionStampStr,stampNow.getTime() - sessionStampStr.getTime());
+		}
+	}
+	@Override
+	@AfterThrowing("@within(org.springframework.stereotype.Service)")
+	public void FailedServiceLevel() throws Throwable{
+		Timestamp sessionStampStr = null;
+		Timestamp stampNow = Timestamp.valueOf(LocalDateTime.now());
+		
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		logger.info("Service Returner Start");
+		if(request!=null) {
+			HttpSession session = request.getSession();
+			sessionStampStr = Timestamp.valueOf(session.getAttribute("SessionStamp").toString());
+			long time = stampNow.getTime() - sessionStampStr.getTime();
+			logger.info("Time : " + time);
+			svlLogger.afterFailed(sessionStampStr, time);
+		}
+	}
+	
+	
 	/*
 	 * @After("@within(org.springframework.stereotype.Component) + && !execution(* com.project.Link.Commons.AOPLogger)"
 	 * ) public void AfterDaoLevel(JoinPoint jp) throws Throwable{
@@ -143,27 +159,51 @@ public class LogAdviceImple implements LogAdvice{
 //			+" or execution(* com.project.Link.Admin.Manage.Noticement.Service..*.*(..))"
 //			+" or execution(* com.project.Link.Admin.Manage.User.Service..*.*(..))"
 //			)
-	public Object log(ProceedingJoinPoint pjp) throws Throwable{
-	    HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		String usrId = null;
-		String sessionStamp = null;
-		if(request != null) {
-			HttpSession session = request.getSession();
-			sessionTimeStamper(session);
-			usrId = (String) session.getAttribute("usrId");
-			sessionStamp = (String) session.getAttribute("SessionStamp");
-		}
-		
-		Object result = pjp.proceed();
-		
-		logger.info("Session : " + usrId + " / Timestsamp : " + sessionStamp + "Target :"+ pjp.getSignature().getName()+" ////  Arg / param : " + Arrays.deepToString(pjp.getArgs()));
-		System.out.println("===========================================================");
-		return result;
-	}
-	@Override
-	public void sessionTimeStamper(HttpSession session) {
-		session.setAttribute("SessionStamp", Timestamp.valueOf(LocalDateTime.now()).toString());
-	}
+	/*
+	 * public Object log(ProceedingJoinPoint pjp) throws Throwable{
+	 * HttpServletRequest request =
+	 * ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).
+	 * getRequest(); String usrId = null; String sessionStamp = null; if(request !=
+	 * null) { HttpSession session = request.getSession();
+	 * sessionTimeStamper(session); usrId = (String) session.getAttribute("usrId");
+	 * sessionStamp = (String) session.getAttribute("SessionStamp"); }
+	 * 
+	 * Object result = pjp.proceed();
+	 * 
+	 * logger.info("Session : " + usrId + " / Timestsamp : " + sessionStamp +
+	 * "Target :"+ pjp.getSignature().getName()+" ////  Arg / param : " +
+	 * Arrays.deepToString(pjp.getArgs())); System.out.println(
+	 * "==========================================================="); return
+	 * result; }
+	 */
+	
+	// Cannot proxy target class because CGLIB2 is not available. 에러 발생
+	// Admin home controller, HomeController,  SessionControlInterceptor가 Interface 없이 class기반으로만 작성되어있기 때문이다.
+	// 이를 해결하기위해 CGLIB 라이브러리를 추가해야함
+	/*
+	 * @Around("execution(* com.project.Link.Admin..service..*Impl.*(..))"
+	 * +" or execution(* com.project.Link.Commons..service..*Impl.*(..))"
+	 * +" or execution(* com.project.Link.RegUser..service..*Impl.*(..))"
+	 * +" or execution(* com.project.Link.Ufile..service..*Impl.*(..))" )
+	 */
+	/*
+	 * @Pointcut("execution(* com.project.Link.RegUser.Community.Service.*.*(..)) "
+	 * + " or execution(* com.project.Link.Commons.Community..*.*(..))") public void
+	 * serviceAccess() {}
+	 */
+	/*
+	 * @Pointcut("execution(* com.project.Link.RegUser.Notice")
+	 */
+	
+	/*
+	 https://yeti.tistory.com/126 
+	  https://doublesprogramming.tistory.com/207
+	  
+	  
+	 https://addio3305.tistory.com/86
+	 * */
+	// Before, after 활용 https://sup2is.tistory.com/59
+	
 	/*
 	 * private String fillParameters(String statement, Object[] sqlArgs) { //
 	 * initialize a StringBuilder with a guesstimated final length StringBuilder

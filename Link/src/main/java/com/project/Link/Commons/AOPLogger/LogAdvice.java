@@ -5,7 +5,13 @@ import javax.servlet.http.HttpSession;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 public interface LogAdvice {
-	public Object log(ProceedingJoinPoint pjp) throws Throwable;
-	//AOP 로거 DB PK용 세션에 삽입하여 AOP 전역에서 사용하도록 조정
+	// 로거의 DB PK로 쓰일 Timestamp를 Sessino에 삽입
 	public void sessionTimeStamper(HttpSession session);
+	public void EnterServiceLevel() throws Throwable;
+	public void SuccessServiceLevel() throws Throwable;
+	public void FailedServiceLevel() throws Throwable;
+	
+	//public Object log(ProceedingJoinPoint pjp) throws Throwable;
+	
+	
 }
