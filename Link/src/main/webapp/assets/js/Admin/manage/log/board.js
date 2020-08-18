@@ -11,13 +11,12 @@ $(document).ready(function(){
 });
 
 function blockmove(block){
-	var page = $("#page").val();
 	var stdd = $("#start_date").val();
 	var endd = $("#end_date").val();
 	var search_category = $("#search_category").val();
 	var search_target = $("#search_target").val();
 	
-	location.href="/Link/admin/manage/log/list?page="+page+"&start_date"+stdd+"&end_date"+endd+"&search_category="+search_category+"&search_target="+search_target;
+	location.href="/Link/admin/manage/log/list?page="+block+"&start_date"+stdd+"&end_date"+endd+"&search_category="+search_category+"&search_target="+search_target;
 }
 function pagecall(serial){
 	location.href="/Link/admin/manage/community/get?c_serial="+serial;

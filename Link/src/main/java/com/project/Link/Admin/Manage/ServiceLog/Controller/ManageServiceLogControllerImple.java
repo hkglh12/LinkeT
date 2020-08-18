@@ -40,9 +40,10 @@ public class ManageServiceLogControllerImple implements ManageServiceLogControll
 		Timestamp endDate = request.getParameter("end_date") == null || request.getParameter("end_date").equals("") ? null : new Timestamp(Date.valueOf((request.getParameter("end_date").toString())).getTime());
 		if(endDate!=null) params.put("endDate", endDate);
 		String searchCategory = request.getParameter("search_category") == null || request.getParameter("search_category").equals("") ? null : request.getParameter("search_category");
-		String searchTarget = request.getParameter("search_target") == null || request.getParameter("search_target").equals("") ? null : request.getParameter("sesarch_target");
+		String searchTarget = request.getParameter("search_target") == null || request.getParameter("search_target").equals("") ? null : request.getParameter("search_target");
 		if(searchCategory != null && searchTarget != null) params.put(searchCategory, searchTarget);
 		
+		System.out.println("target page : " + targetPage + " / startDate : " + startDate + " / endDate : " + endDate + " searchCategory : " + searchCategory + "searchTarget : " + searchTarget);
 		int total = mslService.totalCountLogs(params);
 		ArrayList<ServiceLog> list = mslService.getLogList(params, targetPage);
 		model.addAttribute("total", total);

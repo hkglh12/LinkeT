@@ -27,13 +27,22 @@ public class ManageServiceLogServiceImple implements ManageServiceLogService{
 		for(Map.Entry<String, Object> et : params.entrySet()) {
 			if(et.getKey().contains("Date")) {
 				// 날짜 관련이고
-				if(et.getKey().contains("start")) baseSql += " "+et.getKey() +" >= " + et.getValue();
-				// 시작이면
-				else baseSql += " " + et.getKey() + " <= " + et.getValue();
+
+				// endDate의 경우 input ="date"는 00:00:00.0 이므로, 23:99:99로 변경하여 그날 전체를 포함하도록 변조한다.
+				// 또한 얘네 '' 로 묶어줘야 인식됌.
+				
+				if(et.getKey().contains("start")) baseSql += " "+"occurtime" +" >= " + "'"+et.getValue()+"'"; // 시작이면
+				else {	// 혹은 종료 날짜이면
+					String temp = et.getValue().toString();
+					temp = temp.substring(0,temp.indexOf(" ")) + " 23:59:59";
+					baseSql += " " + "occurtime" + " <= " + "'"+temp+"'";
+				}
 				// 끝이면
 			}else {
-				baseSql += et.getKey() + " like " + "%"+et.getValue()+"%";
+				baseSql += " " + et.getKey() + " like " + "'%"+et.getValue()+"%'";
 			}
+			// Idx 직접 조정
+			i++;
 			// 더있으면
 			if(i<params.size()) baseSql += " and ";
 		}
@@ -53,17 +62,24 @@ public class ManageServiceLogServiceImple implements ManageServiceLogService{
 		for(Map.Entry<String, Object> et : params.entrySet()) {
 			if(et.getKey().contains("Date")) {
 				// 날짜 관련이고
-				if(et.getKey().contains("start")) baseSql += " "+et.getKey() +" >= " + et.getValue();
-				// 시작이면
-				else baseSql += " " + et.getKey() + " <= " + et.getValue();
+				// StartDate의 경우 input ="date"는 00:00:00.0 이므로, 23:99:99로 변경하여 그날 전체를 포함하도록 변조한다.
+				// 또한 얘네 '' 로 묶어줘야 인식됌.
+				if(et.getKey().contains("start")) baseSql += " "+ "occurtime" +" >= " + "'"+et.getValue()+"'"; // 키워드가 시작 이면
+				else {		// 혹은 끝이면
+					String temp = et.getValue().toString();
+					temp = temp.substring(0,temp.indexOf(" ")) + " 23:59:59";
+					baseSql += " " + "occurtime" + " <= " + "'"+temp+"'";
+				}
 				// 끝이면
 			}else {
-				baseSql += et.getKey() + " like " + "%"+et.getValue()+"%";
+				baseSql += " "+ et.getKey() + " like " + "'%"+et.getValue()+"%'";
 			}
+			i++;
 			// 더있으면
 			if(i<params.size()) baseSql += " and ";
 		}
 		baseSql += " order by occurtime desc limit "+(targetPage*logsperblock) +", "+logsperblock;
+		System.out.println("base sql : " + baseSql);
 		list = mslDao.getLogs(baseSql);
 		return list;
 	}

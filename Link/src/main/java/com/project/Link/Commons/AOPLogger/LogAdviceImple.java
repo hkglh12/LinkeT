@@ -59,7 +59,7 @@ public class LogAdviceImple implements LogAdvice{
 	// 실행 메서드 정보를 가져오려면 인자에 JoinPoint 추가, Around는 ProceedingJoinPoint
 	public void EnterServiceLevel() throws Throwable{
 		 HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-			logger.info("Service in*********************************************************");
+		//	logger.info("Service in*********************************************************");
 		 	String usrId = null;
 			Timestamp sessionStamp = null;
 			String targetUri = null;
@@ -80,8 +80,8 @@ public class LogAdviceImple implements LogAdvice{
 			svlLogger.loggerBefore(ip, sessionStamp, usrId, targetUri, method);
 	
 			// 메서드 이름 : jp.getSignature().getName()
-			logger.info("Session : " + usrId + "IP : " +ip+" / Timestsamp : " + sessionStamp + "Target :"+targetUri);
-			System.out.println("===========================================================");
+		//	logger.info("Session : " + usrId + " / IP : " +ip+" / Timestsamp : " + sessionStamp + " / Target :"+targetUri);
+		//	System.out.println("===========================================================");
 			
 	}
 	// 정상성공했다면 남긴 발자취를 모두 성공으로 변경
