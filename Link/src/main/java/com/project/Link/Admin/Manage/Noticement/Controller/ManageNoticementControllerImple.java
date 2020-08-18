@@ -167,7 +167,9 @@ public class ManageNoticementControllerImple implements ManageNoticementControll
 		public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response)
 				throws Exception {	
 			try {
-				File file = new File(nFilePath+request.getParameter("fileCode"));
+				String fileCode =request.getParameter("fileCode");
+				if(mnService.validateNoticementFile(fileCode)) {
+				File file = new File(nFilePath+fileCode);
 				if(file.exists()) {
 					String mimeType = Files.probeContentType(file.toPath());
 					if(mimeType==null) {
@@ -185,8 +187,7 @@ public class ManageNoticementControllerImple implements ManageNoticementControll
 					}
 					fis.close();
 					os.close();
-				}else {
-					
+				}
 				}
 			}catch(Exception e) {
 				e.printStackTrace();

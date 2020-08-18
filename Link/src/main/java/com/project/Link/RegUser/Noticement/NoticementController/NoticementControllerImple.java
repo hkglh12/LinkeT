@@ -78,26 +78,27 @@ public class NoticementControllerImple implements NoticementController {
 	// 공지사항에 올라와있는 파일 다운로드 요청에 응답하는 endpoint입니다.
 	public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {	
 		try {
-			File file = new File(nFilePath+request.getParameter("fileCode"));
-			if(file.exists()) {
-				String mimeType = Files.probeContentType(file.toPath());
-				if(mimeType==null) {
-					mimeType="application/octet-stream";
+			String fileCode = request.getParameter("fileCode");
+			if(nService.validateNoticementFile(fileCode)) {
+				File file = new File(nFilePath+fileCode);
+				if(file.exists()) {
+					String mimeType = Files.probeContentType(file.toPath());
+					if(mimeType==null) {
+						mimeType="application/octet-stream";
+					}
+					response.setContentType(mimeType);
+					response.addHeader("Content-Disposition","attachment; filename=" + request.getParameter("fileCode"));
+					response.setContentLength((int)file.length());
+					OutputStream os = response.getOutputStream();
+					FileInputStream fis = new FileInputStream(file);
+					byte[] buffer = new byte[4096];
+					int b=-1;
+					while((b=fis.read(buffer)) != -1) {
+						os.write(buffer, 0, b);
+					}
+					fis.close();
+					os.close();
 				}
-				response.setContentType(mimeType);
-				response.addHeader("Content-Disposition","attachment; filename=" + request.getParameter("fileCode"));
-				response.setContentLength((int)file.length());
-				OutputStream os = response.getOutputStream();
-				FileInputStream fis = new FileInputStream(file);
-				byte[] buffer = new byte[4096];
-				int b=-1;
-				while((b=fis.read(buffer)) != -1) {
-					os.write(buffer, 0, b);
-				}
-				fis.close();
-				os.close();
-			}else {
-				
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

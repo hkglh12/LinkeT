@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	/*좌측 메인메뉴 애니메이션*/
-	$(".main-menu").on("mouseover",function(){
+/*	$(".main-menu").on("mouseover",function(){
 		$("section").css("width","80%");
 		$("section").css("margin-left","18%"); 
 	});    
@@ -12,7 +12,7 @@ $(document).ready(function(){
 	$("#community_post").on("click",function(){
 		var sbj = $("#subject").val();
 	    location.href="http://localhost:80/Link/community/form?subject="+sbj;
-	});
+	});*/
 });
 
 function blockmove(block){

@@ -1,9 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +10,7 @@
 <title>Administrator : ${param.subject} 게시판</title>
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Admin/manage/community/board.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/community/board.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
@@ -121,9 +121,6 @@
             		Posting Information
           		</div>
         	</div>
-        	<!-- BlockMove용 변수 -->
-	        <input type="hidden" id="search_category_hd" value="${search_category}">
-	        <input type="hidden" id="search_target_hd" value="${search_target}">
 
        		<c:if test="${empty communitylist}">
 	        	<div class="large-12 forum-topic">
@@ -183,6 +180,13 @@
         	</c:forEach>
      	</c:if>
 	</div>
+	        	<!-- BlockMove용 변수 -->
+	<c:forEach items="${search_category}" var="category" varStatus="num">
+    	<input type="hidden" class="search_category_hd" value="${category}">
+    </c:forEach>
+	<c:forEach items="${search_target}" var="target" varStatus="num">
+	    <input type="hidden" class="search_target_hd" value="${target}">
+	</c:forEach>
     <div class="page_block">
 		<ul class="blocks">
     	<fmt:parseNumber var="block" value = "${(total/10)+ (total%10 == 0 ? 0 : 1)}" integerOnly="true"/>

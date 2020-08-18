@@ -8,22 +8,19 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="<c:url value="/a/css/Admin/main.css"/>" rel="stylesheet">
-    <link href="<c:url value="/a/css/Admin/root-view.css"/>" rel="stylsheet">
-    <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script src="<c:url value="/a/js/main.js"/>"></script>
+    <link href="${pageContext.request.contextPath}/a/css/Admin/main.css" rel="stylesheet">
+   	<link href="${pageContext.request.contextPath}/a/css/Admin/root-view.css" rel="stylesheet">
+   	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
+   	<script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+   	<script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
 
 </head>
 <body>
-<div class="area">
-    
-</div>
-
 <jsp:include page="root-view.jsp"/>
 <section>
-<div class="upper">
+<div class="middl">
         <div class="info"><h1 class="title">Link 관리자페이지입니다.</h1></div>
-    </div>
+</div>
 </section>
 </body>
 

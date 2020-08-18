@@ -24,31 +24,28 @@ public class UfileServiceImple implements UfileService {
 	
 	public UfileServiceImple() {}
 	
-	public UfileDao getfDao() {
-		return fDao;
-	}
-	public void setfDao(UfileDao fDao) {
-		this.fDao = fDao;
-	}
+	public UfileDao getfDao() {return fDao;}
+	public void setfDao(UfileDao fDao) {this.fDao = fDao;}
+	
 	@Override
 	public int uFileUpload(String targetBoard, String modifiedFileName, String usrId, long fileSize, Timestamp createDate, String originalFileName, int serial){
-		
 		if(originalFileName.length() >= 30) {originalFileName = originalFileName.substring(0, 30);}
 		int result = fDao.uploadFile(targetBoard, modifiedFileName, usrId, fileSize, createDate, originalFileName, serial);
 		return result;
 	}
-
 	@Override
 	public ArrayList<UFile> uFileGet(String targetBoard, int targetSerial) {
-		
 		ArrayList<UFile> result = new ArrayList<UFile>();
 		result = fDao.getFileList(targetBoard, targetSerial);
 		return result;
 	}
-
+	@Override
+	public boolean uFileValidate(String targetBoard, String fileCode) {
+		boolean result = fDao.uFileCodeValidate(targetBoard, fileCode);
+		return result;
+	}
 	@Override
 	public void uFileDetach(String targetBoard, String targetCode, String usrId, Timestamp disconnDate) throws Exception{
-	
 		fDao.detachFile(targetBoard, targetCode, usrId, disconnDate);
 	}
 

@@ -10,4 +10,6 @@ public interface NoticementService {
 	public ArrayList<Noticement> listNoticements(int targetPage);
 	/* 공지사항 조회 */
 	public Noticement getNoticement(int targetSerial);
+	// 공지사항에 첨부되어있는 파일코드가 유효한지 식별하는 코드
+	public boolean validateNoticementFile(String fileCode);
 }

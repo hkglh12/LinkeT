@@ -13,6 +13,7 @@
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/noticement/read.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/posting_structure.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
 	<script src="${pageContext.request.contextPath}/a/js/Admin/manage/noticement/read.js"></script>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">

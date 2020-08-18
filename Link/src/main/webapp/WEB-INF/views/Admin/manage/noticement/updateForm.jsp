@@ -14,14 +14,8 @@
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/jquery.MultiFile.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Admin/manage/noticement/updateForm.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <script src="https://kit.fontawesome.com/2313945ac3.js" crossorigin="anonymous"></script>
-    <%-- <script src="${pageContext.request.contextPath}/a/summernote/summernote-ko-KR.js"></script> --%>
-    <%--
-    <script src="<c:url value="/a/summernote/summernote-ko-KR.js"/>"></script>
-   	<script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script src="<c:url value="/a/js/jquery.MultiFile.js"/>"></script>
-    <script src="<c:url value="/a/js/noticeUpdateForm.js"/>"></script> --%>
-
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
  <!-- Summernote Setting -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">

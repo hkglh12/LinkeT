@@ -58,3 +58,4 @@ nav.menu a.current {color: hsl(0, 0%, 100%);}
 .comment_blocks li:hover{cursor:pointer;}
 .blockcurr{color:black;}
 #goback{width:150px; height:30px; border:2px solid white; color:white; background:transparent; border-radius:10px;}
+.redlbl{color:red; font-size:20px; text-align:center;}

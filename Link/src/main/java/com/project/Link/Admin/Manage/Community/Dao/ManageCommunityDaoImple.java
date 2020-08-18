@@ -3,7 +3,6 @@ package com.project.Link.Admin.Manage.Community.Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.project.Link.Commons.Community.Dao.CommonsCommunityDaoImple;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.RegUser.Community.Dao.CommunityDaoImple;
 
 @Component
 @Qualifier("ManageCommunityDao")
@@ -24,7 +22,7 @@ public class ManageCommunityDaoImple extends CommonsCommunityDaoImple implements
  	
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
- 	private ResultSet rs = null;
+ 	//private ResultSet rs = null; update문 뿐이므로 rs를 사용하지 아니함
  	
 	@Override
 	public boolean banCommunity(int targetSerial, String usrId, Timestamp deleteDate) {

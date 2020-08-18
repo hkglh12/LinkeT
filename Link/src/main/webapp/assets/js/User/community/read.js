@@ -105,7 +105,7 @@ function commentblockmove(page_num){
 					'Accept': 'application/json',
                     'Content-Type': 'application/json' 
 				},
-				url:"/Link/community/comment/list",
+				url:"/Link/comment/list",
 				dataType:"json",
 				data:JSON.stringify(param),
 				success:function(data){
@@ -159,7 +159,7 @@ function commentblockmove(page_num){
 								}
 								var com_contents = $("<div>").attr('class','comment_contents').html(ci.contents).appendTo(comm);	
 							}else{
-								var secretcomm = $("<div>").attr('class','toglecomm').text("비밀댓글 : 댓글 작성자와 글 작성자만 볼 수 있습니다.").appendTo(comm);
+								var secretcomm = $("<div>").attr('class','toglecomm').attr('class','redlbl').text("비밀댓글 : 댓글 작성자와 글 작성자만 볼 수 있습니다.").appendTo(comm);
 							}
 						}
 					}

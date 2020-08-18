@@ -11,8 +11,8 @@
 <title>Link - 사용자관리</title>
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Admin/manage/user/board.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/user/board.css" rel="stylesheet">
-
 	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous"> -->
     <script>

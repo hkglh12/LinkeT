@@ -107,29 +107,31 @@ public class UfileDaoImple implements UfileDao{
 	}
 
 	@Override
-	public UFile getFile(String targetBoard, String fileCode) {
-		/*
-		 * targetBoard += "file"; String prefix = targetBoard.substring(0, 1) +"_";
-		 * logger.info("::Getfile, prefix got = " + prefix); try {
-		 * Class.forName(dbDriver); conn = DriverManager.getConnection(dbUrl, dbUserId,
-		 * dbUserPw);
-		 * 
-		 * String sql =
-		 * "select * from "+targetBoard+" where f_code= ? and isdisconn IS FALSE"; pstmt
-		 * = conn.prepareStatement(sql); pstmt.setString(1,fileCode); rs =
-		 * pstmt.executeQuery(); while(rs.next()) { UFile ufile = new UFile();
-		 * ufile.setuFileCode(rs.getString("f_code"));
-		 * ufile.setUsrId(rs.getNString("u_id"));
-		 * ufile.setFileSize(rs.getLong("f_size"));
-		 * ufile.setuFilePostDate(rs.getTimestamp("f_createdate"));
-		 * ufile.setuFileOriginName(rs.getString("f_originname"));
-		 * ufile.setSerial(rs.getInt("n_serial")); }
-		 * 
-		 * }catch(ClassNotFoundException e) { e.printStackTrace(); }catch(SQLException
-		 * e) { e.printStackTrace(); }finally { try { if (pstmt!=null) pstmt.close(); if
-		 * (conn!=null) conn.close(); }catch(SQLException e) { e.printStackTrace(); } }
-		 */
-		return null;
+	public boolean uFileCodeValidate(String targetBoard, String fileCode) {
+		boolean result = false;
+		try {
+			Class.forName(dbDriver);
+			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
+			String sql = "select * from "+targetBoard+" where f_code = ? and isdisconn = false";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fileCode);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = true;
+			}
+		}catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -137,15 +139,12 @@ public class UfileDaoImple implements UfileDao{
 		try {
  			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			System.out.println(targetCode);
 			String sql = "update "+targetBoard+" set isdisconn = true, f_disconndate = ?, f_disconn_id = ? where f_code = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setTimestamp(1, disconnDate);
 			pstmt.setString(2, usrId);
 			pstmt.setString(3, targetCode);
-			System.out.println(sql);
-			int result = pstmt.executeUpdate();
-			System.out.println("detach result int : " + result);
+			pstmt.executeUpdate();
  		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}catch(SQLException e) {
@@ -166,16 +165,13 @@ public class UfileDaoImple implements UfileDao{
 		try {
  			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			
 			String sql = "select count(*) as count from communityfile where u_id = ? and isdisconn IS FALSE";
-
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, usrId);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				result = rs.getInt("count");
 			}
-			
  		}catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}catch(SQLException e) {

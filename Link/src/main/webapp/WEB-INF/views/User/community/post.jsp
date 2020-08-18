@@ -1,6 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
     
 <!DOCTYPE html>
 <html>
@@ -8,11 +8,13 @@
 	<meta charset="UTF-8">
 	<meta name="description" content="">
     <meta name="keywords" content="">
-	<title>Insert title here</title>
+	<title>Link : 자유게시글 포스팅</title>
 	
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/jquery.MultiFile.js"/></script>
     <script src="${pageContext.request.contextPath}/a/js/User/community/post.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
+    
     <link href="${pageContext.request.contextPath}/a/css/User/community/post.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/posting_structure.css" rel="stylesheet">
@@ -20,11 +22,11 @@
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="${pageContext.request.contextPath}/a/summernote/summernote-ko-KR.js"></script>
 	<!-- include summernote css/js -->
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    <script src="<c:url value="/a/summernote/summernote-ko-KR.js"/>"></script>
+	
 </head>
 <body>
 <jsp:include page="../../root-view.jsp"/>
