@@ -1,9 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +10,7 @@
 <title>Link - ${param.subject} 게시판</title>
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/User/community/board.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/User/community/board.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
@@ -60,12 +60,30 @@
           	</c:if>
         	</div>
         	<div id ="search_comm">
-        		<form action="/Link/community/list" method="GET">
+        		<c:if test="${param.subject ne 'direct'}">
+        			<form action="/Link/community/list" method="GET">
+        		</c:if>
+        		<c:if test="${param.subject eq 'direct'}">
+        			<form action="/Link/community/directlist" method="GET">
+        		</c:if>
         			<select id="search_category" name="search_category">
         				<option value="title" selected>글 제목</option>
-        				<option value="id" >작성자</option>
+        				<c:if test="${param.subject ne 'direct'}">
+        					<option value="id" >작성자</option>
+        				</c:if>
         			</select>
-        			<input type="text" id="search_target" name="search_target">
+        			<input type="hidden" class="search_category" name="search_category" value="id">
+        			<input type="text" class="search_target" name="search_target" value="">
+        				<c:forEach items="${search_target}" var="target" varStatus="num">
+        					<c:if test="${fn:length(search_target) le 1}">
+        						<input type="hidden" class="search_target" name="search_target" value="${target}">
+        					</c:if>
+        					<c:if test="${fn:length(search_target) ge 2}">
+        						<c:if test="${num.count eq 2}">
+        							<input type="hidden" class="search_target" name="search_target" value="${target}">
+        						</c:if>        			
+        					</c:if>
+        				</c:forEach>
         			<input type="hidden" value="${param.subject}" name="subject" id="subject">
         			<button type="submit">검색하기</button>
         		</form>
@@ -93,8 +111,6 @@
             		Posting Information
           		</div>
         	</div>
-	        <input type="hidden" id="search_category_hd" value="${search_category}">
-	        <input type="hidden" id="search_target_hd" value="${search_target}">
 
        		<c:if test="${empty communitylist}">
 	        	<div class="large-12 forum-topic">
@@ -155,6 +171,13 @@
         	</c:forEach>
      	</c:if>
 	</div>
+	<!-- BlockMove용 변수 -->
+	<c:forEach items="${search_category}" var="category" varStatus="num">
+    	<input type="hidden" class="search_category_hd" value="${category}">
+    </c:forEach>
+    <c:forEach items="${search_target}" var="target" varStatus="num">
+       	<input type="hidden" class="search_target_hd" value="${target}">
+	</c:forEach>
     <div class="page_block">
 		<ul class="blocks">
     	<fmt:parseNumber var="block" value = "${(total/10)+ (total%10 == 0 ? 0 : 1)}" integerOnly="true"/>

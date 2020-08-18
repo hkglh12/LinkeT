@@ -50,12 +50,11 @@ public class UserControllerImple implements UserController {
 	public void setuService(UserService uService) {this.uService = uService;}
 
 	
-	/* 데이터베이스에서 해당 객체의 존재 유무를 확인 */
+	/* 데이터베이스에서 이미 중복된 내용이 있는지 확인*/
 	@RequestMapping(value = "/validate", method = RequestMethod.POST)
 	@Override
 	@ResponseBody
-	public HashMap<String, String> usrJoinValidation(@RequestBody HashMap<String, String> target,
-			HttpServletRequest request) {
+	public HashMap<String, String> usrJoinValidation(@RequestBody HashMap<String, String> target,HttpServletRequest request) {
 		
 		HashMap<String, String> returnInfo = new HashMap<String, String>();
 		String key = "";
@@ -63,49 +62,39 @@ public class UserControllerImple implements UserController {
 			key = entrykey;
 		}
 		String value = target.get(key);
-		
 		String result = uService.userValidate(key, value);
-		returnInfo.put("result", result);
 		
+		returnInfo.put("result", result);
 		return returnInfo;
 	}
-
-
+	// 회원가입 요청
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	@Override
 	public String RegisterUser(Model model, HttpServletRequest request, RedirectAttributes attributes) {
-		
-
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
 		String usrPhone = request.getParameter("u_phone");
 		String usrEmail = request.getParameter("u_email");
 		String usrName = request.getParameter("u_name");
+		
 		boolean result = uService.userRegist(usrId, usrPw, usrPhone, usrEmail, usrName);
-
 		if (result == true) {
-			// 성공 >> 성공 대상과 성공을 전달
-			/* attributes.addFlashAttribute("result", "200"); */
 			return "/User/user/joinSuccess";
 		} else {
-			// 실패 >> 실패 대상과 실패를 전달
 			model.addAttribute("contents", "join");
 			model.addAttribute("value", "false");
 			return "/User/failed";
 		}
-		
 	}
+	// 로그인 창으로 이동
 	@RequestMapping(value="/login/form", method= RequestMethod.GET)
 	public String GetLoginForm(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes attributes) {
 		return "/User/user/login";
 	}
-	
-
+	//로그인 요청
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@Override
 	public String GetUser(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes attributes) {
-		
-
 		String usrId = request.getParameter("u_id");
 		String usrPw = request.getParameter("u_pw");
 		User result = uService.userGet(usrId, usrPw);
@@ -116,7 +105,7 @@ public class UserControllerImple implements UserController {
 			boolean isAdmin = result.getUsrLevel() == 1 ? false : true;
 			session.setAttribute("usrId", result.getUsrId());
 			session.setAttribute("isAdmin", isAdmin);
-			return "/User/main/main"; // 이거 메인컨트롤러로 다시 돌리자
+			return "/User/main/main";
 		}
 	}
 
@@ -125,13 +114,17 @@ public class UserControllerImple implements UserController {
 	@Override
 	public String GetMe(Model model, HttpServletRequest request, HttpSession session) {
 		User result = uService.getUserDetail((String) session.getAttribute("usrId"));
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("id", result.getUsrId());
+		params.put("deletedate", "is null");
 		result.setCommentCount(ccService.getUserCommentsCount(result.getUsrId()));
-		result.setCommunityCount(cService.directCountCommunities(result.getUsrId()));
+		result.setCommunityCount(cService.directCountCommunities(params));
+		params.remove("deletedate");
 		result.setFileCount(ufService.getUserFileCount(result.getUsrId()));
 		model.addAttribute("user", result);
 		return "/User/user/profile";
 	}
-	
+	// 비밀번호 변경에 응답
 	@ResponseBody
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@Override
@@ -154,6 +147,7 @@ public class UserControllerImple implements UserController {
 		
 		return returnInfo;
 	}
+	//회원탈퇴에 응답
 	@ResponseBody
 	@RequestMapping(value = "/signout", method = RequestMethod.POST)
 	@Override
@@ -176,7 +170,7 @@ public class UserControllerImple implements UserController {
 		}
 		return returnInfo;
 	}
-
+	//로그아웃 (session 연결 해제)
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	@Override
 	public void LogOut(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response) {

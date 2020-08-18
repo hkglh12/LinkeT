@@ -71,11 +71,10 @@ public class NoticementServiceImple implements NoticementService{
 		targetNoticement.setuFileList(ufService.uFileGet(targetBoardFile, targetSerial));
 		return targetNoticement;
 	}
-
-	
-
-	
-
-	
+	//파일 코드가 유효한지 확인 
+	public boolean validateNoticementFile(String fileCode) {
+		String targetBoard = "noticementfile";
+		return ufService.uFileValidate(targetBoard, fileCode);
+	}
 
 }

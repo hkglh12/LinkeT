@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 	<link href="${pageContext.request.contextPath}/a/css/Admin/root-view.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 </head>
 <div class="area">
    
@@ -13,7 +14,7 @@
     <ul>
         <li>
             <a href="/Link/admin/manage/log/list">
-                <i class="fa fa-home fa-2x"></i>
+                <i class="fas fa-broadcast-tower fa-2x"></i>
                 <span class="nav-text">
 					로그감사
                 </span>

@@ -6,7 +6,7 @@ import com.project.Link.Commons.Comment.Comment;
 import com.project.Link.RegUser.Posting.Posting;
 
 public class Community extends Posting{
-	/* Community POJO는 Posting 객체에 "댓글"기능을 추가한것 
+	/* Community POJO(혹은 DTO) Posting 객체에 "댓글"기능을 추가한것  
 	 * 따라서 상속후 댓글리스트 추가
 	 * 
 	 * 또한 "사용자"가 작성한 게시글은 "관리자"에 의해
@@ -16,7 +16,9 @@ public class Community extends Posting{
 	private boolean isBanned;
 	// 유저의 "자유게시글"을 삭제한 "관리자" 계정
 	private String usrBannedId;
+	// 타겟 게시판
 	private String subject;
+	// 댓글 개수 
 	private int commentsCount;
 	
 	public int getCommentsCount() {

@@ -4,82 +4,37 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.project.Link.Commons.Comment.Comment;
-import com.project.Link.Commons.Community.Community;
 import com.project.Link.Commons.Community.Service.CommonsCommunityServiceImple;
-import com.project.Link.RegUser.Comment.Service.CommentService;
 import com.project.Link.RegUser.Community.Dao.CommunityDao;
-import com.project.Link.RegUser.Noticement.NoticementController.NoticementControllerImple;
-import com.project.Link.RegUser.Noticement.NoticementService.NoticementServiceImple;
-import com.project.Link.RegUser.Posting.Posting;
 import com.project.Link.Ufile.Service.UfileService;
 
 @Service
 @Qualifier("UserCommunityService")
 public class CommunityServiceImple extends CommonsCommunityServiceImple implements CommunityService {
-	/*
-	 * private int pagePerBlock = 10; private static final String targetBoard =
-	 * "community"; private static final String targetBoardFile = targetBoard +
-	 * "file"; private static final String cFilePath =
-	 * "C:\\temp\\" + targetBoard + "\\"; private String prefix = "c_";
-	 */
+	// 사용하는 변수 (테이블명, 파일경로, pagePerBlock, prefix는 Protected로 Commons로부터 상속받아서 사용)
 
 	@Autowired
 	@Qualifier("UserCommunityDao")
 	private CommunityDao cDao;
 	@Autowired
 	private UfileService ufService;
-//	@Autowired
-//	@Qualifier("UserCommentService")
-//	private CommentService ccService;
 
-	public CommunityServiceImple() {
-	}
+	public CommunityServiceImple() {}
+	public CommunityDao getcDao() {return cDao;}
+	public void setcDao(CommunityDao cDao) {this.cDao = cDao;}
+	public UfileService getUfService() {return ufService;}
+	public void setUfService(UfileService ufService) {this.ufService = ufService;}
 
-	public CommunityDao getcDao() {
-		return cDao;
-	}
-
-	public void setcDao(CommunityDao cDao) {
-		this.cDao = cDao;
-	}
-
-	public UfileService getUfService() {
-		return ufService;
-	}
-
-	public void setUfService(UfileService ufService) {
-		this.ufService = ufService;
-	}
-
-//	public CommentService getCcService() {
-//		return ccService;
-//	}
-
-//	public void setCcService(CommentService ccService) {
-//		this.ccService = ccService;
-//	}
-
-	/* @Transactional */
+	@Transactional 
 	@Override
 	public boolean createCommunity(String usrId, String title, String contents, List<MultipartFile> uFileList, String subject) throws Exception {
 		// 게시글 등록
@@ -92,11 +47,9 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 			}
 		}
 		int serial = cDao.getLastSerial(targetBoard, prefix) + 1;
-
 		boolean result;
 		try {
-			result = cDao.createPosting(targetBoard, prefix, serial, usrId, title, contents, uFileList.size(),
-					createDate, subject) >= 1 ? true : false;
+			result = cDao.createPosting(targetBoard, prefix, serial, usrId, title, contents, uFileList.size(), createDate, subject) >= 1 ? true : false;
 			File file = new File(cFilePath);
 			if (file.exists() == false) {
 				file.mkdirs();
@@ -122,16 +75,18 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 		}
 		return result;
 	}
-
+	// 게시글 수정
+	@Transactional
 	@Override
 	public boolean updateCommunity(String usrId, int serial, String title, String contents, List<String> previousFileCodes, List<String> deleteFileCodes, List<MultipartFile> uFileList) throws Exception {
-		// 게시글 수정 요청을 제공
 		try {
 			Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
 			Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
 			int previousListSize = 0;
 			int ufileListSize = 0;
 			int deleteTargetSize = 0;
+			//Multifile.js를 활성화하지 않았을때에도 , 활성화 했을때도 유효한 코드.
+			// 중간에 "입력창"을 추가하고, 아무것도 첨부하지 않았을때 제거하는 코드.
 			if (previousFileCodes != null) {
 				Iterator<String> iterator = previousFileCodes.iterator();
 				while (iterator.hasNext()) {
@@ -184,7 +139,7 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 				ufileListSize = uFileList.size();
 			}
 			int fileCount = previousListSize - deleteTargetSize + ufileListSize;
-			// 파일 자체의 업데이트를 끝내면
+			// 파일 자체의 업데이트를 끝내면 filecount 변조, 수정날짜 변조
 			cDao.updateCommunity(serial, title, contents, fileCount, modifyDate);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,21 +155,4 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 		return result;
 	}
 
-
-//	@Override
-//	public boolean createComment(String usrId, int targetSerial, String contents, boolean isSecret) {
-//		// 게시글 생성요청
-//		boolean result = ccService.createComment(usrId, targetSerial,contents, isSecret);
-//		return result;
-//	}
-//	@Override 
-//	public boolean deleteComment(String usrId, int targetSerial) {
-//		//게시글 삭제요청
-//		return ccService.deleteComment(usrId, targetSerial);
-//	}
-//	 @Override
-//	 public boolean updateComment(int targetSerial, String contents,boolean isSecret) { 
-//		 //게시글 수정요청
-//		 return ccService.updateComment(targetSerial, contents, isSecret);
-//	 }
 }

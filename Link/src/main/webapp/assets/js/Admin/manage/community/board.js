@@ -1,5 +1,5 @@
-$(document).ready(function(){
-	/*좌측 메인메뉴 애니메이션*/
+/*$(document).ready(function(){
+	/*좌측 메인메뉴 애니메이션
 	$(".main-menu").on("mouseover",function(){
 		$("section").css("width","80%");
 		$("section").css("margin-left","18%"); 
@@ -13,18 +13,31 @@ $(document).ready(function(){
 		var sbj = $("#subject").val();
 	    location.href="http://localhost:80/Link/community/form?subject="+sbj;
 	});
-});
+});*/
 
 function blockmove(block){
-	var stc=$('#search_category_hd').val();
-	var stg=$('#search_target_hd').val();
+/*	var stc=$('#search_category_hd').val();
+	var stg=$('#search_target_hd').val();*/
 	var sbj= $('#subject').val();
 	if (sbj!="direct"){
-		if(stc != null && stg != null){
-			location.href="/Link/admin/manage/community/list?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+sbj;
-		}
+		//if(stc != null && stg != null){
+		var stc=$('.search_category_hd').val() == undefined ? "" : $('.search_category_hd').val();
+		var stg=$('.search_target_hd').val() == undefined ? "" : $('.search_target_hd').val();
+		location.href="/Link/admin/manage/community/list?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+sbj;
+		//}
 	}else{
-		location.href="/Link/admin/manage/community/directlist?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+sbj;
+		var stclength = $(".search_category_hd").length;
+		//var stclist = new Array(stclength);
+		//var sttlist = new Array(stclist);
+		var hreflink = "/Link/admin/manage/community/directlist?page="+block+"&subject="+sbj;
+		for(var i=0; i<stclength; i++){
+			hreflink += "&search_category="+$(".search_category_hd").eq(i).val();
+			hreflink += "&search_target="+$(".search_target_hd").eq(i).val();
+		}
+		location.href=hreflink;
+		//location.href="/Link/admin/manage/community/directlist?page="+block+"&search_category="+stc+"&search_target="+stg+"&subject="+sbj;
+		
+		
 	}
 }
 function pagecall(serial){

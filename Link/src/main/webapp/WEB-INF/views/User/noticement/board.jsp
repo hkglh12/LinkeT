@@ -14,6 +14,7 @@
     <meta name="keywords" content="">
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/User/noticement/board.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/User/noticement/board.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">

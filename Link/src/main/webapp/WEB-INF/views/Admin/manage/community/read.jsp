@@ -1,10 +1,8 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%-- <c:set var="server" value= "${pageContext.request.remoteAddr}"></c:set>
-<c:set var="port" value="${pageContext.request.serverPort}"></c:set> --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,15 +10,13 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    
-
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Admin/manage/community/read.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
    	<link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">  
    	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
    	<link href="${pageContext.request.contextPath}/a/css/Admin/manage/community/read.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-        
         <!-- Summernote Setting -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -91,10 +87,6 @@
 
     			<div id="uploadfiles_wrapper">
     			<label>첨부된 파일</label>
-     <%-- <c:if test="${fn:length(list) eq 0}"> --%>
-     <!-- 올림의 쉬운 이해 -->
-     <%-- <fmt:parSeNumber var="pageCount" value="${count/pageSize + (count%pageSize==0 ? 0 : 1)}" intergerOnly="true"/> --%>
-     <!-- https://okky.kr/article/187379  -->
      			<div id="uploadfiles">
      				<ul>
      				<c:if test="${empty community.uFileList}">
@@ -103,8 +95,7 @@
      						
      				<c:if test="${not empty community.uFileList}">
      					<c:forEach items="${community.uFileList}" var="i">
-     						<li><a href="http://localhost:80/Link/community/download?fileCode=${i.uFileCode}">${i.uFileOriginName}</a></li>
-    <%-- <label class="uFileCode">${i.uFileCode}</label> --%>
+     						<li><a href="/Link/community/download?fileCode=${i.uFileCode}">${i.uFileOriginName}</a></li>
      					</c:forEach>
      				</c:if>
      				</ul>
@@ -135,21 +126,17 @@
           							<div class="image-wrapper"></div>
 		     						<label class="comm usrlbl">유저아이디 : ${i.usrId}</label>
 		     						<label class="comm usrlbl">게시날짜 : <fmt:formatDate value="${i.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></label>
-	     							
 	     							<div class="toglecomm">
-
 			     						<form action="/Link/admin/manage/comment/ban" method="post" class="delform">
 			     							<input type="hidden" value="${community.serial}" name="c_serial">
 			     							<input type="hidden" value="${i.serial}" name="del_serial"> 
 			     						</form>
-
 		     						<button type="button" class="comment_del">댓글 강제삭제</button>
 		     						</div>
 		     						<c:if test="${i.checkSecret eq true}">
 	     							<label class="col red usrlbl">비밀게시글입니다.</label>
 	     							</c:if>
 	     						</div>
-
 	     						<div class="comment_contents">
 		     							${i.contents}
 		     					</div>
@@ -161,7 +148,6 @@
     	<div class="comment_page_block">
     		<ul class="comment_blocks">
     			<fmt:parseNumber var="comment_block" value="${(commentlength/10) + (commentlength%10 == 0 ? 0 :1)}" integerOnly="true"></fmt:parseNumber>
-    		<%-- <fmt:parseNumber var="comment_blocka" value = "${(commentlength/10)+1}" integerOnly="true"/> --%>
     			<c:if test="${comment_block gt 0}">
 	        		<c:forEach begin="1" end="${comment_block}" var="i" step="1">
 	          			<li><a onclick="commentblockmove('${i}')">${i}</a></li>
