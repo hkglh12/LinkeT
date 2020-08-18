@@ -58,19 +58,43 @@
         	</div>
         	<div id ="search_comm">
         		<div id="board_select" onchange="changeboard();">
+        			<c:if test="${param.subject ne 'direct'}">
         			<select id="boardlist">
         				<option value="${param.subject}" selected>--게시판선택--</option>
         				<option value="java">java</option>
         				<option value="jsp">jsp</option>
         				<option value="spring">spring</option>
         			</select>
+        			</c:if>
         		</div>
+        		<c:if test="${param.subject ne 'direct'}">
         		<form action="/Link/admin/manage/community/list" method="GET">
-        			<select id="search_category" name="search_category">
+        		</c:if>
+        		<c:if test="${param.subject eq 'direct'}">
+        		<form action="/Link/admin/manage/community/directlist" method="GET">
+        		
+        		</c:if>
+        			<select class="search_category" name="search_category">
         				<option value="title" selected>글 제목</option>
-        				<option value="id" >작성자</option>
+        				<c:if test="${param.subject ne 'direct'}">
+        					<option value="id" >작성자</option>
+        				</c:if>
         			</select>
-        			<input type="text" id="search_target" name="search_target">
+        			<input type="hidden" class="search_category" name="search_category" value="id">
+        			
+        			<input type="text" class="search_target" name="search_target" value="">
+        			
+        			<c:forEach items="${search_target}" var="target" varStatus="num">
+        			<c:if test="${ fn:length(search_target) le 1}">
+        			<input type="hidden" class="search_target" name="search_target" value="${target}">
+        			</c:if>
+        			
+        			<c:if test="${ fn:length(search_target) ge 2}">
+        			<c:if test="${num.count eq 2}">
+        			<input type="hidden" class="search_target" name="search_target" value="${target}">
+        			</c:if>        			
+        			</c:if>
+        			</c:forEach>
         			<input type="hidden" value="${param.subject}" name="subject" id="subject">
         			<button type="submit">검색하기</button>
         		</form>
@@ -97,6 +121,7 @@
             		Posting Information
           		</div>
         	</div>
+        	<!-- BlockMove용 변수 -->
 	        <input type="hidden" id="search_category_hd" value="${search_category}">
 	        <input type="hidden" id="search_target_hd" value="${search_target}">
 

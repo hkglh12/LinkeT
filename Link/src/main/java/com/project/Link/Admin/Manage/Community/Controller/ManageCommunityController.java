@@ -18,7 +18,7 @@ public interface ManageCommunityController{
 	// 게시글 로드
 	public String GetCommunity(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr);
 	// 게시글 리스팅
-//	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session);
+	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session);
 	// 특정 유저의 게시판 주제 관계없이 게시글 리스팅
 	public String DirectListCommunities(Model model, HttpServletRequest request, HttpSession session);
 	// 게시글 Ban

@@ -126,7 +126,7 @@ public class UserControllerImple implements UserController {
 	public String GetMe(Model model, HttpServletRequest request, HttpSession session) {
 		User result = uService.getUserDetail((String) session.getAttribute("usrId"));
 		result.setCommentCount(ccService.getUserCommentsCount(result.getUsrId()));
-		result.setCommunityCount(cService.userCountCommunities(result.getUsrId()));
+		result.setCommunityCount(cService.directCountCommunities(result.getUsrId()));
 		result.setFileCount(ufService.getUserFileCount(result.getUsrId()));
 		model.addAttribute("user", result);
 		return "/User/user/profile";

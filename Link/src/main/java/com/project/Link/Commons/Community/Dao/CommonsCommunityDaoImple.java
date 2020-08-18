@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,7 +26,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
  	private ResultSet rs = null;
- 	
+ 	private Statement stmt = null;
 
 	@Override
 	public int getTotalCount(String subject) {
@@ -51,22 +52,24 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 	}
 	
 	@Override
-	public int userCountCommunities(String usrId) {
+	public int directCountCommunities(String baseSql) {
 		//특정 유저가 작성한 게시글의 개수를 리턴
 		int result=0;
 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select count(*) as count from community where u_id=? and c_deletedate is null";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setNString(1,  usrId);
-			rs = pstmt.executeQuery();
+			//String sql = "select count(*) as count from community where u_id=? and c_deletedate is null";
+			//pstmt = conn.prepareStatement(sql);
+			//pstmt.setNString(1,  baseSql);
+			//rs = pstmt.executeQuery();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(baseSql);
 			result = rs.next() == true ? rs.getInt("count") : -1;
 		}catch(ClassNotFoundException e) {e.printStackTrace();
 		}catch(SQLException e) {e.printStackTrace();
 		}finally {
 			try {
-				if (pstmt!=null) pstmt.close();
+				if (stmt!=null) stmt.close();
 				if (conn!=null) conn.close();
 			}catch(SQLException e) {e.printStackTrace();}
 		}
@@ -238,16 +241,18 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 	}
 
 	@Override
-	public ArrayList<Community> directSerachUserCommunity(int targetPage, int pagePerBlock, String searchCategory,
-			String searchTarget) {
+	/*public ArrayList<Community> directSerachUserCommunity(int targetPage, int pagePerBlock, String searchCategory,
+			String searchTarget) {*/
+	public ArrayList<Community> directSerachUserCommunity(String baseSql) {
 		ArrayList<Community> list = new ArrayList<Community>();
 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select * from community where c_deletedate IS NULL and "+searchCategory+" like ? Order by c_serial desc Limit " + (targetPage*pagePerBlock) +", "+pagePerBlock;
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%"+searchTarget+"%");
-			rs = pstmt.executeQuery();
+			//String sql = "select * from community where c_deletedate IS NULL and "+searchCategory+" like ? Order by c_serial desc Limit " + (targetPage*pagePerBlock) +", "+pagePerBlock;
+			//pstmt = conn.prepareStatement(sql);
+			//pstmt.setString(1, "%"+searchTarget+"%");
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(baseSql);
 
 			while(rs.next()) {
 				Community community = new Community();
@@ -266,7 +271,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 		}catch(SQLException e) {e.printStackTrace();
 		}finally {	
 			try {
-				if (pstmt!=null) pstmt.close();
+				if (stmt!=null) stmt.close();
 				if (conn!=null) conn.close();
 			}catch(SQLException e) {e.printStackTrace();}
 		}

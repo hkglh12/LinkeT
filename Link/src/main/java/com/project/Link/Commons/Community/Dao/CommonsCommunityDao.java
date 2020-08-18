@@ -9,7 +9,7 @@ public interface CommonsCommunityDao extends PostingDao {
 	// 특정 게시판 게시글 총 개수를 가져옴
 	public int getTotalCount(String subject);
 	// 특정 유저가 작성한 개수를 가져옴 (User Profile과 Admin의 리스팅에서 사용)
-	public int userCountCommunities(String usrId);
+	public int directCountCommunities(String baseSql);
 	// 특정 조건 하 검색 결과 개수를 가져옴
 	public int getSearchCount(String targetBoard, String prefix, String searchCategory, String searchTarget, String subject);
 	
@@ -23,5 +23,5 @@ public interface CommonsCommunityDao extends PostingDao {
 	// 특정 유저의 마지막 게시글을 리턴
 	public Community getLastUserCommunity(String usrId);
 	// 특정 유저의 게시글 전체를 리턴
-	public ArrayList<Community>directSerachUserCommunity(int targetPage, int pagePerBlock, String searchCategory, String searchTarget);
+	public ArrayList<Community>directSerachUserCommunity(String baseSql);
 }

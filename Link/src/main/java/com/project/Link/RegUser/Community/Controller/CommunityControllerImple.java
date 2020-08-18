@@ -67,19 +67,20 @@ public class CommunityControllerImple implements CommunityController{
 		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
 		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
 		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
-		if(searchCategory != null) { // 검색어와 검색타겟이 인자에 있다면, db 컬럼 이름에 맞게 변형
-			if(searchCategory.equals("title")) {
-				searchCategory = "c_"+searchCategory;
-			}else if(searchCategory.equals("id")) {
-				searchCategory = "u_"+searchCategory;
-			}else {searchCategory = null;}
-		}
+		/*
+		 * if(searchCategory != null) { // 검색어와 검색타겟이 인자에 있다면, db 컬럼 이름에 맞게 변형
+		 * if(searchCategory.equals("title")) { searchCategory = "c_"+searchCategory;
+		 * }else if(searchCategory.equals("id")) { searchCategory = "u_"+searchCategory;
+		 * }else {searchCategory = null;} }
+		 */
 		ArrayList<Community> list = cService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
 		list = ccService.totalCountComments(list);
 		int total = 0;
 		if(subject.contentEquals("direct")) {
 			//Direct일경우 반드시 유저 아이디가 넘어옵니다.
-			total = cService.userCountCommunities(searchTarget);
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("id", searchTarget);
+			total = cService.directCountCommunities(params);
 		}else {
 			total = cService.totalCountCommunities(searchCategory, searchTarget, subject);
 		}
@@ -87,7 +88,7 @@ public class CommunityControllerImple implements CommunityController{
 		model.addAttribute("communitylist",list);
 		model.addAttribute("page", targetPage);
 		if(searchCategory != null) {
-			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
+			model.addAttribute("search_category", searchCategory);
 			model.addAttribute("search_target", searchTarget);
 			model.addAttribute("subject", subject);
 		}

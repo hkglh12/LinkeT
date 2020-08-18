@@ -1,6 +1,7 @@
 package com.project.Link.Admin.Manage.User.Controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +83,9 @@ public class ManageUserControllerImple implements ManageUserController {
 	public String getUserDetail(Model model, HttpServletRequest request, HttpSession session) {
 		String usrId = request.getParameter("user_id");
 		User result = muService.getUserDetail(usrId);
-		result.setCommunityCount(mcService.userCountCommunities(result.getUsrId()));
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("id", result.getUsrId());
+		result.setCommunityCount(mcService.directCountCommunities(params));
 		result.setCommentCount(mccService.getUserCommentsCount(usrId));
 		result.setFileCount(ufService.getUserFileCount(usrId));
 		String mainCategory = request.getParameter("main_category") == null ? "all" : (String)request.getParameter("main_category");

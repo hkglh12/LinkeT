@@ -60,21 +60,25 @@
         		<!-- 날짜로 바뀔예정이에여 -->
         		<input type="hidden" name="start_date" id="start_date" value="">
         		<input type="hidden" name="end_date" id="end_date" value="">
-        			<select id="boardlist">
+        			<%-- <select id="boardlist">
         				<option value="${param.subject}" selected>--게시판선택--</option>
         				<option value="java">java</option>
         				<option value="jsp">jsp</option>
         				<option value="spring">spring</option>
-        			</select>
+        			</select> --%>
+        			
         		</div>
         		<!-- 검색조건으로 변경 -->
-        		<form action="/Link/admin/manage/community/list" method="GET">
+        		<input type="hidden" id="search_category" name = "search_category" value="${search_category}">
+        		<form action="/Link/admin/manage/log/list" method="GET">
+        		검색 기간 : <input type="date" name="start_date"> ~ <input type="date" name="end_date">
         			<select id="search_category" name="search_category">
-        				<option value="title" selected>글 제목</option>
-        				<option value="id" >작성자</option>
+        				<option value="" selected>검색조건</option>
+        				<option value="u_id">접근자 ID</option>
+        				<option value="targetservice" >대상 URI</option>
+        				<option value="ip_addr" >대상 IP</option>
         			</select>
-        			<input type="hidden" id="search_category" name = "search_category">
-        			<input type="text" id="search_target" name="search_target">
+        			<input type="text" id="search_target" name="search_target" value="${search_target}">
         			<button type="submit">검색하기</button>
         		</form>
         	</div>

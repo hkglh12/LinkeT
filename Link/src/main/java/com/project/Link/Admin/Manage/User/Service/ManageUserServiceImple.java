@@ -3,6 +3,7 @@ package com.project.Link.Admin.Manage.User.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -55,9 +56,11 @@ public class ManageUserServiceImple extends CommonsUserServiceImple implements M
 			else userList = muDao.getTargetAdmin(amount, page, subCategory, searchTarget);
 		}
 		for(User u : userList) {
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			params.put("id", u.getUsrId());
 			u.setFileCount(ufService.getUserFileCount(u.getUsrId()));
 			u.setCommentCount(ccService.getUserCommentsCount(u.getUsrId()));
-			u.setCommunityCount(cService.userCountCommunities(u.getUsrId()));
+			u.setCommunityCount(cService.directCountCommunities(params));
 		}
 		return userList;
 	}

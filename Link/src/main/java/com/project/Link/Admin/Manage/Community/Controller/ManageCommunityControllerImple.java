@@ -75,65 +75,62 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 		return "redirect:/admin/manage/community/list?page=1&subject="+request.getParameter("subject");
 	}
 
-//	@RequestMapping(value={"/list", "/"}, method=RequestMethod.GET)
-//	@Override
-//	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session) {
-//		System.out.println("called");
-//		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
-//		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
-//		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
-//		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
-//		if(searchCategory != null) {			//검색 대상이 있다면 DB 퀄럼에 맞게 변형
-//			if(searchCategory.equals("title")) {
-//				searchCategory = "c_"+searchCategory;
-//			}else if(searchCategory.equals("id")) {
-//				searchCategory = "u_"+searchCategory;
-///			}else {searchCategory = null;}
-//		}
-//		ArrayList<Community> list = mcService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
-//	/	list = mccService.totalCountComments(list);
-//		int total = 0;
-//		total = mcService.totalCountCommunities(searchCategory, searchTarget, subject);
-//		model.addAttribute("total", total);
-//		model.addAttribute("communitylist",list);
-///		if(searchCategory != null) {
-//			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
-//			model.addAttribute("search_target", searchTarget);
-///			model.addAttribute("subject", subject);
-//		}
-//		return "/Admin/manage/community/board";
-//	}
+	@RequestMapping(value={"/list", "/"}, method=RequestMethod.GET)
+	@Override
+	public String ListCommunities(Model model, HttpServletRequest request, HttpSession session) {
+		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
+		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
+		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
+		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
+
+		ArrayList<Community> list = mcService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
+		list = mccService.totalCountComments(list);
+		int total = mcService.totalCountCommunities(searchCategory, searchTarget, subject);
+		
+		model.addAttribute("total", total);
+		model.addAttribute("communitylist",list);
+		
+		if(searchCategory != null) {
+			model.addAttribute("search_category", searchCategory);
+			model.addAttribute("search_target", searchTarget);
+			model.addAttribute("subject", subject);
+		}
 	
-	@RequestMapping(value={"/list", "/directlist", "/"}, method=RequestMethod.GET)
+		return "/Admin/manage/community/board";
+	}
+	
+	@RequestMapping(value="/directlist", method=RequestMethod.GET)
 	@Override
 	public String DirectListCommunities(Model model, HttpServletRequest request, HttpSession session) {
 		// 특정 유저가 작성한 게시글을 리턴해주는 페이지입니다.
 		int targetPage = request.getParameter("page") == null ? 0 : Integer.parseInt(request.getParameter("page"))-1;
-		String searchCategory = request.getParameter("search_category") == null ? null : request.getParameter("search_category");
-		String searchTarget = request.getParameter("search_target") == null ? null : request.getParameter("search_target");
 		String subject = request.getParameter("subject") == null? "java" : request.getParameter("subject");
-		if(searchCategory != null) {			//검색 대상이 있다면 DB 퀄럼에 맞게 변형
-			if(searchCategory.equals("title")) {
-				searchCategory = "c_"+searchCategory;
-			}else if(searchCategory.equals("id")) {
-				searchCategory = "u_"+searchCategory;
-			}else {searchCategory = null;}
-		}
-		ArrayList<Community> list = mcService.ListCommunities(targetPage, searchCategory, searchTarget, subject);
-		int total = 0;
-		// directlist로 요청이 들어올때, searchTarget이 반드시 대상 User의 ID입니다.
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		String[] searchCategories = null;
+		String[] searchTargets = null;
 		if(subject.equals("direct")) {
-		total = mcService.userCountCommunities(searchTarget);
-		}else {
-			total = mcService.totalCountCommunities(searchCategory, searchTarget, subject);
+			searchCategories = request.getParameterValues("search_category") == null ? null : request.getParameterValues("search_category");
+			searchTargets = request.getParameterValues("search_target") == null ? null : request.getParameterValues("search_target");
+			for(int i=0; i<searchCategories.length; i++) {
+				System.out.println(searchCategories[i]);
+				System.out.println(searchTargets[i]);
+				if((searchCategories[i]!=null && !(searchCategories[i].equals("")) && (searchTargets[i]!=null && !(searchTargets[i].equals(""))))) {
+					params.put(searchCategories[i], searchTargets[i]);
+				}
+			}
+			
 		}
+		ArrayList<Community> list =  mcService.DirectListCommunities(targetPage, params);
 		list = mccService.totalCountComments(list);
+		int	total = mcService.directCountCommunities(params);
 		model.addAttribute("total", total);
 		model.addAttribute("communitylist",list);
-		if(searchCategory != null) {
-			// 붙였던 u_를 다시 떼주는 작업
-			model.addAttribute("search_category", searchCategory.substring(2,searchCategory.length()));
-			model.addAttribute("search_target", searchTarget);
+		if(searchCategories != null) {
+			model.addAttribute("search_category", searchCategories);
+			model.addAttribute("search_target", searchTargets);
+			for(String str : searchTargets) {
+				System.out.println(str);
+			}
 			model.addAttribute("subject", subject);
 		}
 		return "/Admin/manage/community/board";
