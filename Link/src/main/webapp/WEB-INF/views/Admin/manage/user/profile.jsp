@@ -6,11 +6,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Link-Profile</title>
+    <title>Administrator - User Profile</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
   
+ 	<%-- 또다른 실행방법. pageContext- 로 가져오는 방법과 c:url로 가져오는 방법이 있다
+ 	차이점은 JSP의 내장객체를 사용하는가, 혹은 JSTL의 C: 태그를 사용하는가 차이. --%>
     <link href="<c:url value="/a/css/Admin/manage/user/profile.css"/>" rel="stylesheet">
     <script src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
     <script src="<c:url value="/a/js/Admin/manage/user/profile.js"/>"></script>
@@ -22,6 +24,7 @@
 <jsp:include page="../../root-view.jsp"/>
 
 <section>
+<%-- 강퇴처리 후 리턴할 위치를 저장 --%>
 	<input type="hidden" name="curr_page" id="currpage" value="${page}">
 	<input type="hidden" value="${main_category}" name="main_category" id="main_category">
 	<input type="hidden" value="${sub_category}" name="sub_category" id="sub_category">
@@ -45,8 +48,12 @@
             <div class="four col">Email<span class="number">${user.usrEmail}</span></div>
             <div class="four col">JoinDate<span class="number"><fmt:formatDate value="${user.usrInDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span></div>
               <div class="four col">
+              <%-- 이전 위치로 돌아가기 --%>
             	<button type="button" id="gobacklist" onclick="goback();">돌아가기</button>
+            	<%-- 관리자 / 이미 탈퇴된사람?  --%>
+            	<c:if test="${ user.usrLevel ne 99 and user.usrOutDate eq null and user.usrKickedDate eq null}">
               <button type="button" id="bann" onclick="bann('${user.usrId}');">강퇴시키기</button>
+              </c:if>
               </div>
               <div class="four col">
               	<c:choose>

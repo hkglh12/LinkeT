@@ -22,7 +22,7 @@ import com.project.Link.Commons.Comment.Comment;
 @RequestMapping(value="/admin/manage/comment/*")
 @Controller
 public class ManageCommentControllerImple implements ManageCommentController {
-	
+	// 관리자는 댓글을 관리자페이지에서 작성할 수 없습니다.
 	@Autowired
 	@Qualifier("ManageCommentService")
 	private ManageCommentService mccService;
@@ -34,9 +34,6 @@ public class ManageCommentControllerImple implements ManageCommentController {
 		// Community 최초 로딩 외에, Paging 처리된 댓글 리스트를 제공하는 엔드포인트
 		// Ajax통신을 사용하므로 ResponseBody, RequestBody를 사용함. Jackson-databind 라이브러리 사용
 		int targetSerial = ajaxRequest.containsKey("c_serial") == true ? Integer.valueOf(ajaxRequest.get("c_serial")) : 0;
-		if(targetSerial == 0) {
-			throw new Exception();
-		}
 		int pageNum = ajaxRequest.containsKey("page_num") == true ? Integer.valueOf(ajaxRequest.get("page_num"))-1: 0;
 		ArrayList<Comment> list = mccService.ListComments(targetSerial, pageNum);
 		HashMap<String, ArrayList<Comment>> returnInfo = new HashMap<String, ArrayList<Comment>>();

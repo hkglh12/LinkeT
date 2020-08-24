@@ -6,28 +6,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.project.Link.Commons.Community.Community;
+
 import com.project.Link.Commons.Community.Dao.CommonsCommunityDaoImple;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
-import com.project.Link.RegUser.Posting.Posting;
-import com.project.Link.RegUser.Posting.Dao.PostingDaoImple;
+
 
 @Component
 @Qualifier("UserCommunityDao")
 public class CommunityDaoImple extends CommonsCommunityDaoImple implements CommunityDao{
 	
-	String dbDriver = DBinfo.getDriver();
-	String dbUrl = DBinfo.getUrl();
-	String dbUserId = DBinfo.getUserid();
-	String dbUserPw = DBinfo.getUserpw();
+	protected String dbDriver = DBinfo.getDriver();
+	protected String dbUrl = DBinfo.getUrl();
+	protected String dbUserId = DBinfo.getUserid();
+	protected String dbUserPw = DBinfo.getUserpw();
  	
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;

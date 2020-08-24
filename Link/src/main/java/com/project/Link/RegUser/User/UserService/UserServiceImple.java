@@ -11,9 +11,7 @@ import com.project.Link.Commons.User.User;
 import com.project.Link.Commons.User.Service.CommonsUserServiceImple;
 import com.project.Link.RegUser.Comment.Service.CommentService;
 import com.project.Link.RegUser.Community.Service.CommunityService;
-import com.project.Link.RegUser.Noticement.NoticementService.NoticementService;
 import com.project.Link.RegUser.User.UserDao.UserDao;
-import com.project.Link.Ufile.Service.UfileService;
 
 @Service
 @Qualifier("UserService")

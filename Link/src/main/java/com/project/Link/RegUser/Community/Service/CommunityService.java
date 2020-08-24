@@ -18,4 +18,6 @@ public interface CommunityService extends CommonsCommunityService{
 	public boolean updateCommunity(String usrId, int serial, String title, String contents,	List<String> previousFileCodes, List<String> deleteFileCodes, List<MultipartFile> uFilelist) throws Exception;
 	// 자유게시글 삭제
 	public boolean deleteCommunity(int targetSerial);
+	
+	public void fileAccessLog();
 }

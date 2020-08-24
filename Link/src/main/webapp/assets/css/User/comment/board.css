@@ -12,7 +12,7 @@
 .forum-topic a:hover {color: hsl(195, 73%, 48%);}
 .forum-topic span {display: block; margin: 0 0 2px 0;}
 .overflow-upper{font-size:14px;}
-.overflow-control {fwhite-space: nowrap; text-overflow:ellipsis; font-size:20px;}
+.overflow-control {white-space: nowrap; text-overflow:ellipsis; font-size:20px; display:inline-block;}
 .forum-topic .column:nth-child(2) span.overflow-control {width: 70%; height: 15px;}
 .forum-topic span.center {padding-top: 10px;}
 .mainwrapper{display:block; width: 100%; height:auto;/*  overflow:hidden; */ position:relative;}

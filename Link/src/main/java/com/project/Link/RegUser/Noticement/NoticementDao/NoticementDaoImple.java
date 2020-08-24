@@ -5,18 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.project.Link.Commons.User.User;
 import com.project.Link.Dbinfo.DBinfo;
 import com.project.Link.RegUser.Noticement.Noticement;
-import com.project.Link.RegUser.Posting.Posting;
 import com.project.Link.RegUser.Posting.Dao.PostingDaoImple;
 
 @Component

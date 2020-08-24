@@ -1,37 +1,20 @@
 $(document).ready(function(){
-	/*좌측 메인메뉴 애니메이션*/
-/*	$(".main-menu").on("mouseover",function(){
-		$("section").css("width","80%");
-		$("section").css("margin-left","18%"); 
-	});    
-	$(".main-menu").on("mouseout",function(){
-		$("section").css("width","95%");
-	    $("section").css("margin-left","6vw"); 
-	});
-	
-	$("#community_post").on("click",function(){
-		var sbj = $("#subject").val();
-	    location.href="http://localhost:80/Link/community/form?subject="+sbj;
-	});*/
 });
 
+// 사용자 리스트 페이지 이동
 function blockmove(block){
 	var main_category = $("#main_category").val() == null ? "all" : $("#main_category").val();
 	var sub_category = $("#sub_category").val();
 	var search_target = $("#search_target").val();
-	/*if(search_target == null || search_target == ""){
-		location.href="/Link/admin/manage/user/list?page="+block+"&main_category="+main_category;
-	}else{*/
 	location.href="/Link/admin/manage/user/list?page="+block+"&main_category="+main_category+"&sub_category="+sub_category+"&search_target="+search_target;
-	/*}*/
 }
-function pagecall(serial){
-	location.href="/Link/admin/manage/community/get?c_serial="+serial;
-}
+
+// 리스트 보드 타입을 변경 (전체사용자, 정상사용자, 탈퇴사용자, 관리자)
 function changeboard(){
 	var value = $("#maincategorylist option:selected").val();
 	location.href="/Link/admin/manage/user/list?main_category="+value;
 }
+// 특정 유저의 상세정보를 리콜
 function userdetail(usr_id){
 	console.log(usr_id);
 	var frm = $("<form>").attr("action","/Link/admin/manage/user/detail").attr("method","GET").appendTo($("body"));
@@ -42,10 +25,13 @@ function userdetail(usr_id){
 	$("<input>").attr("type","hidden").attr("name","page").attr("value",$("#currpage").val()).appendTo(frm);
 	frm.submit();
 }
+// 유저 리스트 검색조건을 변경하는 순간 해당 form 내의 hidden type을 동기화 (form action으로 동작함)
 function sync_sub_category(){
 	$("#sub_category").val($("#subcategorylist option:selected").val());	
 }
-function bulk_del(){
+// 동시삭제, 체크한것을 모두 들고와야하고 form을 하나로 처리하기위해서 jquery selector로 수집
+// >> 개선 : ban_user, 삭제 후 redirect에 필요한 데이터를 함께 전송
+/*function bulk_del(){
 	var bulk_delform = $("<form>").attr("action","/Link/admin/manage/community/bulkban").attr("method","post");
 	$("<input>").attr('name', 'subject').attr('type','hidden').attr('value',$("#subject").val()).appendTo(bulk_delform);
 	var lists=$(".bulk_delete_check:checkbox:checked");
@@ -53,7 +39,8 @@ function bulk_del(){
 		$("<input>").attr('name','bulkdel').attr('value',$(this).val()).attr('type','hidden').appendTo(bulk_delform);
 	});
 	bulk_delform.appendTo($('body')).submit();
-}
+}*/
+// 개별 유저 삭제 >> 개선 동시삭제 및 개별삭제 허용
 function ban_user(){
 	var target_list = new Array();
 	if($("input[class=target_id]:checked").length>=1){

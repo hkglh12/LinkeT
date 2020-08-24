@@ -3,7 +3,6 @@ package com.project.Link.Admin.Manage.Comment.Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
@@ -23,7 +22,7 @@ public class ManageCommentDaoImple extends CommonsCommentDaoImple implements Man
  	
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
- 	private ResultSet rs = null;
+ 	//private ResultSet rs = null;
  	
 	@Override
 	public boolean banComment(int targetSerial, String usrId, Timestamp deleteDate) {
@@ -32,7 +31,6 @@ public class ManageCommentDaoImple extends CommonsCommentDaoImple implements Man
 			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
 			String sql = "update communitycomments set cc_deletedate = ?, isbanned = ?, u_banned_id = ? where cc_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setTimestamp(1,deleteDate);

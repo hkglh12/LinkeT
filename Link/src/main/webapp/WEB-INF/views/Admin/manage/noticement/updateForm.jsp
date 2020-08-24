@@ -1,12 +1,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>We Linke-t</title>
+    <title>administrator : 공지사항 Update</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">

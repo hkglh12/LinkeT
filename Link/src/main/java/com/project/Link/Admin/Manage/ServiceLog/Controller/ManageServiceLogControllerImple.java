@@ -2,6 +2,7 @@ package com.project.Link.Admin.Manage.ServiceLog.Controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ import com.project.Link.Admin.Manage.ServiceLog.Service.ManageServiceLogService;
 @RequestMapping(value="/admin/manage/log")
 @Controller
 public class ManageServiceLogControllerImple implements ManageServiceLogController{
-
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	@Autowired
 	private ManageServiceLogService mslService;
 	
@@ -34,6 +34,7 @@ public class ManageServiceLogControllerImple implements ManageServiceLogControll
 		HashMap <String, Object> params = new HashMap<String,Object>();
 		// DAO가 인자만큼 분화되는것을 막기위해서, Service에서 SQL문을 작성해서 DAO로 내릴 예정
 		// service 에서 Iter로 처리하기 위해 HashMap으로 처리
+		
 		int targetPage = request.getParameter("page") == null || request.getParameter("page").equals("") ? 0 : Integer.parseInt(request.getParameter("page"))-1;
 		Timestamp startDate = request.getParameter("start_date") == null || request.getParameter("start_date").equals("") ? null : new Timestamp(Date.valueOf((request.getParameter("start_date").toString())).getTime());
 		if(startDate!=null) params.put("startDate",startDate);
@@ -43,13 +44,16 @@ public class ManageServiceLogControllerImple implements ManageServiceLogControll
 		String searchTarget = request.getParameter("search_target") == null || request.getParameter("search_target").equals("") ? null : request.getParameter("search_target");
 		if(searchCategory != null && searchTarget != null) params.put(searchCategory, searchTarget);
 		
-		System.out.println("target page : " + targetPage + " / startDate : " + startDate + " / endDate : " + endDate + " searchCategory : " + searchCategory + "searchTarget : " + searchTarget);
 		int total = mslService.totalCountLogs(params);
 		ArrayList<ServiceLog> list = mslService.getLogList(params, targetPage);
+		
 		model.addAttribute("total", total);
 		model.addAttribute("list", list);
-		model.addAttribute("start_date", startDate);
-		model.addAttribute("end_date", endDate);
+		if(startDate != null) {model.addAttribute("start_date", sdf.format(startDate));}
+		else {System.out.println("probbb");}
+		if(endDate != null) {model.addAttribute("end_date", sdf.format(endDate));}
+		else {System.out.println("probbb2");}
+		
 		model.addAttribute("search_category", searchCategory);
 		model.addAttribute("search_target", searchTarget);
 		model.addAttribute("page", targetPage+1);

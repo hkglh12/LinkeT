@@ -217,6 +217,7 @@ public class CommunityControllerImple implements CommunityController{
 			if(cService.validateCommunityFile(fileCode)) {
 			File file = new File(cFilePath+fileCode);
 			if(file.exists()) {
+				cService.fileAccessLog();
 				String mimeType = Files.probeContentType(file.toPath());
 				if(mimeType==null) {
 					mimeType="application/octet-stream";

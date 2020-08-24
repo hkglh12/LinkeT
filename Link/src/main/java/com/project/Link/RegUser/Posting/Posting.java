@@ -2,7 +2,6 @@ package com.project.Link.RegUser.Posting;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.project.Link.Ufile.UFile;
 

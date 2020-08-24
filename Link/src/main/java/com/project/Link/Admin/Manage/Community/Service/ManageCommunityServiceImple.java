@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.Link.Admin.Manage.Community.Dao.ManageCommunityDao;
 import com.project.Link.Commons.Community.Service.CommonsCommunityServiceImple;
-import com.project.Link.RegUser.Community.Dao.CommunityDao;
 
 @Service
 @Qualifier("ManageCommunityService")
@@ -47,5 +46,10 @@ public class ManageCommunityServiceImple extends CommonsCommunityServiceImple im
 	public boolean banCommunity(int targetSerial, String usrId) {
 		Timestamp deleteDate = Timestamp.valueOf(LocalDateTime.now());
 		return mcDao.banCommunity(targetSerial,usrId, deleteDate);
+	}
+	@Override
+	public void fileAccessLog() {
+		// nothing to do
+		
 	}
 }

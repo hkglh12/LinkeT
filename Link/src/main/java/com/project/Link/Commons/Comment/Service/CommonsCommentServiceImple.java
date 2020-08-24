@@ -40,9 +40,11 @@ public class CommonsCommentServiceImple implements CommonsCommentService {
 		ArrayList<Comment> list = ccDao.getDirectUserComment(usrId, page, pagePerBlock);
 		
 		for(Comment c : list) {
-			if(c.getContents().length() >= 21) {
-
-				c.setContents(c.getContents().substring(0, 20)+"...");
+			c.setContents(c.getContents().replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", ""));
+			// 태그만 삭제, /가 있든 없든, 알파벳 여러개이상 + 공백에 >로 종료
+			if(c.getContents().length() >= 50) {
+				
+				c.setContents(c.getContents().substring(0, 50)+"...");
 			}
 		}
 		//특정 유저가 작성한 리스트 리턴

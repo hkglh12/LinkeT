@@ -17,10 +17,11 @@ public interface UserController {
 	public String RegisterUser(Model model, HttpServletRequest request, RedirectAttributes attributes);
 	/* 유저 조회 (로그인, 마이페이지 공통) */
 	public String GetUser(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes attributes);
+	/* 유저 프로파일 Get */
 	public String GetMe(Model model, HttpServletRequest request, HttpSession session);
-	/* 유저정보변경 */
+	/* 유저정보변경  AJAx 동작*/ 
 	public HashMap<String,String> UpdateUser(@RequestBody HashMap<String, String> target,Model model, HttpServletRequest request, HttpSession session);
-	/* 유저탈퇴 */
+	/* 유저탈퇴  AJAX 동작*/
 	public HashMap<String,String> DeleteUser(@RequestBody HashMap<String, String> target,Model model, HttpServletRequest request, HttpSession session);
 	public void LogOut(Model model, HttpServletRequest request, HttpSession session, HttpServletResponse response);
 }

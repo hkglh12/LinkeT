@@ -154,5 +154,9 @@ public class CommunityServiceImple extends CommonsCommunityServiceImple implemen
 		boolean result = cDao.deleteCommunity(targetSerial, deleteDate) >= 1 ? true : false;
 		return result;
 	}
+	@Override
+	public void fileAccessLog() {
+		// NONE. Accessing Log
+	}
 
 }

@@ -50,7 +50,7 @@
         	<artifactId>aspectjtools</artifactId>
         	<version>${org.aspectj-version}</version>
         </dependency>
-		<!-- Logging -->
+		<!-- Logging log4j, slf4j >> slf4j가 로깅에대한 추상화를 제공-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>

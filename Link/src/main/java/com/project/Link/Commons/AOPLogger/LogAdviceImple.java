@@ -3,28 +3,19 @@ package com.project.Link.Commons.AOPLogger;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -57,7 +48,7 @@ public class LogAdviceImple implements LogAdvice{
 	@Before("@within(org.springframework.stereotype.Service)")
 	//public Object EnterServiceLevel(ProceedingJoinPoint pjp) throws Throwable{
 	// 실행 메서드 정보를 가져오려면 인자에 JoinPoint 추가, Around는 ProceedingJoinPoint
-	public void EnterServiceLevel() throws Throwable{
+	public void EnterServiceLevel(JoinPoint jp) throws Throwable{
 		 HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		//	logger.info("Service in*********************************************************");
 		 	String usrId = null;
@@ -66,12 +57,16 @@ public class LogAdviceImple implements LogAdvice{
 			String ip = null;
 			String method = null;
 			if(request != null) {
+				//정보 추출
 				HttpSession session = request.getSession();
+				// 매번 Service 접속시 PK 갱신
 				sessionTimeStamper(session);
+				// HTTP method
 				method = request.getMethod();
 				usrId = (String) session.getAttribute("usrId");
+				// Timestamp화 (session에서는 String으로 간주)
 				sessionStamp = Timestamp.valueOf(session.getAttribute("SessionStamp").toString());
-				targetUri = request.getRequestURI();
+				targetUri = request.getRequestURI() + " / " + jp.getSignature().getName();
 				ip = request.getHeader("X-FORWARDED-FOR");
 				if(ip == null) {
 					ip = request.getRemoteAddr();
@@ -79,23 +74,19 @@ public class LogAdviceImple implements LogAdvice{
 			}
 			svlLogger.loggerBefore(ip, sessionStamp, usrId, targetUri, method);
 	
-			// 메서드 이름 : jp.getSignature().getName()
-		//	logger.info("Session : " + usrId + " / IP : " +ip+" / Timestsamp : " + sessionStamp + " / Target :"+targetUri);
-		//	System.out.println("===========================================================");
-			
 	}
 	// 정상성공했다면 남긴 발자취를 모두 성공으로 변경
 	@Override
 	@AfterReturning("@within(org.springframework.stereotype.Service)")
 	public void SuccessServiceLevel() throws Throwable{
 		Timestamp sessionStampStr = null;
+		// 소요시간 계산용
 		Timestamp stampNow = Timestamp.valueOf(LocalDateTime.now());
-		
+		// HTTP servlet 정보 호출
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		logger.info("Service Returner Start");
 		if(request!=null) {
-			
 			HttpSession session = request.getSession();
+			// 최초 PK 설정시간 GET
 			sessionStampStr = Timestamp.valueOf(session.getAttribute("SessionStamp").toString());
 			svlLogger.afterSuccess(sessionStampStr,stampNow.getTime() - sessionStampStr.getTime());
 		}
@@ -107,12 +98,10 @@ public class LogAdviceImple implements LogAdvice{
 		Timestamp stampNow = Timestamp.valueOf(LocalDateTime.now());
 		
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-		logger.info("Service Returner Start");
 		if(request!=null) {
 			HttpSession session = request.getSession();
 			sessionStampStr = Timestamp.valueOf(session.getAttribute("SessionStamp").toString());
 			long time = stampNow.getTime() - sessionStampStr.getTime();
-			logger.info("Time : " + time);
 			svlLogger.afterFailed(sessionStampStr, time);
 		}
 	}

@@ -33,9 +33,10 @@ public class CommonsCommentDaoImple implements CommonsCommentDao{
 		 try {
 			 Class.forName(dbDriver);
 			 conn = DriverManager.getConnection(dbUrl, dbUserId,dbUserPw); 
-			 String sql = "select count(*) as count from communitycomments where c_serial = ? AND cc_deletedate IS NULL";
+			 String sql = "select count(*) as count from communitycomments where c_serial = ? AND cc_deletedate IS NULL and (select c_deletedate from community where c_serial=?) is null";
 			 pstmt = conn.prepareStatement(sql); 
 			 pstmt.setInt(1, communitySerial);
+			 pstmt.setInt(2,  communitySerial);
 			 rs = pstmt.executeQuery();
 			 result = (rs.next()) == true ? rs.getInt("count") : -1;
 		 }catch(ClassNotFoundException e) {
@@ -95,7 +96,8 @@ public class CommonsCommentDaoImple implements CommonsCommentDao{
 		try {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			String sql = "select count(*) as count from communitycomments where u_id=? and cc_deletedate is null ";
+			String sql = "select count(*) as count, c_deletedate from communitycomments inner join community using(c_serial)"
+					+ " where communitycomments.u_id=? and cc_deletedate is null and c_deletedate is null ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,usrId);
 			rs = pstmt.executeQuery();
@@ -117,7 +119,8 @@ public class CommonsCommentDaoImple implements CommonsCommentDao{
 		 try {
 			 Class.forName(dbDriver);
 			 conn = DriverManager.getConnection(dbUrl, dbUserId,dbUserPw); 
-			 String sql = "select * from communitycomments where u_id = ? AND cc_deletedate IS NULL order by cc_createdate desc limit 0,1";
+			 String sql = "select * , c_deletedate from communitycomments inner join community using(c_serial) "
+			 		+ "where communitycomments.u_id = ? AND cc_deletedate IS NULL and c_deletedate is null order by cc_createdate desc limit 0,1";
 			 pstmt = conn.prepareStatement(sql); 
 			 pstmt.setString(1, usrId);
 			 rs = pstmt.executeQuery();
@@ -151,7 +154,8 @@ public class CommonsCommentDaoImple implements CommonsCommentDao{
 			try {
 				Class.forName(dbDriver);
 				conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-				String sql = "select * from communitycomments where u_id = ? AND cc_deletedate IS NULL Order by cc_serial desc LIMIT "+(page*pagePerBlock) + ", "+pagePerBlock;
+				String sql = "select * , c_deletedate from communitycomments inner join community using(c_serial)"
+						+ " where communitycomments.u_id = ? AND cc_deletedate IS NULL AND c_deletedate is null Order by cc_serial desc LIMIT "+(page*pagePerBlock) + ", "+pagePerBlock;
 				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, usrId);

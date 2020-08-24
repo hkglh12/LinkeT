@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,6 +18,7 @@
    	<script src="${pageContext.request.contextPath}/a/js/jquery.MultiFile.min.js"></script>
    	<script src="${pageContext.request.contextPath}/a/js/Admin/manage/noticement/post.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
+    
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <!-- Summernote Setting -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">

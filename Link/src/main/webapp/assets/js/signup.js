@@ -54,12 +54,16 @@ $(document).ready(function(){
             alert("아이디를 입력해주세요");
         }else{
 			var tgr = $("#u_id").val();
-			if(!(idstd.test(tgr))){
+			var stdtest = false;
+			stdtest = idstd.test(tgr);
+			if(stdtest == false){
+				console.log(tgr);
+				console.log(stdtest);
 				alert("아이디 입력조건에 부합하지 않습니다.");
 			}else{
+				console.log(tgr);
+				console.log(stdtest);
             var param = {"u_id" : tgr};
-			console.log(param);
-			
             $.ajax({
                 type:"POST",
                 async:true,
@@ -69,10 +73,8 @@ $(document).ready(function(){
                 },
                 url:"/Link/usr/validate",
                 dataType:"json",
-            
             	data:JSON.stringify(param),
                 success:function(data){
-					console.log(data);
                     if(data.result == "accept"){
                         idcheck = true;
                         alert("사용하실 수 있는 ID입니다.")
@@ -80,9 +82,7 @@ $(document).ready(function(){
                     }else{
                         alert("이미 중복된 ID가 사용중입니다");
                     }
-                },error:function(data){
-                    console.log(data);
-                }
+                },error:function(data){ }
             })
         }
 	}
@@ -94,21 +94,11 @@ $(document).ready(function(){
         }else{
 			
 			var tgr = $("#u_email").val();
-			console.log(tgr);
-			console.log(emailstd);
             if(!(emailstd.test(tgr))){
-				console.log("FALSE CALLED");
                 alert("이메일 형식이 맞지 않습니다.")
-                console.log(tgr);
-				console.log(emailstd.test(tgr));
             }else{
-				console.log("TRUE CALLED");
-				console.log(emailstd.test(tgr));
-				console.log(tgr);
                 var param = {"u_email" : tgr};
-				console.log(param);
 				var parameter = JSON.stringify(param);
-				console.log
                 $.ajax({
                     type:"POST",
                     async:true,
@@ -128,47 +118,11 @@ $(document).ready(function(){
                             alert("이미 중복된 EMAIL이 사용중입니다");
                         }
                     },error:function(data){
-                        console.log(data);
                     }
                 })
             }
         }
     });
-    
-   /* //InvitatinoCode 유효성 검사
-    $("#invicheck").on("click", function(){
-			if($("#invcode").val()!=null){
-			var tgr = $("#invcode").val();
-            var param = {"targetTeamCode" : tgr};
-            $.ajax({
-                type:"POST",
-                async:true,
-                headers: { 
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json' 
-                },
-                url:"http://localhost:80/LinkeT/getTeam",
-                dataType:"json",
-                data : JSON.stringify(param),
-                success:function(data){
-                    
-                    if(!(data.hasOwnProperty("fstatus"))){
-                        alert("유효한 Team Code입니다!\r\n Team Name : " + result);
-						invitationck = true;
-                        $("#invcode").val(tgr);
-                    }else{
-                        alert("유효하지 않은 team code입니다. 다시한번 확인해주세요");
-                        $("#invcode").val("");
-                    }
-                },error:function(data){
-                    console.log(data);
-                }
-            });
-        }else{	//비었다면
-			alert("Team code를 입력해주세요!");
-		}
-        
-    });*/
     
     $("#sign_submit").on("click",function(){
 		

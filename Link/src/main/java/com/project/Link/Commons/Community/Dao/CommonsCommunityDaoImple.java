@@ -250,6 +250,7 @@ public class CommonsCommunityDaoImple extends PostingDaoImple implements Commons
 				community.setFileCount(rs.getInt("f_count"));
 				community.setCreateDate(rs.getTimestamp("c_createdate"));
 				community.setModifyDate(rs.getTimestamp("c_modifydate"));
+				community.setDeleteDate(rs.getTimestamp("c_deletedate"));
 				community.setReadCount(rs.getInt("c_count"));
 				community.setSubject(rs.getNString("c_subject"));		
 			}

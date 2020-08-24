@@ -1,13 +1,3 @@
-/*$(".main-menu").on("mouseover",function(){
-	$("section").css("width","80%");
-  	$("section").css("margin-left","18%"); 
-});
-    
-$(".main-menu").on("mouseout",function(){
-	$("section").css("width","95%");
-	$("section").css("margin-left","6vw"); 
-});*/
-
 function updaterequest(target){
 	location.href="/Link/admin/manage/notice/update?n_serial="+target;
 }
@@ -23,7 +13,6 @@ function deleterequest(target){
     	document.body.appendChild(f);
     	f.submit();
 }
-
 function golist(){
 	location.href="/Link/admin/manage/notice/list?page=1"
 }

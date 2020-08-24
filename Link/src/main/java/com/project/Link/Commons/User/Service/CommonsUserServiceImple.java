@@ -37,7 +37,7 @@ public class CommonsUserServiceImple implements CommonsUserService{
 	public void setcService(CommonsCommunityService cService) {this.cService = cService;}
 
 	@Override
-	/* 회원정보가져오기로 쓰임 */
+	/* 회원정보가져오기로 쓰임 >> 관리자, 사용자는 본인정보 자세히보기..*/
 	public User getUserDetail(String usrId) {
 		User user = uDao.get(usrId);
 		return user;

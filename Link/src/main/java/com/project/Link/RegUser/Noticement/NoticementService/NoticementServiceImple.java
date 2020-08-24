@@ -1,31 +1,13 @@
 package com.project.Link.RegUser.Noticement.NoticementService;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.project.Link.RegUser.Noticement.Noticement;
 import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDao;
-import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
-import com.project.Link.RegUser.Posting.Posting;
-import com.project.Link.Ufile.Dao.UfileDao;
 import com.project.Link.Ufile.Service.UfileService;
 
 @Service
@@ -75,6 +57,11 @@ public class NoticementServiceImple implements NoticementService{
 	public boolean validateNoticementFile(String fileCode) {
 		String targetBoard = "noticementfile";
 		return ufService.uFileValidate(targetBoard, fileCode);
+	}
+	@Override
+	public void fileAccessLog() {
+		//Nothing to do
+		
 	}
 
 }

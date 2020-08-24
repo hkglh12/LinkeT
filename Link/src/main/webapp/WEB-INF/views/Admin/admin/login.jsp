@@ -1,19 +1,16 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <html>
 <head>
     <title>ADMIN Login</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="<c:url value="/a/css/Admin/admin/login.css"/>" rel="stylesheet">
-    <script type="text/javascript" src="<c:url value="/a/js/jquery-3.5.1.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/a/js/Admin/admin/login.js"/>"></script>
-    <script type="text/javascript" src="<c:url value="/a/js/encryptor.js"/>"></script>
+    <link href="${pageContext.request.contextPath}/a/css/Admin/admin/login.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Admin/admin/login.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/encryptor.js"></script>
+    <%-- Page feedback에 대해 직접 JSP에서 처리 --%>
 	<script>
 		$(function(){
 			var response = "${result}";
@@ -34,6 +31,7 @@
 		</div>
 		<br>
 		<div class="login">
+		<%-- Form을 준비하고, 암호화하여 폼에 추가, 동작 시동 --%>
             <form action="/Link/admin/login" method="post" id="loginform">
 				<input type="text" name="u_id" placeholder="ADMINISTATOR_ID" id ="u_id"><br>
 				<input type="password" name="u_pwraw" id="u_pwraw" placeholder="password" ><br>

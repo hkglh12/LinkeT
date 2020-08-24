@@ -57,8 +57,8 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 	// 한발 더 내딛어봄. Sql을 Service에서 만들어 내리는게 표준에서 많이 벗어난지는 알수가 없었음
 	@Override
 	public int directCountCommunities(HashMap<String, Object> params) {
-		String baseSql = "select count(*) as count from community";
-		if(!params.isEmpty()) baseSql += " where ";
+		String baseSql = "select count(*) as count from community where c_deletedate is null";
+		if(!params.isEmpty()) baseSql += " and ";
 		int i=0;
 		for(Map.Entry<String, Object> et : params.entrySet()) {				
 			if(et.getKey().equals("id")) {
@@ -119,8 +119,9 @@ public class CommonsCommunityServiceImple implements CommonsCommunityService{
 	@Override
 	public ArrayList<Community> DirectListCommunities(int targetPage, HashMap<String, Object> params) {
 		ArrayList<Community> list = new ArrayList<Community>();
-		String baseSql = "select * from community";
-		if(!params.isEmpty()) baseSql += " where ";
+		// 표준인지는..잘모르겠다..
+		String baseSql = "select * from community where c_deletedate is null";
+		if(!params.isEmpty()) baseSql += " and ";
 		int i=0;
 		for(Map.Entry<String, Object> et : params.entrySet()) {				
 			if(et.getKey().equals("id")) {

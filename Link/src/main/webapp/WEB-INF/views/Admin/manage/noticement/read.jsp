@@ -1,8 +1,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,6 +64,7 @@
         			</div>
 	        		<div class="ar">
 	        			<button id="goback" onclick="golist();">목록으로 돌아가기</button>
+	        			<%-- form 없이 순수 js만으로 "수집"해서 전달해보기 --%>
 	          			<button id="upd" onclick="updaterequest('${noticement.serial}');"> 수정하기 </button>
 	          			<button id="del" onclick="deleterequest('${noticement.serial}');">삭제하기</button>
 	        		</div>

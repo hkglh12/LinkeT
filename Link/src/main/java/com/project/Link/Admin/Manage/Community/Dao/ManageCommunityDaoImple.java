@@ -57,7 +57,6 @@ public class ManageCommunityDaoImple extends CommonsCommunityDaoImple implements
 			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
 			String sql = "update community set c_deletedate = ?, isbanned = ?, u_banned_id = ? where c_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setTimestamp(1,deleteDate);

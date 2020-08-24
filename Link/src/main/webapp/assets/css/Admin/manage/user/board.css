@@ -32,6 +32,7 @@
 /*.row.mt {}*/
 .mb { margin-bottom: 1.25em;}
 .large-12{width:100%;}
+/* 개별 세팅 사용하므로 columns.css 임포트 안함 */
 .forum-head{display:flex; width:100%; box-sizing:border-box;}
 .forum-head > .column {background-color: hsl(206, 35%, 13%); border-right: 1px solid hsl(212, 35%, 15%); border-left: 1px solid hsl(212, 28%, 12%); color: hsl(0, 0%, 100%); font-weight: 300; font-size: 15px; text-shadow: 0 1px 1px hsl(0, 0%, 0%); text-align: center;}
 .forum-topic{display:flex; width:100%; box-sizing:border-box;}

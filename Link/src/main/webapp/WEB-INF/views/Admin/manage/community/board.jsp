@@ -12,7 +12,6 @@
     <script src="${pageContext.request.contextPath}/a/js/Admin/manage/community/board.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/community/board.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
     <script>
 		if("${result}" == "true"){
@@ -108,8 +107,11 @@
          		<div class="large-2 column lpad">
          			삭제
          		</div>
-          		<div class="large-70 small-8 column lpad">
+          		<div class="large-60 small-8 column lpad">
             		Contents
+          		</div>
+          		<div class="large-10 column lpad">
+          			Subject
           		</div>
           		<div class="large-5 column ltpad">
             		File Count
@@ -156,7 +158,7 @@
           				<div class="large-1 column lpad">
           					<input type="checkbox" class="bulk_delete_check" value="${community.serial}">
           				</div>
-          				<div class="large-70 small-8 column lpad" onclick="pagecall('${community.serial}')">
+          				<div class="large-60 small-8 column lpad" onclick="pagecall('${community.serial}')">
             				<span class="overflow-upper">
               					 #<c:out value="${total - ((param.page-1) * 10) - number.count+1}"/>
             				</span>
@@ -165,6 +167,9 @@
               					<c:out value="${community.title}    [${community.commentsCount}]"/>
             				</a>
             				</span>
+          				</div>
+          				<div class="large-10 column lpad">
+          					<c:out value="${community.subject}"></c:out>
           				</div>
           				<div class="large-5 column ltpad">
             				<span class="center" id="total">${community.fileCount}</span>

@@ -3,7 +3,6 @@ package com.project.Link.Admin.Manage.User.Controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -20,7 +19,6 @@ import com.project.Link.Admin.Manage.Community.Service.ManageCommunityService;
 import com.project.Link.Admin.Manage.User.Service.ManageUserService;
 import com.project.Link.Commons.User.User;
 import com.project.Link.Ufile.Service.UfileService;
-import com.project.Link.Ufile.Service.UfileServiceImple;
 
 
 @RequestMapping(value="/admin/manage/user/*")
@@ -64,12 +62,11 @@ public class ManageUserControllerImple implements ManageUserController {
 	@RequestMapping(value="/ban", method=RequestMethod.POST)
 	@Override
 	public String banUser(Model model, HttpServletRequest request, HttpSession session, RedirectAttributes redirectAttr) {
-		String[] targetList = request.getParameterValues("target_list");
+		String[] targetList = request.getParameterValues("target_list"); // bulk_ban(기존 JS 메서드) 도 이곳에서 처리합니다. 배열일 수도 있습니다.
 		String category = request.getParameter("category");
 		String usrId = (String)session.getAttribute("usrId");
-		int page = request.getParameter("curr_page") == null ? 0 : Integer.valueOf((String)request.getParameter("curr_page"))-1;
+		int page = request.getParameter("curr_page") == null ? 0 : Integer.valueOf((String)request.getParameter("curr_page"))-1; // 리턴용
 		boolean result = muService.banUsers(targetList, usrId);
-		
 		redirectAttr.addFlashAttribute("usrId", session.getAttribute("usrId"));
 		redirectAttr.addFlashAttribute("isAdmin", session.getAttribute("isAdmin"));
 		redirectAttr.addFlashAttribute("page", page+1);

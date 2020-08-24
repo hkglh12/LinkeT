@@ -5,6 +5,7 @@
 .lpad {padding: 10px 20px;}
 .lgpad{padding: 40px;}
 .ltpad{padding: 10px 0;}
+.ltgpad{padding:10px 10px;}
 /*우측정렬 클래스*/
 .ar{text-align:right;}
 .rounded {overflow: hidden;}
@@ -16,11 +17,15 @@
 .large-1{width:1%;}
 .large-2{width:2%;}
 .large-15{width:15%;}
+.large-25{width:25%;}
 .large-5{width:6%;}
 .large-20{width:20%;}
+.large-30{width:30%;}
 .large-9{width:9%;}
 .large-8{width:8%;}
-.mt{ margin-top: 1.25em; }
+.mt{ margin-top: 1.25em;}
+.text-14{text-size:12px;}
+.text-10{text-size:10px;}
 /*.row.mt {}*/
 .mb { margin-bottom: 1.25em;}
 
@@ -31,18 +36,17 @@
 .forum-topic > .column {min-height: 50px;max-height: 50px;background-color: hsl(0, 0%, 96%); border-bottom: 1px solid hsl(0, 0%, 90%);color: hsl(0, 0%, 50%); font-size: 14px;}
 .forum-topic > .column:first-child {color: hsl(0, 0%, 60%); font-size: 30px; text-align: center;}
 .forum-topic > .column:nth-child(n+3) {text-align: center;}
-.forum-topic > .column:last-child {text-align: left;}
 .forum-topic a {transition: color .5s;color: hsl(195, 73%, 58%); font-weight: 600;}
 .cal:hover{cursor:pointer}
 .forum-topic a:hover {color: hsl(195, 73%, 48%);}
 .forum-topic span {display: block; margin: 0 0 2px 0;}
 .overflow-upper {white-space: nowrap;text-overflow:ellipsis; font-size:12px; margin-top:5px; display:inline-block;}
-.overflow-control {white-space: nowrap;text-overflow:ellipsis; font-size:20px;}
+.overflow-control {white-space: nowrap;text-overflow:ellipsis; font-size:16px;}
 .forum-topic .column:nth-child(2) span.overflow-control {width: 70%; height: 15px;}
 .forum-topic span.center {padding-top: 10px;}
 .lta{padding:20px 40px;}
 #search_comm{height:5em; width:100%-40px; text-align:right; display:flex; align-items:center; flex-direction:row; justify-content: flex-end; border-top:2px solid hsla(0, 0%, 100%, 0.43); padding:10px;  box-sizing:border-box; margin-left:20px; margin-right:20px;  border-bottom:2px solid hsla(0, 0%, 100%, 0.43); }
-#search_comm select{width:130px; height:30px; margin-right:20px;}
+#search_comm select{width:150px; height:30px; margin-right:20px; margin-left:20px;}
 #search_comm input[type="text"]{width:300px; height:30px; vertical-align:center; border:none; margin-right:20px; margin-left:20px;}
 #search_comm button[type="submit"]{width:150px; height:30px; vertical-align:cetner; border:2px solid white; border-radius:10px; background:transparent; color:white; font-size:16px; font-weight:bold;}
 #community_post{width:150px; height:30px; border:2px solid white; background:transparent; border-radius:10px; color:white; font-weight:bold; margin-right:20px;}
@@ -58,3 +62,4 @@
 .occurTime{font-size:16px;}
 /*page block commom css*/
 button[type="button"]:hover, button[type="submit"]{cursor:pointer;}
+input[type="date"]{width:150px; height:30px;}

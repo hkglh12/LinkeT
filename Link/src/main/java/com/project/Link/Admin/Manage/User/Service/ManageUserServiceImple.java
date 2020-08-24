@@ -14,8 +14,6 @@ import com.project.Link.Admin.Manage.Community.Service.ManageCommunityService;
 import com.project.Link.Admin.Manage.User.Dao.ManageUserDao;
 import com.project.Link.Commons.User.User;
 import com.project.Link.Commons.User.Service.CommonsUserServiceImple;
-import com.project.Link.RegUser.Comment.Service.CommentService;
-import com.project.Link.RegUser.Community.Service.CommunityService;
 import com.project.Link.Ufile.Service.UfileService;
 
 @Service
@@ -42,20 +40,21 @@ public class ManageUserServiceImple extends CommonsUserServiceImple implements M
 
 		if(!(subCategory.isEmpty())) subCategory = "u_"+subCategory;
 
-		if(mainCategory.equals("all")) {
-			if(subCategory.isEmpty())	userList = muDao.getAll(amount, page);
-			else userList = muDao.getTarget(amount, page, subCategory, searchTarget);
-		}else if(mainCategory.equals("banout")) {
-			if(subCategory.isEmpty()) userList = muDao.getBannedOutUsers(amount, page);
-			else userList = muDao.getTargetBannedOutUsers(amount, page, subCategory, searchTarget);
-		}else if(mainCategory.equals("normal")) {
+		if(mainCategory.equals("all")) { // 조건 없음
+			if(subCategory.isEmpty())	userList = muDao.getAll(amount, page); // 조건이 없다면
+			else userList = muDao.getTarget(amount, page, subCategory, searchTarget); // 조건이 있다면
+		}else if(mainCategory.equals("banout")) { // 탈퇴/강퇴자
+			if(subCategory.isEmpty()) userList = muDao.getBannedOutUsers(amount, page); // 조건 없다면
+			else userList = muDao.getTargetBannedOutUsers(amount, page, subCategory, searchTarget); // 탈퇴자 중 이름..아이디...
+		}else if(mainCategory.equals("normal")) { // 정상사용자 중
 			if(subCategory.isEmpty()) userList = muDao.getNormalUsers(amount, page);
 			else userList = muDao.getTargetNormalUsers(amount, page, subCategory, searchTarget);
 		}else if(mainCategory.equals("admin")) {
 			if(subCategory.isEmpty()) userList = muDao.getAdmin(amount, page);
 			else userList = muDao.getTargetAdmin(amount, page, subCategory, searchTarget);
 		}
-		for(User u : userList) {
+		for(User u : userList) { // 가져온 유저 list를 각 서비스를 호출하여 값 삽입
+			// service에서 종속적인 기능을 호출하므로 service에서 호출하는것이 타당할까?
 			HashMap<String, Object> params = new HashMap<String, Object>();
 			params.put("id", u.getUsrId());
 			u.setFileCount(ufService.getUserFileCount(u.getUsrId()));

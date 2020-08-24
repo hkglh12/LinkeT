@@ -2,7 +2,7 @@ package com.project.Link.RegUser.Noticement.NoticementController;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
+
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.*;
@@ -10,28 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.Link.RegUser.Noticement.Noticement;
 import com.project.Link.RegUser.Noticement.NoticementService.NoticementService;
-import com.project.Link.RegUser.Noticement.NoticementService.NoticementServiceImple;
-import com.project.Link.RegUser.Posting.Posting;
-import com.project.Link.RegUser.User.UserController.UserControllerImple;
-import com.project.Link.SessionControl.SessionControl;
 import com.project.Link.Ufile.Service.UfileService;
 
-//TODO NOTICEMENT POST JSP로 넘기고 연결 URL 생성
 
 @RequestMapping(value="/notice/*")
 @Controller
@@ -79,9 +69,10 @@ public class NoticementControllerImple implements NoticementController {
 	public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response) throws Exception {	
 		try {
 			String fileCode = request.getParameter("fileCode");
-			if(nService.validateNoticementFile(fileCode)) {
+			if(nService.validateNoticementFile(fileCode)) { // 파일코드 유효성 검사
 				File file = new File(nFilePath+fileCode);
 				if(file.exists()) {
+					nService.fileAccessLog();
 					String mimeType = Files.probeContentType(file.toPath());
 					if(mimeType==null) {
 						mimeType="application/octet-stream";

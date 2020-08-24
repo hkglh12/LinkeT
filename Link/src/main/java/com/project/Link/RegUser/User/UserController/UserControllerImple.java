@@ -1,15 +1,12 @@
 package com.project.Link.RegUser.User.UserController;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -20,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.project.Link.HomeController;
 import com.project.Link.Commons.User.User;
 import com.project.Link.RegUser.Comment.Service.CommentService;
 import com.project.Link.RegUser.Community.Service.CommunityService;
 import com.project.Link.RegUser.User.UserService.UserService;
-import com.project.Link.SessionControl.SessionControl;
 import com.project.Link.Ufile.Service.UfileService;
 
 @Controller

@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +16,7 @@ import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
 @Component
 @Qualifier("manageNoticeDao")
 public class ManageNoticementDaoImple extends NoticementDaoImple implements ManageNoticementDao{
-	//public final String ntargetBoard = "noticement";
-	//public final String nprefix = "n_";
-	
+
 	String dbDriver = DBinfo.getDriver();
 	String dbUrl = DBinfo.getUrl();
 	String dbUserId = DBinfo.getUserid();
@@ -37,7 +33,6 @@ public class ManageNoticementDaoImple extends NoticementDaoImple implements Mana
 			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
 			String sql = "update noticement set n_title = ?, n_contents = ?, f_count = ?, n_modifyDate = ?, u_modified_id = ? where n_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,title);
@@ -68,7 +63,6 @@ public class ManageNoticementDaoImple extends NoticementDaoImple implements Mana
 			//DB접속
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(dbUrl, dbUserId, dbUserPw);
-			//회원가입 시도
 			String sql = "update noticement set n_deletedate = ?, u_modified_id = ? where n_serial = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setTimestamp(1,deleteDate);

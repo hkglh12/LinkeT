@@ -3,13 +3,9 @@ package com.project.Link.Ufile.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.project.Link.HomeController;
 import com.project.Link.Ufile.UFile;
 import com.project.Link.Ufile.Dao.UfileDao;
 
@@ -17,7 +13,6 @@ import com.project.Link.Ufile.Dao.UfileDao;
 public class UfileServiceImple implements UfileService {
 	
 	//TODO file absolute file path need to be re-configured
-	private static final String filePath = "C:\\Users\\Administrator\\Desktop\\spr\\Link";
 	
 	@Autowired
 	private UfileDao fDao;
@@ -27,9 +22,10 @@ public class UfileServiceImple implements UfileService {
 	public UfileDao getfDao() {return fDao;}
 	public void setfDao(UfileDao fDao) {this.fDao = fDao;}
 	
+	//파일 업로드
 	@Override
 	public int uFileUpload(String targetBoard, String modifiedFileName, String usrId, long fileSize, Timestamp createDate, String originalFileName, int serial){
-		if(originalFileName.length() >= 30) {originalFileName = originalFileName.substring(0, 30);}
+		if(originalFileName.length() >= 30) {originalFileName = originalFileName.substring(0, 30);}// DB상에 30으로 지정했어서 잘라냄
 		int result = fDao.uploadFile(targetBoard, modifiedFileName, usrId, fileSize, createDate, originalFileName, serial);
 		return result;
 	}

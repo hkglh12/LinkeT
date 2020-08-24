@@ -2,10 +2,11 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*"%>
+<%@ page trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Link administrator : 공지사항</title>
+    <title>Administrator : 공지사항</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">

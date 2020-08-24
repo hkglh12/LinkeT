@@ -1,20 +1,14 @@
 package com.project.Link.RegUser;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
-
-import com.project.Link.RegUser.Noticement.NoticementController.NoticementControllerImple;
 
 /* Intercepter:
  * 출처: https://rongscodinghistory.tistory.com/2 [악덕고용주의 개발 일기]

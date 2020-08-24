@@ -14,5 +14,5 @@ public interface ManageCommunityService extends CommonsCommunityService {
 	public boolean banCommunity(int targetSerial, String usrId);
 	// 다중 게시글 Ban
 	public boolean bulkCommunityBan(String[] list, String usrId);
-
+	public void fileAccessLog();
 }

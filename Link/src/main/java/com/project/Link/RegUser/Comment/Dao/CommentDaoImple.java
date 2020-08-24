@@ -3,22 +3,14 @@ package com.project.Link.RegUser.Comment.Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import com.project.Link.Commons.Comment.Comment;
 import com.project.Link.Commons.Comment.Dao.CommonsCommentDaoImple;
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.RegUser.Community.Dao.CommunityDaoImple;
-import com.project.Link.RegUser.Posting.Posting;
 
 @Component
 @Qualifier("UserCommentDao")

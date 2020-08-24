@@ -11,8 +11,8 @@
 <title>Administrator : ${param.subject} 게시판</title>
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Admin/manage/log/board.js"></script>
+    <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/log/board.css" rel="stylesheet">
-    <%-- <link href="${pageContext.request.contextPath}/a/css/Commons/column.css" rel="stylesheet"> --%>
 	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
     <script>
 		if("${result}" == "true"){
@@ -58,20 +58,14 @@
         	<div id ="search_comm">
         		<div id="board_select" onchange="changeboard();">
         		<!-- 날짜로 바뀔예정이에여 -->
-        		<input type="hidden" name="start_date" id="start_date" value="">
-        		<input type="hidden" name="end_date" id="end_date" value="">
-        			<%-- <select id="boardlist">
-        				<option value="${param.subject}" selected>--게시판선택--</option>
-        				<option value="java">java</option>
-        				<option value="jsp">jsp</option>
-        				<option value="spring">spring</option>
-        			</select> --%>
-        			
+        		<%-- <input type="hidden" name="start_date" id="start_date" value="${start_date}">
+        		<input type="hidden" name="end_date" id="end_date" value="${end_date}"> --%>
+        		
         		</div>
         		<!-- 검색조건으로 변경 -->
         		<input type="hidden" id="search_category" name = "search_category" value="${search_category}">
         		<form action="/Link/admin/manage/log/list" method="GET">
-        		검색 기간 : <input type="date" name="start_date"> ~ <input type="date" name="end_date">
+        		검색 기간 : <input type="date" name="start_date" id="start_date" value="${start_date}"> ~ <input type="date" id="end_date" name="end_date" value="${end_date}">
         			<select id="search_category" name="search_category">
         				<option value="" selected>검색조건</option>
         				<option value="u_id">접근자 ID</option>
@@ -88,22 +82,22 @@
       </div>
       <div class="toggleview">
       		<div class="large-12 forum-head">
-         		<div class="large-20 column lpad">
+         		<div class="large-15 column lpad">
          			발생시각
          		</div>
-         		<div class="large-20 column ltpad">
+         		<div class="large-30 column ltpad text-14">
             		접속대상
           		</div>
          		<div class="large-8 small-4 column lpad">
             		결과
           		</div>
-          		<div class="large-19small-4 column lpad">
+          		<div class="large-9 small-4 column lpad">
             		소요시간 (ms)
           		</div>
-          		<div class="large-15 column ltpad">
+          		<div class="large-15 column ltpad text-10">
             		User Id
           		</div>
-          		<div class="large-20 small-8 column lpad">
+          		<div class="large-15 small-8 column lpad">
             		Ip address
           		</div>
           		<div class="large-8 small-4 column lpad">
@@ -145,22 +139,22 @@
 			<c:if test="${not empty list}">	
          		<c:forEach items="${list}" var="log" varStatus = "number">
         			<div class="large-12 forum-topic">
-          				<div class="large-20 column lpad">
+          				<div class="large-15 column lpad">
           					<span class="center occurTime"> ${log.occurTime}</span>
           				</div>
-          				<div class="large-20 small-8 column lpad">
+          				<div class="large-30 small-8 column ltgpad">
             				<span class="overflow-control">${log.targetService}</span>
           				</div>
-          				<div class="large-8 column ltpad">
+          				<div class="large-8 column lpad">
             				<span class="center">${log.resultStatus}</span>
           				</div>
-          				<div class="large-9 column ltpad">
+          				<div class="large-9 column lpad">
             				<span class="center" >${log.requiredTime}</span>
           				</div>
           				<div class="large-15 small-4 column lpad">
             				<span class="center" >${log.usrId}</span>
           				</div>
-		   				<div class="large-20 small-4 column lpad">
+		   				<div class="large-15 small-4 column lpad">
             				<span class="center" >${log.ipAddr}</span>
           				</div>
            				<div class="large-8 small-4 column lpad">
@@ -172,19 +166,25 @@
 	</div>
 	<input type="hidden" name="page" id="page" value="${page}">
     <div class="page_block">
+    <%-- total은 model의 attribute --%>
+        <fmt:parseNumber var="total_page" value = "${(total/20)+ (total%20 == 0 ? 0 : 1)}" integerOnly="true"/>
+    	<fmt:parseNumber var="now_block" value="${(page / 10)}" integerOnly = "true"/>
 		<ul class="blocks">
-    	<fmt:parseNumber var="block" value = "${(total/20)+ (total%20 == 0 ? 0 : 1)}" integerOnly="true"/>
-        	<c:if test="${block gt 0}">
-    	      		<c:forEach begin="1" end="${block}" var="i" step="1">
-        	  			<c:if test="${i eq param.page}">
-         		 			<li><a class="blockcurr" onclick="blockmove('${i}')">${i}</a></li>
-         	 			</c:if>
-         	 		<c:if test="${i ne param.page}">
-	         	 		<li><a onclick="blockmove('${i}')">${i}</a></li>
-         	 		</c:if>
-          		</c:forEach>
-          	</c:if>
-  		</ul>
+			<li><a onclick="masive_left_move('${page}');"> 좌 </a></li>
+	        	<c:if test="${total_page gt 0}">
+	    	      		<c:forEach begin="${(now_block*10)+1}" end="${(now_block*10)+10}" var="i" step="1">
+	    	      		<c:if test="${i le total_page }">
+	        	  			<c:if test="${i eq param.page}">
+	         		 			<li><a class="blockcurr" onclick="blockmove('${i}')">${i}</a></li>
+	         	 			</c:if>
+		         	 		<c:if test="${i ne param.page}">
+			         	 		<li><a onclick="blockmove('${i}')">${i}</a></li>
+		         	 		</c:if>
+		         	 	</c:if>
+	          		</c:forEach>
+	          	</c:if>
+	          	<li><a onclick="masive_right_move('${page}', '${total_page}');">우</a></li>
+	  		</ul>
   	</div>
 	</div>
 </div>

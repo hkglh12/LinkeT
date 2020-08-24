@@ -1,6 +1,5 @@
 package com.project.Link.Commons.Comment.Dao;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.project.Link.Commons.Comment.Comment;

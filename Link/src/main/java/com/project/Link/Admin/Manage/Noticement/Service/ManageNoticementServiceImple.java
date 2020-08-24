@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.Link.Admin.Manage.Noticement.Dao.ManageNoticementDao;
-import com.project.Link.Admin.Manage.Noticement.Dao.ManageNoticementDaoImple;
-import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDao;
 import com.project.Link.RegUser.Noticement.NoticementService.NoticementServiceImple;
 import com.project.Link.Ufile.Service.UfileService;
 

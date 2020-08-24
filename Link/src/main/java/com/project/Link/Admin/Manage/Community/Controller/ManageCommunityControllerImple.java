@@ -96,6 +96,7 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 				params.put(searchCategories[i], searchTargets[i]);
 			}
 		}
+		// 시도한거 >> controller에서 service에 매핑해준다 가 표준이라는걸 읽었었을때 변경한것. 반대로 순환호출만 안하면 문제없다고 했던것도 있었다.
 		ArrayList<Community> list =  mcService.DirectListCommunities(targetPage, params);
 		list = mccService.totalCountComments(list);
 		int	total = mcService.directCountCommunities(params);
@@ -108,7 +109,7 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 		}
 		return "/Admin/manage/community/board";
 	}
-	//특정 게시물 삭제
+	//특정 게시물 삭제, 글 자세히 읽기 페이지에서 동작
 	@RequestMapping(value="/ban", method=RequestMethod.POST)
 	@Override
 	public String BanCommunity(Model model, HttpServletRequest request, HttpSession session,
@@ -125,7 +126,7 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 		}
 		return "redirect:/admin/manage/community/list?page=1&subject="+subject;
 	}
-	// 여러개 bulk delete
+	// 여러개 bulk delete. 보드 리스트에서 동작하는 삭제부분
 	@RequestMapping(value="bulkban", method=RequestMethod.POST)
 	@Override
 	public String BulkBanCommunity(Model model, HttpServletRequest request, HttpSession session,
@@ -155,6 +156,7 @@ public class ManageCommunityControllerImple implements ManageCommunityController
 			if(mcService.validateCommunityFile(fileCode)) {
 			File file = new File(cFilePath+fileCode);
 			if(file.exists()) {
+				mcService.fileAccessLog();
 				String mimeType = Files.probeContentType(file.toPath());
 				if(mimeType==null) {
 					mimeType="application/octet-stream";

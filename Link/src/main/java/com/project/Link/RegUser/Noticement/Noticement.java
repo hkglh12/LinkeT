@@ -1,7 +1,5 @@
 package com.project.Link.RegUser.Noticement;
 
-import java.sql.Timestamp;
-
 import com.project.Link.RegUser.Posting.Posting;
 
 public class Noticement extends Posting{

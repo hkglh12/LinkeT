@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -26,10 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.Link.Admin.Manage.Noticement.Service.ManageNoticementService;
-import com.project.Link.Admin.Manage.Noticement.Service.ManageNoticementServiceImple;
 import com.project.Link.RegUser.Noticement.Noticement;
-import com.project.Link.RegUser.Noticement.NoticementController.NoticementControllerImple;
-import com.project.Link.Ufile.Service.UfileService;
 
 @RequestMapping(value={"/admin/manage/notice/*", "/Admin/manage/notice/*"})
 @Controller
@@ -167,10 +162,12 @@ public class ManageNoticementControllerImple implements ManageNoticementControll
 		public void getNoticementFile(Model model,HttpServletRequest request, HttpSession session, HttpServletResponse response)
 				throws Exception {	
 			try {
+				
 				String fileCode =request.getParameter("fileCode");
 				if(mnService.validateNoticementFile(fileCode)) {
 				File file = new File(nFilePath+fileCode);
 				if(file.exists()) {
+					mnService.fileAccessLog();
 					String mimeType = Files.probeContentType(file.toPath());
 					if(mimeType==null) {
 						mimeType="application/octet-stream";

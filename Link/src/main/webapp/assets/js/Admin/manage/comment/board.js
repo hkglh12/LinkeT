@@ -2,12 +2,12 @@
 function blockmove(block){
 	console.log("called" + block)
 	var id = $("#search_target").val();
-	location.href="/Link/comment/direct?u_id="+id+"&page="+block;
+	location.href="/Link/admin/manage/comment/direct?u_id="+id+"&page="+block;
 	
 }
 /*특정 공지사항 호출*/
 function communitycall(serial){
-	location.href="/Link/community/get?c_serial="+serial;
+	location.href="/Link/admin/manage/community/get?c_serial="+serial;
 }
 
 	/*좌측 메인메뉴 애니메이션*/

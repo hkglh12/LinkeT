@@ -17,11 +17,11 @@ import com.project.Link.Dbinfo.DBinfo;
 @Component
 @Qualifier("UserDao")
 public class UserDaoImple extends CommonsUserDaoImple implements UserDao {
-/* 	private final String driver = DBinfo.getDriver();
- 	private final String url = "jdbc:mysql://localhost:3306/Link?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
- 	private final String dbId = "root";
- 	private final String dbPw = "root";
- 	*/
+	protected String dbDriver = DBinfo.getDriver();
+	protected String dbUrl = DBinfo.getUrl();
+	protected String dbUserId = DBinfo.getUserid();
+	protected String dbUserPw = DBinfo.getUserpw();
+	
  	private Connection conn = null;
  	private PreparedStatement pstmt = null;
  	private ResultSet rs = null;

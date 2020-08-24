@@ -1,9 +1,7 @@
 package com.project.Link.RegUser.Comment.Dao;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 
-import com.project.Link.Commons.Comment.Comment;
 import com.project.Link.Commons.Comment.Dao.CommonsCommentDao;
 
 public interface CommentDao extends CommonsCommentDao{

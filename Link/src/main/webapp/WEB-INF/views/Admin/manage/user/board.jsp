@@ -8,13 +8,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Link - 사용자관리</title>
+<title>Administrator - 사용자관리</title>
     <script src="${pageContext.request.contextPath}/a/js/jquery-3.5.1.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Admin/manage/user/board.js"></script>
     <script src="${pageContext.request.contextPath}/a/js/Commons/navReact.js"></script>
     <link href="${pageContext.request.contextPath}/a/css/Admin/manage/user/board.css" rel="stylesheet">
 	<link href="${pageContext.request.contextPath}/a/css/Commons/board_structure.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous"> -->
     <script>
     	var result = "${result}";
     	if(result == "true"){
@@ -50,6 +49,7 @@
 	<div class="dashboard mt curr">
       	<div class="large-12 forum-category rounded top">
         	<div class="column lta categ">
+        	<%-- 표시부 --%>
         	<c:if test="${main_category eq 'all'}">
           		<label>전체사용자</label>
           	</c:if>
@@ -60,6 +60,7 @@
           		<label>탈퇴/강퇴 사용자</label>
           	</c:if>
         	</div>
+        	<%--표시부 종료--%>
         	<div id ="search_comm">		
 	       	        <select id="maincategorylist" onchange="changeboard();">
 	       				<option>--출력타입--</option>
@@ -68,6 +69,7 @@
 	       				<option value="banout" >탈퇴/강퇴 사용자</option>
 	       				<option value="admin">관리자</option>
 	       			</select>
+	       			<%-- 조건검색 --%>
         		<form action="/Link/admin/manage/user/list" method="GET">
         			<select id="subcategorylist" onchange="sync_sub_category();">
         				<option>--검색조건--</option>
@@ -75,6 +77,7 @@
         				<option value="name">이름</option>
         				<option value="email">이메일</option>
         			</select>
+        			<%-- 페이지이동을 위해 조건 유지 --%>
         			<input type="hidden" value="${main_category}" name="main_category" id="main_category">
         			<input type="hidden" value="${sub_category}" name="sub_category" id="sub_category">
         			<input type="text" id="search_target" name="search_target" value="${search_target}">
@@ -158,6 +161,7 @@
         			<div class="large-12 forum-topic">
           				<div class="large-4 column lpad">
             				<span class="overflow-upper">
+            				<%-- 출력 조건검사, 탈퇴/강퇴여부는 outDate의 Null or not null 로 판단 --%>
             					<c:choose>
 	            					<c:when test="${user.usrOutDate eq null and user.usrKickedDate eq null}">
 	              						<c:out value="정상"/>
@@ -195,6 +199,7 @@
             				<span class="center" id="counts">${user.fileCount}</span>
           				</div>
           				<div class="large-12c column lpad">
+          				<%-- ms가 화면상에 출력되는것을 막기위해 fmt사용 --%>
             				<span><fmt:formatDate value="${user.usrInDate}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
           				</div>
           				<div class="large-12c column lpad">

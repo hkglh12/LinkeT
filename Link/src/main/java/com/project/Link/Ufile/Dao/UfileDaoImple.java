@@ -8,13 +8,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.project.Link.Dbinfo.DBinfo;
-import com.project.Link.RegUser.Noticement.NoticementDao.NoticementDaoImple;
 import com.project.Link.Ufile.UFile;
 
 @Component

@@ -27,7 +27,7 @@ public class CommentControllerImple implements CommentController{
 	@Qualifier("UserCommentService")
 	private CommentService ccService;
 	
-	@RequestMapping(value="/direct")
+	@RequestMapping(value="/direct") // 댓글 계정명으로 검색
 	@Override
 	public String userDirectListComments(Model model, HttpServletRequest request, HttpSession session) {
 		String usrId = request.getParameter("u_id");

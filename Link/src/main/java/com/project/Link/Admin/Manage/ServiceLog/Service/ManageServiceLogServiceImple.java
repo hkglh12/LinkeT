@@ -1,6 +1,5 @@
 package com.project.Link.Admin.Manage.ServiceLog.Service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +78,6 @@ public class ManageServiceLogServiceImple implements ManageServiceLogService{
 			if(i<params.size()) baseSql += " and ";
 		}
 		baseSql += " order by occurtime desc limit "+(targetPage*logsperblock) +", "+logsperblock;
-		System.out.println("base sql : " + baseSql);
 		list = mslDao.getLogs(baseSql);
 		return list;
 	}
